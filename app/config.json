@@ -1,5 +1,5 @@
 {
-  "serviceName": "pension-hb-&-pc-prototype",
+  "serviceName": "pension-phb-&-pc-prototype",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
