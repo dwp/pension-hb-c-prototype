@@ -1,0 +1,70 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/address/accommodation-type" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Are you responsible for paying the rent or Council Tax for the place where you live? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/address/rent-responsibility" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#rentResponsibility" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "rentResponsibility",
+          id: "rentResponsibility",
+          fieldset: {
+            legend: {
+              text: "Are you responsible for paying the rent or Council Tax for the place where you live?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "This includes if they are paid through Housing Benefit or Council Tax Reduction."
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: data['rentResponsibility'] == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: data['rentResponsibility'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/task-list" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}What is your postcode? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/address/postcode" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#postcode" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "What is your home postcode?",
+            isPageHeading: true,
+            classes: "govuk-label--l"
+          },
+          classes: "govuk-input--width-10",
+          id: "postcode",
+          name: "postcode",
+          value: data['postcode'],
+          autocomplete: "postal-code",
+          errorMessage: errorMessage
+        }) }}
+
+        {{ govukButton({
+          text: "Find address"
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/address/manual" class="govuk-link">Enter the address manually</a>
+        </p>
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
