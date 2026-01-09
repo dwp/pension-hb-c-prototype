@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Is this person severely mentally impaired? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-care-24-hours"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-severely-mentally-impaired" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-severely-mentally-impaired" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "first-person-severely-mentally-impaired",
+          id: "first-person-severely-mentally-impaired",
+          fieldset: {
+            legend: {
+              text: "Is this person severely mentally impaired?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: data['first-person-severely-mentally-impaired'] == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: data['first-person-severely-mentally-impaired'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

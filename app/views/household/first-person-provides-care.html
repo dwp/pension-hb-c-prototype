@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Does this person provide care or support? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-money-from-working"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-provides-care" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-provides-care" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "first-person-provides-care",
+          id: "first-person-provides-care",
+          fieldset: {
+            legend: {
+              text: "Does this person provide care or support (either paid or unpaid) for someone who is NOT their dependent child under 18, nor their partner?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: data['first-person-provides-care'] == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: data['first-person-provides-care'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

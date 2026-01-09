@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/about-your-property/rent-amount" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Is this your permanent main home? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/about-your-property/permanent-main-home" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#permanent-main-home" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% call govukFieldset({
+          legend: {
+            text: "Is this your permanent main home now or are you going to move into it within the next few weeks?",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+          {{ govukRadios({
+            name: "permanent-main-home",
+            errorMessage: errorMessage,
+            items: [
+              {
+                value: "main-home-now",
+                text: "Main home now",
+                checked: checked("permanent-main-home", "main-home-now")
+              },
+              {
+                value: "moving-in-soon",
+                text: "Moving in within the next few weeks",
+                checked: checked("permanent-main-home", "moving-in-soon")
+              }
+            ]
+          }) }}
+
+        {% endcall %}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

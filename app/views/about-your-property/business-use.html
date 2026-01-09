@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/about-your-property/temporarily-away" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Do you or your partner use any part of your home for running a business? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/about-your-property/business-use" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#business-use" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% call govukFieldset({
+          legend: {
+            text: "Do you or your partner use any part of your home for running a business?",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+          {{ govukRadios({
+            name: "business-use",
+            errorMessage: errorMessage,
+            items: [
+              {
+                value: "yes",
+                text: "Yes",
+                checked: checked("business-use", "yes")
+              },
+              {
+                value: "no",
+                text: "No",
+                checked: checked("business-use", "no")
+              }
+            ]
+          }) }}
+
+        {% endcall %}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

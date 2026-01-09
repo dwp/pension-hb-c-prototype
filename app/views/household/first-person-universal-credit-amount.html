@@ -1,0 +1,68 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}How much Universal Credit does this person get? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-benefits"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-universal-credit-amount" method="post" novalidate>
+
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-universal-credit-amount" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "How much Universal Credit does this person get?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "Please enter a monthly amount"
+          },
+          id: "first-person-universal-credit-amount",
+          name: "first-person-universal-credit-amount",
+          classes: "govuk-input--width-10",
+          prefix: {
+            text: "£"
+          },
+          spellcheck: false,
+          errorMessage: errorMessage,
+          value: data['first-person-universal-credit-amount']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/about-your-property/move-in-date" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Are you temporarily living away from home? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/about-your-property/temporarily-away" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#temporarily-away" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% call govukFieldset({
+          legend: {
+            text: "Are you temporarily living away from home?",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+          {{ govukRadios({
+            name: "temporarily-away",
+            errorMessage: errorMessage,
+            items: [
+              {
+                value: "yes",
+                text: "Yes",
+                checked: checked("temporarily-away", "yes")
+              },
+              {
+                value: "no",
+                text: "No",
+                checked: checked("temporarily-away", "no")
+              }
+            ]
+          }) }}
+
+        {% endcall %}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

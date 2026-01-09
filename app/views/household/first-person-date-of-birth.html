@@ -1,0 +1,79 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}What is their date of birth? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/living-situation"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-date-of-birth" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-dob" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukDateInput({
+          id: "first-person-dob",
+          namePrefix: "first-person-dob",
+          fieldset: {
+            legend: {
+              text: "What is their date of birth?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "For example, 27 3 2007"
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2",
+              value: data['first-person-dob-day']
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2",
+              value: data['first-person-dob-month']
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4",
+              value: data['first-person-dob-year']
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

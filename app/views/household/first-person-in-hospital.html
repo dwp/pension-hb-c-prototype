@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Is this person in hospital at the moment? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-nino-input"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-in-hospital" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-in-hospital" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "first-person-in-hospital",
+          id: "first-person-in-hospital",
+          fieldset: {
+            legend: {
+              text: "Is this person in hospital at the moment?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: data['first-person-in-hospital'] == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: data['first-person-in-hospital'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

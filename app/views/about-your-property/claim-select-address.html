@@ -1,0 +1,96 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/about-your-property/claim-postcode" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Select the address you are claiming for – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">
+        Select the address you are claiming for
+      </h1>
+
+      <p class="govuk-body">
+        Postcode: <strong>{{ data['claim-postcode'] }}</strong>
+        <a href="/about-your-property/claim-postcode" class="govuk-link govuk-!-margin-left-2">Change</a>
+      </p>
+
+      <form method="post" action="/about-your-property/claim-select-address" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#claim-selected-address" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukSelect({
+          id: "claim-selected-address",
+          name: "claim-selected-address",
+          label: {
+            text: "Select an address"
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "",
+              text: "Select an address",
+              selected: not data['claim-selected-address']
+            },
+            {
+              value: "1 High Street, Anytown, AN1 1AA",
+              text: "1 High Street, Anytown",
+              selected: data['claim-selected-address'] == "1 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "2 High Street, Anytown, AN1 1AA",
+              text: "2 High Street, Anytown",
+              selected: data['claim-selected-address'] == "2 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "3 High Street, Anytown, AN1 1AA",
+              text: "3 High Street, Anytown",
+              selected: data['claim-selected-address'] == "3 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 1, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 1, 4 High Street, Anytown",
+              selected: data['claim-selected-address'] == "Flat 1, 4 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 2, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 2, 4 High Street, Anytown",
+              selected: data['claim-selected-address'] == "Flat 2, 4 High Street, Anytown, AN1 1AA"
+            }
+          ]
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/about-your-property/claim-address-manual" class="govuk-link">I can't find my address in the list</a>
+        </p>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

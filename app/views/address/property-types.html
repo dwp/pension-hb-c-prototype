@@ -4,24 +4,70 @@
 {% set backLinkHref = "/address/home-type" %}
 
 {% block pageTitle %}
-  Are you living in any of the following types of properties? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Are you living in any of the following types of properties? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
       <h1 class="govuk-heading-l">
         Are you living in any of the following types of properties?
       </h1>
 
-      <p class="govuk-body">
-        This is a placeholder page for the property types question.
-      </p>
+      <form method="post" action="/address/property-types" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#propertyType" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
 
-      <p class="govuk-body">
-        <a href="/task-list" class="govuk-link">Return to task list</a>
-      </p>
+        {{ govukRadios({
+          name: "propertyType",
+          id: "propertyType",
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "commercial-lodgings",
+              text: "Commercial lodgings, guest house, hostel or hotel",
+              checked: data['propertyType'] == "commercial-lodgings"
+            },
+            {
+              value: "houseboat",
+              text: "A houseboat",
+              checked: data['propertyType'] == "houseboat"
+            },
+            {
+              value: "mobile-home-caravan",
+              text: "A mobile home or caravan",
+              checked: data['propertyType'] == "mobile-home-caravan"
+            },
+            {
+              value: "none",
+              text: "None",
+              checked: data['propertyType'] == "none"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
 
     </div>
   </div>

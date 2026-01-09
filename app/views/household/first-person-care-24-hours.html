@@ -1,0 +1,74 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Does this non‑dependant adult provide care for someone else? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-care-35-hours"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-care-24-hours" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-care-24-hours" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        <h1 class="govuk-heading-l">Does this non‑dependant adult provide care for someone else who lives in your home for at least 24 hours a week?</h1>
+
+        <h2 class="govuk-heading-m">and they:</h2>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>earn no more than £44 a week for providing this care</li>
+          <li>live in accommodation on the premises provided so they can better carry out their caring role</li>
+          <li>were introduced to the person they care for by a charity, local council or government department</li>
+        </ul>
+
+        {{ govukRadios({
+          name: "first-person-care-24-hours",
+          id: "first-person-care-24-hours",
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: data['first-person-care-24-hours'] == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: data['first-person-care-24-hours'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

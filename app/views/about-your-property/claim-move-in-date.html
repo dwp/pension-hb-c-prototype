@@ -1,0 +1,75 @@
+{% extends "layouts/main.html" %}
+
+{% set showBackLink = true %}
+{% set backLinkHref = "/about-your-property/permanent-main-home" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}When did you move into the address you are making this claim for? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/about-your-property/claim-move-in-date" novalidate>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#claim-move-in-date" %}
+              {% set errorMessage = {
+                text: error.text
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukDateInput({
+          id: "claim-move-in-date",
+          namePrefix: "claim-move-in-date",
+          fieldset: {
+            legend: {
+              text: "When did you move into the address you are making this claim for?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "You must enter a date. If you don't remember the exact date please enter a value that is as close to the date you moved in."
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2",
+              value: data["claim-move-in-date-day"]
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2",
+              value: data["claim-move-in-date-month"]
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4",
+              value: data["claim-move-in-date-year"]
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

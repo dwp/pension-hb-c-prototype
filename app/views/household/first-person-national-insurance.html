@@ -1,0 +1,76 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Does this person have a National Insurance Number? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/household/first-person-pays-rent"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/household/first-person-national-insurance" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['first-person-name'] }}</span>
+        
+        {% set errorMessage = undefined %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error.href == "#first-person-national-insurance" %}
+              {% set errorMessage = { text: error.text } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "first-person-national-insurance",
+          id: "first-person-national-insurance",
+          fieldset: {
+            legend: {
+              text: "Does this person have a National Insurance Number?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "yes-know-number",
+              text: "Yes, I know the number",
+              checked: data['first-person-national-insurance'] == "yes-know-number"
+            },
+            {
+              value: "yes-cannot-find",
+              text: "Yes, but I can't find the number",
+              checked: data['first-person-national-insurance'] == "yes-cannot-find"
+            },
+            {
+              value: "no",
+              text: "No, they do not have one",
+              checked: data['first-person-national-insurance'] == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
