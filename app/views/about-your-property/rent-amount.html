@@ -31,9 +31,20 @@
           {% endfor %}
         {% endif %}
 
+        {% set frequencyText = "" %}
+        {% if data['rentFrequency'] == "every-week" %}
+          {% set frequencyText = "every week" %}
+        {% elif data['rentFrequency'] == "every-2-weeks" %}
+          {% set frequencyText = "every 2 weeks" %}
+        {% elif data['rentFrequency'] == "every-4-weeks" %}
+          {% set frequencyText = "every 4 weeks" %}
+        {% elif data['rentFrequency'] == "every-calendar-month" %}
+          {% set frequencyText = "every calendar month" %}
+        {% endif %}
+
         {{ govukInput({
           label: {
-            text: "How much rent do you pay?",
+            text: "How much rent do you pay " + frequencyText + "?",
             classes: "govuk-label--l",
             isPageHeading: true
           },

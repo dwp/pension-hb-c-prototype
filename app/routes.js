@@ -47,19 +47,19 @@ router.get('/task-list', (req, res) => {
 
 // Placeholder routes for "About you" tasks
 router.get('/task/about-you/personal-details', (req, res) => {
-  res.send('<h1>Your personal details</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/about-you/immigration-status', (req, res) => {
-  res.send('<h1>Your immigration status</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/about-you/time-outside-uk', (req, res) => {
-  res.send('<h1>Time you have spent outside the UK</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/about-you/time-in-hospital', (req, res) => {
-  res.send('<h1>Time you have spent in hospital</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 // Address flow routes
@@ -395,8 +395,8 @@ router.post('/about-your-property/rent-amount', (req, res) => {
     })
   }
 
-  // If validation passes, redirect to permanent main home question
-  res.redirect('/about-your-property/permanent-main-home')
+  // If validation passes, redirect to temporarily away question
+  res.redirect('/about-your-property/temporarily-away')
 })
 
 // Route: Permanent main home (GET)
@@ -460,8 +460,8 @@ router.post('/about-your-property/claim-move-in-date', (req, res) => {
     })
   }
 
-  // If validation passes, redirect to temporarily away question
-  res.redirect('/about-your-property/temporarily-away')
+  // If validation passes, redirect to rent frequency question
+  res.redirect('/about-your-property/rent-frequency')
 })
 
 // Route: Claim postcode (GET)
@@ -565,8 +565,8 @@ router.post('/about-your-property/know-move-in-date', (req, res) => {
   if (knowMoveInDate === 'yes') {
     res.redirect('/about-your-property/move-in-date')
   } else {
-    // If "no", redirect to task list
-    res.redirect('/task-list')
+    // If "no", redirect to the rent frequency page
+    res.redirect('/about-your-property/rent-frequency')
   }
 })
 
@@ -597,8 +597,8 @@ router.post('/about-your-property/move-in-date', (req, res) => {
     })
   }
 
-  // If validation passes, redirect to temporarily away question
-  res.redirect('/about-your-property/temporarily-away')
+  // If validation passes, redirect to rent frequency
+  res.redirect('/about-your-property/rent-frequency')
 })
 
 // Route: Temporarily away (GET)
@@ -665,28 +665,17 @@ router.get('/about-your-property/claim-address-manual', (req, res) => {
 })
 
 // Placeholder routes for "Your home and household" tasks
-router.get('/task/home-and-household/your-address', (req, res) => {
-  res.send('<h1>Your address</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
-})
-
-router.get('/task/home-and-household/about-place-you-live', (req, res) => {
-  res.send('<h1>About the place you live</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
-})
-
-router.get('/task/home-and-household/claim-address', (req, res) => {
-  res.send('<h1>Claim address</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
-})
 
 router.get('/task/home-and-household/your-landlord', (req, res) => {
-  res.send('<h1>Your landlord</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/home-and-household/your-tenancy', (req, res) => {
-  res.render('<h1>Your tenancy</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/home-and-household/other-property-or-land', (req, res) => {
-  res.send('<h1>Other property or land you own</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
+  res.redirect('/task-list')
 })
 
 router.get('/task/home-and-household/people-who-live-with-you', (req, res) => {
@@ -723,8 +712,8 @@ router.post('/household/children', (req, res) => {
   if (hasChildren === 'no') {
     res.redirect('/household/other-adults')
   } else {
-    // If "yes", continue to next step in household flow (placeholder for now)
-    res.redirect('/task-list')
+    // If "yes", stay on the same page for UR purposes (placeholder for now)
+    res.redirect('/household/children')
   }
 })
 
@@ -757,8 +746,8 @@ router.post('/household/other-adults', (req, res) => {
   if (hasOtherAdults === 'yes') {
     res.redirect('/household/first-person-name')
   } else {
-    // If "no", redirect to task list
-    res.redirect('/task-list')
+    // If "no", keep them on this page for UR purposes
+    res.redirect('/household/other-adults')
   }
 })
 
@@ -788,8 +777,8 @@ router.post('/household/first-person-name', (req, res) => {
     })
   }
   
-  // If validation passes, redirect to relationship question
-  res.redirect('/household/first-person-relationship')
+  // If validation passes, redirect to living situation question
+  res.redirect('/household/living-situation')
 })
 
 // Route: First person relationship (GET)
@@ -817,8 +806,8 @@ router.post('/household/first-person-relationship', (req, res) => {
     })
   }
   
-  // If validation passes, redirect to living situation question
-  res.redirect('/household/living-situation')
+  // If validation passes, redirect to relationship situation question
+  res.redirect('/household/first-person-date-of-birth')
 })
 
 // Route: Living situation (GET)
@@ -846,8 +835,8 @@ router.post('/household/living-situation', (req, res) => {
     })
   }
   
-  // If validation passes, redirect to date of birth question
-  res.redirect('/household/first-person-date-of-birth')
+  // If validation passes, redirect to the are you related page
+  res.redirect('/household/first-person-relationship')
 })
 
 // Route: First person date of birth (GET)
@@ -1009,6 +998,40 @@ router.post('/household/first-person-money-from-working', (req, res) => {
     })
   }
   
+  // Conditional routing: if not employed or employed part-time, ask about working hours
+  if (employment === 'no' || employment === 'yes-part-time') {
+    res.redirect('/household/first-person-working-hours')
+  } else {
+    // If validation passes, redirect to provides care question
+    res.redirect('/household/first-person-provides-care')
+  }
+})
+
+// Route: First person working hours (GET)
+router.get('/household/first-person-working-hours', (req, res) => {
+  res.render('household/first-person-working-hours', {
+    errors: false,
+    data: req.session.data
+  })
+})
+
+// Route: First person working hours (POST with validation)
+router.post('/household/first-person-working-hours', (req, res) => {
+  const workingHours = req.session.data['first-person-working-hours']
+  
+  // Validation: check if an option was selected
+  if (!workingHours) {
+    return res.render('household/first-person-working-hours', {
+      errors: [
+        {
+          text: 'Select yes if they normally work 16 hours a week or more',
+          href: '#first-person-working-hours'
+        }
+      ],
+      data: req.session.data
+    })
+  }
+  
   // If validation passes, redirect to provides care question
   res.redirect('/household/first-person-provides-care')
 })
@@ -1042,8 +1065,8 @@ router.post('/household/first-person-provides-care', (req, res) => {
   if (providesCare === 'yes') {
     res.redirect('/household/first-person-care-35-hours')
   } else {
-    // If "no", redirect to severely mentally impaired question
-    res.redirect('/household/first-person-severely-mentally-impaired')
+    // If "no", redirect to benefits question
+    res.redirect('/household/first-person-benefits')
   }
 })
 
@@ -1101,8 +1124,8 @@ router.post('/household/first-person-care-24-hours', (req, res) => {
     })
   }
   
-  // If validation passes, redirect to severely mentally impaired question
-  res.redirect('/household/first-person-severely-mentally-impaired')
+  // If validation passes, redirect to severely mentally impaired question (temporarily removed from routing because we think its a CRT question)
+  res.redirect('/household/first-person-benefits')
 })
 
 // Route: First person severely mentally impaired (GET)
