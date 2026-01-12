@@ -4,7 +4,7 @@
 {% set backLinkHref = "/address/rent-responsibility" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}What kind of home do you live in (or are going to live in)? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Which best describes the place where you live now? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
       {% endif %}
 
       <h1 class="govuk-heading-l">
-        What kind of home do you live in (or are going to live in)?
+        Which best describes the place where you live now?
       </h1>
 
       <form method="post" action="/address/home-type" novalidate>
