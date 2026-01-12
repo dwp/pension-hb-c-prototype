@@ -75,7 +75,7 @@
       Overview
       </h1>
 
-      <p>Pension Credit gives you extra money to help with your living costs if you’re over State Pension age and on a low income. You can apply for Housing Benefit at the same time.</p>
+      <p>Pension Credit gives you extra money to help with your living costs if you are over State Pension age and on a low income. You can apply for Housing Benefit at the same time.</p>
 
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
@@ -83,43 +83,40 @@
   text: "This guide is also available in Welsh (Cymraeg) and easy read format."
 }) }}
 
-      <p>If you do not enter anything for more than 30 minutes, your application will time out and you will have to start again. This is to keep your details secure. You cannot save your application and come back later.</p>
+      <p>You might get extra help if you are a carer, severely disabled, or responsible for a child or young person.</p>
+
+      <p>Pension Credit and Housing Benefit are separate from your State Pension.</p>
+
+       <p>You may be able to get Pension Credit and Housing Benefit even if you have other income, savings or own your own home. </p>
+
+       {{ govukInsetText({
+  text: "This guide covers Pension Credit in England, Scotland and Wales. Find out about Pension Credit in Northern Ireland."
+}) }}
 
         <h2 class="govuk-heading-m" id="subsection-title">
-          Do you have the right information to make an online application for Pension Credit or Pension Housing Benefit?
+          Other help if you get Pension Credit
         </h2>
 
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
     <legend class="govuk-fieldset__legend">
-      <p> You will need (for you and your partner, if you live with one): </p>
+      <p> If you get Pension Credit you can also get other help, such as: </p>
       <ul class="govuk-list govuk-list--bullet">
-        <li>National Insurance number</li>
-        <li>details of income and pensions</li>
-        <li>details of money, savings and investments, usually for the last 3 months</li>
+        <li>Cold Weather Payments (or Winter Heating Payments in Scotland)</li>
+        <li>Support for Mortgage Interest if you own the property you live in</li>
+        <li>a Council Tax Reduction</li>
+        <li>a free TV licence if you’re aged 75 or over</li>
+        <li>help with NHS dental treatment, glasses and transport costs for hospital appointments, if you get the Guarantee Credit part of Pension Credit</li>
+        <li>help with your heating costs through the Warm Home Discount Scheme</li>
+        <li>a discount on the Royal Mail redirection service if you’re moving house</li>
       </ul>
     </legend>
-    <div class="govuk-radios" data-module="govuk-radios">
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="whereDoYouLive" name="whereDoYouLive" type="radio" value="Yes">
-        <label class="govuk-label govuk-radios__label" for="whereDoYouLive">
-          Yes
-        </label>
-      </div>
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="whereDoYouLive-2" name="whereDoYouLive" type="radio" value="No">
-        <label class="govuk-label govuk-radios__label" for="whereDoYouLive-2">
-          No
-        </label>
-      </div>
-    </div>
-  </fieldset>
-</div>
+
       
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {{ govukButton({
-  text: "continue"
+  text: "check your eligibility"
 }) }}
 
 {% endblock %}
