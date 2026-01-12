@@ -35,10 +35,54 @@
     <div class="govuk-grid-column-two-thirds">
 
       <h1 class="govuk-heading-l">
-      Information you will need to apply online
+      Pension Credit and Housing Benefit 
       </h1>
 
-      <p>You will need certain information about yourself and your partner (if you live with one) while you make your application.</p>
+      <nav class="govuk-contents-list" role="navigation" aria-label="Contents">
+        <h2 class="govuk-heading-m">
+          Contents
+        </h2>
+        <ul class="govuk-contents-list__list">
+          <li class="govuk-contents-list__list-item">
+            <a class="govuk-contents-list__link" href="#overview">
+              Overview
+            </a>
+          </li>
+          <li class="govuk-contents-list__list-item">
+            <a class="govuk-contents-list__link" href="#eligibility">
+              Eligibility
+            </a>
+          </li>
+          <li class="govuk-contents-list__list-item">
+            <a class="govuk-contents-list__link" href="#what-youll-get">
+              What you'll get
+            </a>
+          </li>
+          <li class="govuk-contents-list__list-item">
+            <a class="govuk-contents-list__link" href="#how-to-claim">
+              How to claim
+            </a>
+          </li>
+          <li class="govuk-contents-list__list-item">
+            <a class="govuk-contents-list__link" href="#report-a-change-of-circumstances">
+              Report a change of circumstances
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 class="govuk-heading-l">
+      Overview
+      </h1>
+
+      <p>Pension Credit gives you extra money to help with your living costs if you’re over State Pension age and on a low income. You can apply for Housing Benefit at the same time.</p>
+
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{{ govukInsetText({
+  text: "This guide is also available in Welsh (Cymraeg) and easy read format."
+}) }}
+
       <p>If you do not enter anything for more than 30 minutes, your application will time out and you will have to start again. This is to keep your details secure. You cannot save your application and come back later.</p>
 
         <h2 class="govuk-heading-m" id="subsection-title">
