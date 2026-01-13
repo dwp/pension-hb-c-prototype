@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Does this non-dependant have any children living with you who they are responsible for? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Do they have any children living with you who they are responsible for? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,11 +40,16 @@
           id: "first-person-has-children",
           fieldset: {
             legend: {
-              text: "Does this non-dependant have any children living with you who they are responsible for?",
+              text: "Do they have any children living with you who they are responsible for?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
+
+          hint: {
+            text: "Children are under age 16. A qualifying young person is aged 16 to 19 and in non‑advanced full‑time education or training."
+          },
+
           errorMessage: errorMessage,
           items: [
             {

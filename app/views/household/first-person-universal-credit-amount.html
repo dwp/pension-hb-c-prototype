@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}How much Universal Credit does this person get? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}How much Universal Credit do they get? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -38,7 +38,7 @@
 
         {{ govukInput({
           label: {
-            text: "How much Universal Credit does this person get?",
+            text: "How much Universal Credit do they get?",
             classes: "govuk-label--l",
             isPageHeading: true
           },

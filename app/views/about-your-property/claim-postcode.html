@@ -4,7 +4,7 @@
 {% set backLinkHref = "/about-your-property/permanent-main-home" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}What is the postcode of the address you're claiming for? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}What is the postcode of the address you are applying for? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
 
         {{ govukInput({
           label: {
-            text: "What is the postcode of the address you're claiming for?",
+            text: "What is the postcode of the address you are applying for?",
             isPageHeading: true,
             classes: "govuk-label--l"
           },

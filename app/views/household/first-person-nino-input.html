@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}What is their National Insurance Number? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}What is their national insurance number? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -38,12 +38,12 @@
 
         {{ govukInput({
           label: {
-            text: "What is their National Insurance Number?",
+            text: "What is their national insurance number?",
             classes: "govuk-label--l",
             isPageHeading: true
           },
           hint: {
-            text: "It's on your National Insurance Card, benefit letter, payslip or P60. For example 'QQ 12 34 56 C'."
+            text: "It's on your national insurance card, benefit letter, payslip or P60. For example 'QQ 12 34 56 C'."
           },
           id: "first-person-nino",
           name: "first-person-nino",

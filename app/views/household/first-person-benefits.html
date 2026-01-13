@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Is this person currently getting any of the following benefits? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Do they get any of the following benefits? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,7 +40,7 @@
           id: "first-person-benefits",
           fieldset: {
             legend: {
-              text: "Is this person currently getting any of the following benefits?",
+              text: "Do they get any of the following benefits?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }

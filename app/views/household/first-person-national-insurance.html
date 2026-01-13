@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Does this person have a National Insurance Number? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Do they have a national insurance number? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,7 +40,7 @@
           id: "first-person-national-insurance",
           fieldset: {
             legend: {
-              text: "Does this person have a National Insurance Number?",
+              text: "Do they have a national insurance number?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }

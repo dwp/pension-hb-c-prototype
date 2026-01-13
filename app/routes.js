@@ -281,9 +281,9 @@ router.post('/address/property-types', (req, res) => {
     })
   }
 
-  // Conditional branching: if "commercial-lodgings", ask what sort
+  // Conditional branching: if "commercial-lodgings", ask what sort (removed for UR11)
   if (propertyType === 'commercial-lodgings') {
-    res.redirect('/address/commercial-lodging-type')
+    res.redirect('/task-list')
   } else {
     // Otherwise, redirect to task list
     res.redirect('/task-list')
@@ -533,41 +533,7 @@ router.post('/about-your-property/claim-select-address', (req, res) => {
   }
 
   // If validation passes, redirect to know move in date question
-  res.redirect('/about-your-property/know-move-in-date')
-})
-
-// Route: Know move in date (GET)
-router.get('/about-your-property/know-move-in-date', (req, res) => {
-  res.render('about-your-property/know-move-in-date', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Know move in date (POST with validation)
-router.post('/about-your-property/know-move-in-date', (req, res) => {
-  const knowMoveInDate = req.session.data['know-move-in-date']
-
-  // Validation: Check if an option was selected
-  if (!knowMoveInDate) {
-    return res.render('about-your-property/know-move-in-date', {
-      errors: [
-        {
-          text: 'Select yes if you know the date you are due to move in',
-          href: '#know-move-in-date'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Conditional branching: if "yes", ask for the move in date
-  if (knowMoveInDate === 'yes') {
-    res.redirect('/about-your-property/move-in-date')
-  } else {
-    // If "no", redirect to the rent frequency page
-    res.redirect('/about-your-property/rent-frequency')
-  }
+  res.redirect('/about-your-property/move-in-date')
 })
 
 // Route: Move in date (GET)
@@ -1061,12 +1027,12 @@ router.post('/household/first-person-provides-care', (req, res) => {
     })
   }
   
-  // Conditional branching: if "yes", ask about 35 hours care
-  if (providesCare === 'yes') {
-    res.redirect('/household/first-person-care-35-hours')
-  } else {
-    // If "no", redirect to benefits question
+  // Conditional branching: if "no",
+  if (providesCare === 'no') {
     res.redirect('/household/first-person-benefits')
+  } else {
+    // If any other answer, then stay on page for UR purposes
+    res.redirect('/household/first-person-provides-care')
   }
 })
 

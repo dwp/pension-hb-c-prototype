@@ -40,11 +40,7 @@
           id: "propertyType",
           errorMessage: errorMessage,
           items: [
-            {
-              value: "commercial-lodgings",
-              text: "Commercial lodgings, guest house, hostel or hotel",
-              checked: data['propertyType'] == "commercial-lodgings"
-            },
+
             {
               value: "houseboat",
               text: "A houseboat",
@@ -54,6 +50,11 @@
               value: "mobile-home-caravan",
               text: "A mobile home or caravan",
               checked: data['propertyType'] == "mobile-home-caravan"
+            },
+            {
+              value: "commercial-lodgings",
+              text: "A temporary accomodation",
+              checked: data['propertyType'] == "commercial-lodgings"
             },
             {
               value: "none",

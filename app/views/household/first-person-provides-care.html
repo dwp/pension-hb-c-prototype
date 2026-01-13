@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Does this person provide care or support? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Do they provide care or support? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,7 +40,7 @@
           id: "first-person-provides-care",
           fieldset: {
             legend: {
-              text: "Does this person provide care or support (either paid or unpaid) for someone who is NOT their dependent child under 18, nor their partner?",
+              text: "Do they provide care for someone else who lives in your home?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
@@ -48,9 +48,19 @@
           errorMessage: errorMessage,
           items: [
             {
-              value: "yes",
-              text: "Yes",
-              checked: data['first-person-provides-care'] == "yes"
+              value: "yes-35-plus",
+              text: "Yes, for 35 or more hours a week",
+              checked: data['first-person-provides-care'] == "yes-35-plus"
+            },
+            {
+              value: "yes-24-34",
+              text: "Yes, for between 24 and 34 hours a week",
+              checked: data['first-person-provides-care'] == "yes-24-34"
+            },
+            {
+              value: "yes-less-24",
+              text: "Yes, for less than 24 hours a week",
+              checked: data['first-person-provides-care'] == "yes-less-24"
             },
             {
               value: "no",

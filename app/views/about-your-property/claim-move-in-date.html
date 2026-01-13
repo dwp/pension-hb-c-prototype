@@ -36,14 +36,12 @@
           namePrefix: "claim-move-in-date",
           fieldset: {
             legend: {
-              text: "When did you move into the address you are making this application for?",
+              text: "When did you move into this address?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
-          hint: {
-            text: "If you do not know the exact date, enter the closest date you can."
-          },
+
           errorMessage: errorMessage,
           items: [
             {
@@ -63,6 +61,10 @@
             }
           ]
         }) }}
+
+        <p class="govuk-body">
+          <a href="/about-your-property/rent-frequency" class="govuk-link">I do not know</a>
+        </p>
 
         {{ govukButton({
           text: "Continue"

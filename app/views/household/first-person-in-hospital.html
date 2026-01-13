@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Is this person in hospital at the moment? – {{ serviceName }} – GOV.UK
+  {% if errors %}Error: {% endif %}Are they in hospital at the moment? – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,7 +40,7 @@
           id: "first-person-in-hospital",
           fieldset: {
             legend: {
-              text: "Is this person in hospital at the moment?",
+              text: "Are they in hospital at the moment?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
