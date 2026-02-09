@@ -22,7 +22,7 @@
   name: "liveInLandlord",
   fieldset: {
     legend: {
-     text: "Does your landlord live with you at " + data['home-address'] + "?",
+     text: "Does your landlord live with you at " + (data['home-address'] or "your address") + "?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }

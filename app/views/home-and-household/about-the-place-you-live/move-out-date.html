@@ -25,7 +25,7 @@
   namePrefix: "move-out-date",
   fieldset: {
     legend: {
-      text: "When did you move out of " + data['previous-address'] + "?",
+      text: "When did you move out of " + (data['previous-address'] or "your previous address") + "?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }

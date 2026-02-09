@@ -25,7 +25,7 @@
   namePrefix: "move-in-date",
   fieldset: {
     legend: {
-      text: "When did you move into " + data['home-address'] + "?",
+      text: "When did you move into " + (data['home-address'] or "your address") + "?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
