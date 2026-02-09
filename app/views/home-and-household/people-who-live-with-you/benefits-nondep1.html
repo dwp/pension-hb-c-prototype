@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/benefits-nondep1" method="post">
+
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
+
+{{ govukRadios({
+  name: "benefitsNonDep",
+  fieldset: {
+    legend: {
+            text: "Do they get any of the following benefits?",
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "Income Support",
+      text: "Income Support"
+    },
+    {
+      value: "Income-based Jobseeker's Allowance",
+      text: "Income-based Jobseeker's Allowance"
+    },
+    {
+      value: "Income-related Employment and support Allowance",
+      text: "Income-related Employment and support Allowance"
+    },
+        {
+      value: "Universal Credit",
+      text: "Universal Credit"
+    },
+        {
+      value: "None",
+      text: "None"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

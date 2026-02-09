@@ -1,0 +1,343 @@
+{% extends "layouts/main.html" %}
+
+{# ----------------------------- #
+  BUILD DOB DISPLAY STRING
+  Keys from namePrefix: date-of-birth
+# ------------------------------ #}
+
+{% set dob_day   = data['date-of-birth-day']   | default('') %}
+{% set dob_month = data['date-of-birth-month'] | default('') %}
+{% set dob_year  = data['date-of-birth-year']  | default('') %}
+
+{# Month lookup for written date format #}
+
+{% set monthNames = {
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+} %}
+
+{% set dob_display = "" %}
+{% if dob_day and dob_month and dob_year and monthNames[dob_month] %}
+  {% set dob_display = dob_day ~ " " ~ monthNames[dob_month] ~ " " ~ dob_year %}
+{% endif %}
+
+
+{# ----------------------------- #
+  BUILD DATE-LIVING-TOGETHER DISPLAY STRING
+  Keys from namePrefix: date-living-together
+# ------------------------------ #}
+
+{% set live_day   = data['date-living-together-day']   | default('') %}
+{% set live_month = data['date-living-together-month'] | default('') %}
+{% set live_year  = data['date-living-together-year']  | default('') %}
+
+{% set living_together_display = "" %}
+{% if live_day and live_month and live_year and monthNames[live_month] %}
+  {% set living_together_display = live_day ~ " " ~ monthNames[live_month] ~ " " ~ live_year %}
+{% endif %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/check-details-nondep1" method="post">
+
+<h1 class="govuk-heading-l">Check this person's details</h1>
+
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Name"
+            },
+            value: {
+              text: data['nondep1-name'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/name-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "name"
+                }
+              ]
+            }
+          },
+                    {
+            key: {
+              text: "Living situation?"
+            },
+            value: {
+              text: data['livingSituation'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/living-situation-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "name"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Are you related to them?"
+            },
+            value: {
+              text: data['relatednonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/related-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "related"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Date of birth"
+            },
+            value: { 
+              text: dob_display or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/dob-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "date of birth"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Blind or severely sight impaired"
+            },
+            value: {
+              text: data['blindnonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "blind or severely sight impaired"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Date you started living together"
+            },
+            value: {
+              text: (living_together_display or "Not provided")
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/date-living-together-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "date you started living together"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Are they in education?"
+            },
+            value: {
+              text: data['educationNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "education"
+                }
+              ]
+            }
+          },
+            {
+            key: {
+              text: "Are they in employment?"
+            },
+            value: {
+              text: data['employmentNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "employment"
+                }
+              ]
+            }
+          },
+            {
+            key: {
+              text: "Are they self-employed?"
+            },
+            value: {
+              text: data['selfEmploymentNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "self employment"
+                }
+              ]
+            }
+          },
+            {
+            key: {
+              text: "Do they care for someone else in your home?"
+            },
+            value: {
+              text: data['careNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "carer"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Benefits they receive"
+            },
+            value: {
+              text: data['benefitsNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "Benefits"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Do they pay towards the rent?"
+            },
+            value: {
+              text: data['rentNonDep'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "rent"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Are they currently staying away from home?"
+            },
+            value: {
+              text: data['currentlyAway'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/currently-away-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "currently away"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Child or young person living with them"
+            },
+            value: {
+              text: data['childNonDep1'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/child-responsible-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "child"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Relationship with another adult in the household?"
+            },
+            value: {
+              text: data['coupleNondep1'] or "Not provided"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/couple-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "couple"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

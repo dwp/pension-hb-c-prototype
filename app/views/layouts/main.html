@@ -6,21 +6,11 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
-{% set serviceName = "Apply for Pension Credit and Pension Housing Benefit" %}
-
 {% block header %}
+
     {{ govukHeader() }}
     {{ govukServiceNavigation({
-        serviceName: serviceName,
-        serviceUrl: "/"
+        serviceName: serviceName
     })}}
-{% endblock %}
 
-{% block beforeContent %}
-  {% if showBackLink %}
-    {{ govukBackLink({
-      text: "Back",
-      href: backLinkHref or "javascript:window.history.back()"
-    }) }}
-  {% endif %}
 {% endblock %}

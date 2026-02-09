@@ -1,0 +1,86 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/your-address/rent-responsibility" method="post">
+
+      <h1 class="govuk-heading-l">
+        Select your home address
+      </h1>
+
+      <p class="govuk-body">
+        Postcode: <strong>{{ data['home-postcode'] }}</strong>
+        <a href="/home-and-household/your-address/home-postcode" class="govuk-link govuk-!-margin-left-2">Change</a>
+      </p>
+
+      <form method="post" action="/rent-responsibility" novalidate>
+
+        {{ govukSelect({
+          id: "home-address",
+          name: "home-address",
+          label: {
+            text: "Select an address"
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "",
+              text: "Select an address",
+              selected: not data['home-address']
+            },
+            {
+              value: "1 High Street, Anytown, AN1 1AA",
+              text: "1 High Street, Anytown",
+              selected: data['home-address'] == "1 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "2 High Street, Anytown, AN1 1AA",
+              text: "2 High Street, Anytown",
+              selected: data['home-address'] == "2 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "3 High Street, Anytown, AN1 1AA",
+              text: "3 High Street, Anytown",
+              selected: data['home-address'] == "3 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 1, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 1, 4 High Street, Anytown",
+              selected: data['home-address'] == "Flat 1, 4 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 2, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 2, 4 High Street, Anytown",
+              selected: data['home-address'] == "Flat 2, 4 High Street, Anytown, AN1 1AA"
+            }
+          ]
+        }) }}
+
+        <p class="govuk-body">
+          <a href="#" class="govuk-link">I can't find my address in the list</a>
+        </p>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/add-another-person" method="post">
+        
+        <h1 class="govuk-heading-l">You have added 1 person</h1>
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Name"
+      },
+      value: {
+        text: data['nondep1Name'] or "Example name"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+
+        {{ govukInsetText({
+          text: "You should tell these people that DWP may use their information as part of your application. This includes information you provide or that we already hold about them."
+        }) }}
+
+        <h2 class="govuk-heading-m">Add another person who lives with you?</h2>
+        <p class="govuk-body">Only tell us about people over 18.</p>
+
+        {{ govukRadios({
+          idPrefix: "addAnother",
+          name: "addAnother",
+          items: [
+            { value: "yes", text: "Yes", checked: data['addAnother'] == 'yes' },
+            { value: "no", text: "No", checked: data['addAnother'] == 'no' }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Continue" }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

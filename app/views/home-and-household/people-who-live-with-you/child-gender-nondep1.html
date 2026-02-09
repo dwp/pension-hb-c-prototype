@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/child-gender-nondep1" method="post">
+
+        <span class="govuk-caption-xl">About {{ data['nondep1ChildName'] }}</span>
+
+{{ govukRadios({
+  name: "ChildNonDep1Gender",
+  fieldset: {
+    legend: {
+            text: "Is this child a boy or girl?",
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "Girl",
+      text: "Girl"
+    },
+    {
+      value: "Boy",
+      text: "Boy"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

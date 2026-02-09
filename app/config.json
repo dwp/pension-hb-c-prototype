@@ -1,5 +1,5 @@
 {
-  "serviceName": "pension-phb-&-pc-prototype",
+  "serviceName": "Get financial and housing cost support at pension age",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true

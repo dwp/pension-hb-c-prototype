@@ -1,0 +1,76 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/about-the-place-you-live/rent-amount" method="post">
+
+      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{{ govukRadios({
+  name: "rentfrequency",
+  fieldset: {
+    legend: {
+      text: "How often is your rent due?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+  {
+    value: "every-week",
+    text: "Every week"
+  },
+  {
+    value: "every-2-weeks",
+    text: "Every 2 weeks"
+  },
+  {
+    value: "every-4-weeks",
+    text: "Every 4 weeks"
+  },
+  {
+    value: "every-calendar-month",
+    text: "Every calendar month"
+  },
+
+    {
+      value: "other",
+      text: "Other",
+      conditional: {
+        html: govukInput({
+          id: "rent-frequency-other",
+          name: "rent-frequency-other",
+          classes: "govuk-!-width-two-thirds",
+          label: {
+            text: "Please specify"
+          }
+        })
+      }
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

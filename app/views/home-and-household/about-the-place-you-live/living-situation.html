@@ -1,0 +1,61 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/about-the-place-you-live/rent-frequency" method="post">
+
+      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{{ govukRadios({
+  name: "livingsituation",
+  fieldset: {
+    legend: {
+      text: "Which of the following describes your living situation?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+  {
+    value: "council-rent",
+    text: "I rent from a local authority"
+  },
+  {
+    value: "housing-association-rent",
+    text: "I rent from a housing association or registered social landlord"
+  },
+  {
+    value: "private-landlord-rent",
+    text: "I rent from a private landlord"
+  },
+  {
+    value: "boarder-rent",
+    text: "I am a boarder with meals included in my rent"
+  }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

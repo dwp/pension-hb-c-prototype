@@ -1,0 +1,90 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/living-situation-nondep1" method="post" novalidate>
+        
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
+
+        {{ govukRadios({
+          name: "livingSituation",
+          id: "living-situation",
+          fieldset: {
+            legend: {
+              text: "What is your living situation?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "We are joint tenants",
+              text: "We are joint tenants",
+              hint: {
+                text: "Both your names are on the tenancy agreement"
+              }
+            },
+            {
+              value: "We are individual tenants",
+              text: "We are individual tenants",
+              hint: {
+                text: "You have your own agreements with the same landlord"
+              }
+            },
+            {
+              value: "They are my boarder, lodger or subtenant",
+              text: "They are my boarder, lodger or subtenant",
+              hint: {
+                text: "They pay to share your home, or rent part of your property"
+              }
+            },
+            {
+              value: "They are from a charity or voluntary organisation",
+              text: "They are from a charity or voluntary organisation",
+              hint: {
+                text: "They are paid, or volunteer to live in your home and care for you"
+              }
+            },
+                {
+      divider: "or"
+    },
+    {
+      value: "other",
+      text: "Other",
+      conditional: {
+        html: govukInput({
+          id: "rent-frequency-other",
+          name: "rent-frequency-other",
+          classes: "govuk-!-width-two-thirds",
+          label: {
+            text: "Please specify"
+          }
+        })
+      }
+    }
+  ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

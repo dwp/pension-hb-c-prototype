@@ -1,0 +1,53 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/about-the-place-you-live/bedroom-amount" method="post">
+
+        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+        {% set hasError = data['bedroomAmountError'] %}
+        {% set errorMessage = hasError and { "text": "Enter the number of bedrooms as a whole number (1 or more)" } or null %}
+
+        {{ govukInput({
+          label: {
+            text: "How many bedrooms does your home have?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "If you live in one room accommodation, please enter 1."
+          },
+          classes: "govuk-input--width-10",
+          id: "bedroom-amount",
+          name: "bedroomAmount",
+          inputmode: "numeric",
+          spellcheck: false,
+          value: data['bedroomAmount'],
+          errorMessage: errorMessage
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

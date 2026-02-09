@@ -1,0 +1,89 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/how-related-nondep1" method="post">
+
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
+
+{{ govukRadios({
+  name: "howrelatednonDep",
+  fieldset: {
+    legend: {
+            text: "How are you related?",
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "I am their parent",
+      text: "I am their parent"
+    },
+    {
+      value: "I am their step-parent",
+      text: "I am their step-parent"
+    },
+        {
+      value: "I am their grandparent",
+      text: "I am their grandparent"
+    },
+        {
+      value: "We are siblings",
+      text: "We are siblings"
+    },
+        {
+      value: "We are step-siblings",
+      text: "We are step-siblings"
+    },
+        {
+      value: "I am their child",
+      text: "I am their child"
+    },
+        {
+      value: "I am their step-child",
+      text: "I am their step-child"
+    },
+        {
+      divider: "or"
+    },
+    {
+      value: "other",
+      text: "Other",
+      conditional: {
+        html: govukInput({
+          id: "rent-frequency-other",
+          name: "rent-frequency-other",
+          classes: "govuk-!-width-two-thirds",
+          label: {
+            text: "Please specify"
+          }
+        })
+      }
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

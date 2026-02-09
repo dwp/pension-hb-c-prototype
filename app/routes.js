@@ -8,1360 +8,404 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 // Add your routes here
 
-// Route: Pension Credit - How to claim (dummy guidance page)
-router.get('/pension-credit/how-to-claim', (req, res) => {
-  res.render('pension-credit/how-to-claim')
+// care home
+router.post('/care-home-funding', function(request, response) {
+
+	var permcarehome = request.session.data['permcarehome']
+	if (permcarehome == "no"){
+		response.redirect("/home-and-household/your-address/home-postcode.html")
+	} else {
+		response.redirect("/home-and-household/your-address/care-home-funding")
+	}
 })
 
-// Route: Apply for Housing Benefit - Question page (GET)
-router.get('/apply-housing-benefit', (req, res) => {
-  res.render('apply-housing-benefit', {
-    errors: false,
-    data: req.session.data
-  })
+// council tax reduction
+router.post('/disabled-reduction', function(request, response) {
+
+	var counciltaxresponsibility = request.session.data['counciltaxresponsibility']
+	if (counciltaxresponsibility == "yes"){
+		response.redirect("/home-and-household/your-address/disabled-reduction")
+	} else {
+		response.redirect("/task-list")
+	}
 })
 
-// Route: Apply for Housing Benefit - Question page (POST with validation)
-router.post('/apply-housing-benefit', (req, res) => {
-  const applyHousingBenefit = req.session.data.applyHousingBenefit
+// ABOUT THE PLACE YOU LIVE SECTION
 
-  // Validation: Check if a selection was made
-  if (!applyHousingBenefit) {
-    // Re-render with errors
-    return res.render('apply-housing-benefit', {
-      errors: true,
-      data: req.session.data
-    })
+//Shared accommodation
+router.post('/home-and-household/about-the-place-you-live/shared-accommodation-route', (req, res) => {
+
+  return res.redirect('/home-and-household/about-the-place-you-live/bedroom-amount')
+})
+
+
+// GET render: reset error on first load
+router.get('/home-and-household/about-the-place-you-live/bedroom-amount', (req, res) => {
+  req.session.data['bedroomAmountError'] = false
+  res.render('home-and-household/about-the-place-you-live/bedroom-amount')
+})
+
+// bedrooms branching
+router.post('/home-and-household/about-the-place-you-live/bedroom-amount', function (req, res) {
+  // Read the value captured by the input `name="bedroomAmount"`
+  const raw = req.session.data['bedroomAmount']
+
+  // Coerce to a number
+  const bedrooms = Number(raw)
+
+  // Basic validation: must be a positive integer
+  if (!Number.isFinite(bedrooms) || bedrooms < 1) {
+    // error page
+    req.session.data['bedroomAmountError'] = true
+    return res.redirect('/home-and-household/about-the-place-you-live/bedroom-amount')
   }
 
-  // If validation passes, redirect to task list
-  res.redirect('/task-list')
-})
-
-// Route: Task list page
-router.get('/task-list', (req, res) => {
-  res.render('task-list', {
-    data: req.session.data
-  })
-})
-
-// Placeholder routes for "About you" tasks
-router.get('/task/about-you/personal-details', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/about-you/immigration-status', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/about-you/time-outside-uk', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/about-you/time-in-hospital', (req, res) => {
-  res.redirect('/task-list')
-})
-
-// Address flow routes
-// Route: Postcode lookup (GET)
-router.get('/address/postcode', (req, res) => {
-  res.render('address/postcode', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Postcode lookup (POST with validation)
-router.post('/address/postcode', (req, res) => {
-  const postcode = req.session.data.postcode
-
-  // Validation: Check if postcode was entered
-  if (!postcode || postcode.trim() === '') {
-    return res.render('address/postcode', {
-      errors: [
-        {
-          text: 'Enter a postcode',
-          href: '#postcode'
-        }
-      ],
-      data: req.session.data
-    })
+  // Branching
+  if (bedrooms === 1) {
+    return res.redirect('/home-and-household/about-the-place-you-live/one-room-only')
   }
 
-  // Basic UK postcode format validation (simple check)
-  const postcodeRegex = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/i
-  if (!postcodeRegex.test(postcode.trim())) {
-    return res.render('address/postcode', {
-      errors: [
-        {
-          text: 'Enter a valid UK postcode',
-          href: '#postcode'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to address selection
-  res.redirect('/address/select-address')
+  // bedrooms > 1
+  return res.redirect('/home-and-household/about-the-place-you-live/overnight-carer')
 })
 
-// Route: Select address (GET)
-router.get('/address/select-address', (req, res) => {
-  res.render('address/select-address', {
-    errors: false,
-    data: req.session.data
-  })
+// Do you live in one main room only? - direct route
+router.post('/home-and-household/about-the-place-you-live/one-room-only', (req, res) => {
+
+  return res.redirect('/home-and-household/about-the-place-you-live/overnight-carer')
 })
 
-// Route: Select address (POST with validation)
-router.post('/address/select-address', (req, res) => {
-  const selectedAddress = req.session.data.selectedAddress
+// Do you require a non-resident carer to stay overnight in your home? - direct route
+router.post('/home-and-household/about-the-place-you-live/overnight-carer', (req, res) => {
 
-  // Validation: Check if an address was selected
-  if (!selectedAddress || selectedAddress === '') {
-    return res.render('address/select-address', {
-      errors: [
-        {
-          text: 'Select an address',
-          href: '#selectedAddress'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to accommodation type question
-  res.redirect('/address/accommodation-type')
+  return res.redirect('/home-and-household/about-the-place-you-live/foster-carer')
 })
 
-// Route: Accommodation type (GET)
-router.get('/address/accommodation-type', (req, res) => {
-  res.render('address/accommodation-type', {
-    errors: false,
-    data: req.session.data
-  })
+// Are you an approved foster carer? - direct route
+router.post('/home-and-household/about-the-place-you-live/foster-carer', (req, res) => {
+
+  return res.redirect('/home-and-household/about-the-place-you-live/live-in-landlord')
 })
 
-// Route: Accommodation type (POST with validation)
-router.post('/address/accommodation-type', (req, res) => {
-  const accommodationType = req.session.data.accommodationType
+// Do you know tenancy end date?
+router.post('/home-and-household/about-the-place-you-live/behind-rent', function(request, response) {
 
-  // Validation: Check if an option was selected
-  if (!accommodationType) {
-    return res.render('address/accommodation-type', {
-      errors: [
-        {
-          text: 'Select what sort of accommodation you live in',
-          href: '#accommodationType'
-        }
-      ],
-      data: req.session.data
-    })
-  }
+	var doYouKnowTenancyEndDate = request.session.data['doYouKnowTenancyEndDate']
+	if (doYouKnowTenancyEndDate == "yes"){
+		response.redirect("/home-and-household/about-the-place-you-live/tenancy-end-date")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+	}
+})
 
-  // Conditional branching: if "supported" accommodation, ask who provides support
-  if (accommodationType === 'supported') {
-    res.redirect('/address/support-provider')
+// tenancy end date -> on submit, go to behind-rent
+router.post('/home-and-household/about-the-place-you-live/tenancy-end-date', function (request, response) {
+
+  return response.redirect('/home-and-household/about-the-place-you-live/behind-rent')
+})
+
+// behind on rent
+router.post('/home-and-household/about-the-place-you-live/previous-postcode', function(request, response) {
+
+	var behindRent = request.session.data['behindRent']
+	if (behindRent == "yes"){
+		response.redirect("/home-and-household/about-the-place-you-live/behind-rent-amount")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/previous-postcode")
+	}
+})
+
+// how many weeks behind rent -> on submit, go to previous-postcode
+router.post('/home-and-household/about-the-place-you-live/behind-rent-amount', function (request, response) {
+
+  return response.redirect('/home-and-household/about-the-place-you-live/previous-postcode')
+})
+
+// Select the address you lived at previously - direct route
+router.post('/home-and-household/about-the-place-you-live/the-previous-address', function (request, response) {
+
+  return response.redirect('/home-and-household/about-the-place-you-live/move-out-date')
+})
+
+// When did you move out of your previous address? - direct route
+router.post('/home-and-household/about-the-place-you-live/move-out-date', function (request, response) {
+
+  return response.redirect('/task-list')
+})
+
+// OTHER PROPERTY OR LAND SECTION
+
+// Do you own any property or land other than the home you live in?
+router.post('/home-and-household/other-property-or-land/other-property', function (req, res) {
+  const otherproperty = req.session.data['otherproperty']
+
+  if (otherproperty === 'yes') {
+    // Go to the address capture page for another property
+    return res.redirect('/home-and-household/other-property-or-land/address-other-property')
   } else {
-    // Otherwise go directly to rent responsibility question
-    res.redirect('/address/rent-responsibility')
+    // No more properties – return to the task list
+    return res.redirect('/task-list')
   }
 })
 
-// Route: Support provider (GET) - conditional question
-router.get('/address/support-provider', (req, res) => {
-  res.render('address/support-provider', {
-    errors: false,
-    data: req.session.data
-  })
+// other property or land address label
+router.post('/home-and-household/about-the-place-you-live/property-purpose', function (req, res) {
+  const line1 = (req.session.data['otherPropertyAddressLine1'] || '').trim()
+  const line2 = (req.session.data['otherPropertyAddressLine2'] || '').trim()
+
+  const label = [line1, line2].filter(Boolean).join(', ')
+  req.session.data['address-other-property'] = label || 'this property'
+
+  return res.redirect('/home-and-household/other-property-or-land/purpose-other-property')
 })
 
-// Route: Support provider (POST with validation)
-router.post('/address/support-provider', (req, res) => {
-  const supportProvider = req.session.data.supportProvider
+// more-other-property → branch to next step
+router.post('/home-and-household/other-property-or-land/more-other-property', function (req, res) {
+  const moreOtherProperty = req.session.data['moreOtherProperty']
 
-  // Validation: Check if input was provided
-  if (!supportProvider || supportProvider.trim() === '') {
-    return res.render('address/support-provider', {
-      errors: [
-        {
-          text: 'Enter who provides the support',
-          href: '#supportProvider'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to rent responsibility question
-  res.redirect('/address/rent-responsibility')
-})
-
-// Route: Rent responsibility (GET)
-router.get('/address/rent-responsibility', (req, res) => {
-  res.render('address/rent-responsibility', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Rent responsibility (POST with validation)
-router.post('/address/rent-responsibility', (req, res) => {
-  const rentResponsibility = req.session.data.rentResponsibility
-
-  // Validation: Check if an option was selected
-  if (!rentResponsibility) {
-    return res.render('address/rent-responsibility', {
-      errors: [
-        {
-          text: 'Select yes if you are responsible for paying rent or Council Tax',
-          href: '#rentResponsibility'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to home type question
-  res.redirect('/address/home-type')
-})
-
-// Route: Home type (GET)
-router.get('/address/home-type', (req, res) => {
-  res.render('address/home-type', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Home type (POST with validation)
-router.post('/address/home-type', (req, res) => {
-  const homeType = req.session.data.homeType
-
-  // Validation: Check if an option was selected
-  if (!homeType) {
-    return res.render('address/home-type', {
-      errors: [
-        {
-          text: 'Select what kind of home you live in',
-          href: '#homeType'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to property types question
-  res.redirect('/address/property-types')
-})
-
-// Route: Property types (GET)
-router.get('/address/property-types', (req, res) => {
-  res.render('address/property-types', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Property types (POST with validation)
-router.post('/address/property-types', (req, res) => {
-  const propertyType = req.session.data.propertyType
-
-  // Validation: Check if an option was selected
-  if (!propertyType) {
-    return res.render('address/property-types', {
-      errors: [
-        {
-          text: 'Select the type of property you live in, or select None',
-          href: '#propertyType'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Conditional branching: if "commercial-lodgings", ask what sort (removed for UR11)
-  if (propertyType === 'commercial-lodgings') {
-    res.redirect('/task-list')
+  if (moreOtherProperty === 'yes') {
+    // Go to the address capture page for another property
+    return res.redirect('/home-and-household/other-property-or-land/address-other-property')
   } else {
-    // Otherwise, redirect to task list
-    res.redirect('/task-list')
+    // No more properties – return to the task list
+    return res.redirect('/task-list')
   }
 })
 
-// Route: Commercial lodging type (GET) - conditional question
-router.get('/address/commercial-lodging-type', (req, res) => {
-  res.render('address/commercial-lodging-type', {
-    errors: false,
-    data: req.session.data
-  })
+// purpose-other-property → on submit, go to the "more other property" page
+router.post('/home-and-household/other-property-or-land/purpose-other-property', function (req, res) {
+
+  return res.redirect('/home-and-household/other-property-or-land/more-other-property')
 })
 
-// Route: Commercial lodging type (POST with validation)
-router.post('/address/commercial-lodging-type', (req, res) => {
-  const commercialLodgingType = req.session.data.commercialLodgingType
+// PEOPLE WHO LIVE WITH YOU SECTION
 
-  // Validation: Check if an option was selected
-  if (!commercialLodgingType) {
-    return res.render('address/commercial-lodging-type', {
-      errors: [
-        {
-          text: 'Select the type of commercial lodging',
-          href: '#commercialLodgingType'
-        }
-      ],
-      data: req.session.data
-    })
-  }
+// children responsible page to non dep page - direct route
+router.post('/home-and-household/people-who-live-with-you/children-responsible', (req, res) => {
 
-  // If validation passes, redirect to task list
-  res.redirect('/task-list')
+  return res.redirect('/home-and-household/people-who-live-with-you/non-dependant')
 })
 
-// Route: Manual address entry (stub)
-router.get('/address/manual', (req, res) => {
-  res.render('address/manual', {
-    data: req.session.data
-  })
-})
+// non-dependent branching
+router.post('/home-and-household/people-who-live-with-you/non-dependant', function (req, res) {
+  const nonDep = req.session.data['nonDep']
 
-// About your property flow routes
-// Route: Rent frequency (GET)
-router.get('/about-your-property/rent-frequency', (req, res) => {
-  res.render('about-your-property/rent-frequency', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Rent frequency (POST with validation)
-router.post('/about-your-property/rent-frequency', (req, res) => {
-  const rentFrequency = req.session.data.rentFrequency
-
-  // Validation: Check if an option was selected
-  if (!rentFrequency) {
-    return res.render('about-your-property/rent-frequency', {
-      errors: [
-        {
-          text: 'Select how often your rent is due',
-          href: '#rentFrequency'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to rent amount question
-  res.redirect('/about-your-property/rent-amount')
-})
-
-// Route: Rent amount (GET)
-router.get('/about-your-property/rent-amount', (req, res) => {
-  res.render('about-your-property/rent-amount', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Rent amount (POST with validation)
-router.post('/about-your-property/rent-amount', (req, res) => {
-  const rentAmount = req.session.data['rent-amount']
-
-  // Validation: Check if amount was entered
-  if (!rentAmount || rentAmount.trim() === '') {
-    return res.render('about-your-property/rent-amount', {
-      errors: [
-        {
-          text: 'Enter how much rent you pay',
-          href: '#rent-amount'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Basic validation: check if it's a valid number
-  const amount = parseFloat(rentAmount.trim())
-  if (isNaN(amount) || amount < 0) {
-    return res.render('about-your-property/rent-amount', {
-      errors: [
-        {
-          text: 'Enter a valid amount',
-          href: '#rent-amount'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to temporarily away question
-  res.redirect('/about-your-property/temporarily-away')
-})
-
-// Route: Permanent main home (GET)
-router.get('/about-your-property/permanent-main-home', (req, res) => {
-  res.render('about-your-property/permanent-main-home', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Permanent main home (POST with validation)
-router.post('/about-your-property/permanent-main-home', (req, res) => {
-  const permanentMainHome = req.session.data['permanent-main-home']
-
-  // Validation: Check if an option was selected
-  if (!permanentMainHome) {
-    return res.render('about-your-property/permanent-main-home', {
-      errors: [
-        {
-          text: 'Select whether this is your main home now or if you are moving in within the next few weeks',
-          href: '#permanent-main-home'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Conditional branching: if "moving-in-soon", ask for claim postcode
-  if (permanentMainHome === 'moving-in-soon') {
-    res.redirect('/about-your-property/claim-postcode')
+  if (nonDep === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/name-nondep1')
   } else {
-    // If "main-home-now", ask when they moved in
-    res.redirect('/about-your-property/claim-move-in-date')
+
+    return res.redirect('/task-list')
   }
 })
 
-// Route: Claim move in date (GET)
-router.get('/about-your-property/claim-move-in-date', (req, res) => {
-  res.render('about-your-property/claim-move-in-date', {
-    errors: false,
-    data: req.session.data
-  })
+// nondep1 name - direct route
+router.post('/home-and-household/people-who-live-with-you/name-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
 })
 
-// Route: Claim move in date (POST with validation)
-router.post('/about-your-property/claim-move-in-date', (req, res) => {
-  const day = req.session.data['claim-move-in-date-day']
-  const month = req.session.data['claim-move-in-date-month']
-  const year = req.session.data['claim-move-in-date-year']
+// nondep1 living situation branching
+router.post('/home-and-household/people-who-live-with-you/living-situation-nondep1', function (req, res) {
+  const livingSituation = req.session.data['livingSituation']
 
-  // Validation: check if all date fields are filled
-  if (!day || !month || !year) {
-    return res.render('about-your-property/claim-move-in-date', {
-      errors: [
-        {
-          text: 'Enter the date you moved in',
-          href: '#claim-move-in-date'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to rent frequency question
-  res.redirect('/about-your-property/rent-frequency')
-})
-
-// Route: Claim postcode (GET)
-router.get('/about-your-property/claim-postcode', (req, res) => {
-  res.render('about-your-property/claim-postcode', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Claim postcode (POST with validation)
-router.post('/about-your-property/claim-postcode', (req, res) => {
-  const claimPostcode = req.session.data['claim-postcode']
-
-  // Validation: Check if postcode was entered
-  if (!claimPostcode || claimPostcode.trim() === '') {
-    return res.render('about-your-property/claim-postcode', {
-      errors: [
-        {
-          text: 'Enter a postcode',
-          href: '#claim-postcode'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Basic UK postcode format validation (simple check)
-  const postcodeRegex = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/i
-  if (!postcodeRegex.test(claimPostcode.trim())) {
-    return res.render('about-your-property/claim-postcode', {
-      errors: [
-        {
-          text: 'Enter a valid UK postcode',
-          href: '#claim-postcode'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to select claim address
-  res.redirect('/about-your-property/claim-select-address')
-})
-
-// Route: Claim select address (GET)
-router.get('/about-your-property/claim-select-address', (req, res) => {
-  res.render('about-your-property/claim-select-address', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Claim select address (POST with validation)
-router.post('/about-your-property/claim-select-address', (req, res) => {
-  const claimSelectedAddress = req.session.data['claim-selected-address']
-
-  // Validation: Check if an address was selected
-  if (!claimSelectedAddress || claimSelectedAddress === '') {
-    return res.render('about-your-property/claim-select-address', {
-      errors: [
-        {
-          text: 'Select an address',
-          href: '#claim-selected-address'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to know move in date question
-  res.redirect('/about-your-property/move-in-date')
-})
-
-// Route: Move in date (GET)
-router.get('/about-your-property/move-in-date', (req, res) => {
-  res.render('about-your-property/move-in-date', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Move in date (POST with validation)
-router.post('/about-your-property/move-in-date', (req, res) => {
-  const day = req.session.data['move-in-date-day']
-  const month = req.session.data['move-in-date-month']
-  const year = req.session.data['move-in-date-year']
-
-  // Validation: check if all date fields are filled
-  if (!day || !month || !year) {
-    return res.render('about-your-property/move-in-date', {
-      errors: [
-        {
-          text: 'Enter the date you will move in',
-          href: '#move-in-date'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to rent frequency
-  res.redirect('/about-your-property/rent-frequency')
-})
-
-// Route: Temporarily away (GET)
-router.get('/about-your-property/temporarily-away', (req, res) => {
-  res.render('about-your-property/temporarily-away', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Temporarily away (POST with validation)
-router.post('/about-your-property/temporarily-away', (req, res) => {
-  const temporarilyAway = req.session.data['temporarily-away']
-
-  // Validation: Check if an option was selected
-  if (!temporarilyAway) {
-    return res.render('about-your-property/temporarily-away', {
-      errors: [
-        {
-          text: 'Select yes if you are temporarily living away from home',
-          href: '#temporarily-away'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to business use question
-  res.redirect('/about-your-property/business-use')
-})
-
-// Route: Business use (GET)
-router.get('/about-your-property/business-use', (req, res) => {
-  res.render('about-your-property/business-use', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Business use (POST with validation)
-router.post('/about-your-property/business-use', (req, res) => {
-  const businessUse = req.session.data['business-use']
-
-  // Validation: Check if an option was selected
-  if (!businessUse) {
-    return res.render('about-your-property/business-use', {
-      errors: [
-        {
-          text: 'Select yes if you or your partner use any part of your home for running a business',
-          href: '#business-use'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // If validation passes, redirect to task list
-  res.redirect('/task-list')
-})
-
-// Route: Claim address manual entry (GET) - stub for now
-router.get('/about-your-property/claim-address-manual', (req, res) => {
-  res.send('<h1>Enter claim address manually</h1><p>This is a placeholder page. <a href="/about-your-property/claim-postcode">Back to postcode</a></p>')
-})
-
-// Placeholder routes for "Your home and household" tasks
-
-router.get('/task/home-and-household/your-landlord', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/home-and-household/your-tenancy', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/home-and-household/other-property-or-land', (req, res) => {
-  res.redirect('/task-list')
-})
-
-router.get('/task/home-and-household/people-who-live-with-you', (req, res) => {
-  res.send('<h1>People who live with you</h1><p>This is a placeholder page. <a href="/task-list">Back to task list</a></p>')
-})
-
-// Household flow routes
-// Route: Children (GET)
-router.get('/household/children', (req, res) => {
-  res.render('household/children', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: Children (POST with validation and conditional routing)
-router.post('/household/children', (req, res) => {
-  const hasChildren = req.session.data.hasChildren
-
-  // Validation: Check if an option was selected
-  if (!hasChildren) {
-    return res.render('household/children', {
-      errors: [
-        {
-          text: 'Select yes if you are responsible for any children or qualifying young people',
-          href: '#hasChildren'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Conditional branching: if "no" children, ask about other adults
-  if (hasChildren === 'no') {
-    res.redirect('/household/other-adults')
+  if (livingSituation === 'They are from a charity or voluntary organisation') {
+    return res.redirect('/home-and-household/people-who-live-with-you/charity-nondep1')
   } else {
-    // If "yes", stay on the same page for UR purposes (placeholder for now)
-    res.redirect('/household/children')
+
+    return res.redirect('/home-and-household/people-who-live-with-you/related-nondep1')
   }
 })
 
-// Route: Other adults (GET)
-router.get('/household/other-adults', (req, res) => {
-  res.render('household/other-adults', {
-    errors: false,
-    data: req.session.data
-  })
-})
+// nondep1 related branching
+router.post('/home-and-household/people-who-live-with-you/related-nondep1', function (req, res) {
+  const relatednonDep = req.session.data['relatednonDep']
 
-// Route: Other adults (POST with validation)
-router.post('/household/other-adults', (req, res) => {
-  const hasOtherAdults = req.session.data.hasOtherAdults
-
-  // Validation: Check if an option was selected
-  if (!hasOtherAdults) {
-    return res.render('household/other-adults', {
-      errors: [
-        {
-          text: 'Select yes if anyone else who is over 18 lives with you',
-          href: '#hasOtherAdults'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-
-  // Conditional branching: if "yes", ask for first person's name
-  if (hasOtherAdults === 'yes') {
-    res.redirect('/household/first-person-name')
+  if (relatednonDep === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/how-related-nondep1')
   } else {
-    // If "no", keep them on this page for UR purposes
-    res.redirect('/household/other-adults')
+
+    return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
   }
 })
 
-// Route: First person name (GET)
-router.get('/household/first-person-name', (req, res) => {
-  res.render('household/first-person-name', {
-    errors: false,
-    data: req.session.data
+// nondep1 how related - direct route
+router.post('/home-and-household/people-who-live-with-you/how-related-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
+})
+
+// nondep1 dob - direct route
+router.post('/home-and-household/people-who-live-with-you/dob-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/blind-nondep1')
   })
+
+// nondep1 blind - direct route
+router.post('/home-and-household/people-who-live-with-you/blind-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/date-living-together-nondep1')
 })
 
-// Route: First person name (POST with validation)
-router.post('/household/first-person-name', (req, res) => {
-  const firstPersonName = req.session.data['first-person-name']
-  
-  // Validation: check if field is not empty
-  if (!firstPersonName || firstPersonName.trim() === '') {
-    // Set error and re-render the page
-    return res.render('household/first-person-name', {
-      errors: [
-        {
-          text: 'Enter the name of the first person that lives with you',
-          href: '#first-person-name'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to living situation question
-  res.redirect('/household/living-situation')
+// nondep1 date living together - direct route
+router.post('/home-and-household/people-who-live-with-you/date-living-together-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/education-nondep1')
 })
 
-// Route: First person relationship (GET)
-router.get('/household/first-person-relationship', (req, res) => {
-  res.render('household/first-person-relationship', {
-    errors: false,
-    data: req.session.data
-  })
+// nondep1 education - direct route
+router.post('/home-and-household/people-who-live-with-you/education-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/employment-nondep1')
 })
 
-// Route: First person relationship (POST with validation)
-router.post('/household/first-person-relationship', (req, res) => {
-  const firstPersonRelationship = req.session.data['first-person-relationship']
-  
-  // Validation: check if an option was selected
-  if (!firstPersonRelationship) {
-    return res.render('household/first-person-relationship', {
-      errors: [
-        {
-          text: 'Select yes if you are related to them',
-          href: '#first-person-relationship'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to relationship situation question
-  res.redirect('/household/first-person-date-of-birth')
-})
+// nondep1 related branching
+router.post('/home-and-household/people-who-live-with-you/related-nondep1', function (req, res) {
+  const relatednonDep = req.session.data['relatednonDep']
 
-// Route: Living situation (GET)
-router.get('/household/living-situation', (req, res) => {
-  res.render('household/living-situation', {
-    errors: false,
-   data: req.session.data
-  })
-})
-
-// Route: Living situation (POST with validation)
-router.post('/household/living-situation', (req, res) => {
-  const livingSituation = req.session.data['living-situation']
-  
-  // Validation: check if an option was selected
-  if (!livingSituation) {
-    return res.render('household/living-situation', {
-      errors: [
-        {
-          text: 'Select your living situation',
-          href: '#living-situation'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to the are you related page
-  res.redirect('/household/first-person-relationship')
-})
-
-// Route: First person date of birth (GET)
-router.get('/household/first-person-date-of-birth', (req, res) => {
-  res.render('household/first-person-date-of-birth', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person date of birth (POST with validation)
-router.post('/household/first-person-date-of-birth', (req, res) => {
-  const day = req.session.data['first-person-dob-day']
-  const month = req.session.data['first-person-dob-month']
-  const year = req.session.data['first-person-dob-year']
-  
-  // Validation: check if all date fields are filled
-  if (!day || !month || !year) {
-    return res.render('household/first-person-date-of-birth', {
-      errors: [
-        {
-          text: 'Enter their date of birth',
-          href: '#first-person-dob'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to registered blind question
-  res.redirect('/household/first-person-registered-blind')
-})
-
-// Route: First person registered blind (GET)
-router.get('/household/first-person-registered-blind', (req, res) => {
-  res.render('household/first-person-registered-blind', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person registered blind (POST with validation)
-router.post('/household/first-person-registered-blind', (req, res) => {
-  const registeredBlind = req.session.data['first-person-registered-blind']
-  
-  // Validation: check if an option was selected
-  if (!registeredBlind) {
-    return res.render('household/first-person-registered-blind', {
-      errors: [
-        {
-          text: 'Select yes if they are registered blind or severely sight impaired',
-          href: '#first-person-registered-blind'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to living together date question
-  res.redirect('/household/first-person-living-together-date')
-})
-
-// Route: First person living together date (GET)
-router.get('/household/first-person-living-together-date', (req, res) => {
-  res.render('household/first-person-living-together-date', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person living together date (POST with validation)
-router.post('/household/first-person-living-together-date', (req, res) => {
-  const day = req.session.data['first-person-living-together-date-day']
-  const month = req.session.data['first-person-living-together-date-month']
-  const year = req.session.data['first-person-living-together-date-year']
-  
-  // Validation: check if all date fields are filled
-  if (!day || !month || !year) {
-    return res.render('household/first-person-living-together-date', {
-      errors: [
-        {
-          text: 'Enter the date you started living together',
-          href: '#first-person-living-together-date'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to full time education question
-  res.redirect('/household/first-person-full-time-education')
-})
-
-// Route: First person full time education (GET)
-router.get('/household/first-person-full-time-education', (req, res) => {
-  res.render('household/first-person-full-time-education', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person full time education (POST with validation)
-router.post('/household/first-person-full-time-education', (req, res) => {
-  const fullTimeEducation = req.session.data['first-person-full-time-education']
-  
-  // Validation: check if an option was selected
-  if (!fullTimeEducation) {
-    return res.render('household/first-person-full-time-education', {
-      errors: [
-        {
-          text: 'Select whether they are in full time education',
-          href: '#first-person-full-time-education'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to money from working question
-  res.redirect('/household/first-person-money-from-working')
-})
-
-// Route: First person money from working (GET)
-router.get('/household/first-person-money-from-working', (req, res) => {
-  res.render('household/first-person-money-from-working', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person money from working (POST with validation)
-router.post('/household/first-person-money-from-working', (req, res) => {
-  const employment = req.session.data['first-person-employment']
-  const selfEmployed = req.session.data['first-person-self-employed']
-  
-  const errors = []
-  
-  // Validation: check if employment option was selected
-  if (!employment) {
-    errors.push({
-      text: 'Select whether they are in employment',
-      href: '#first-person-employment'
-    })
-  }
-  
-  // Validation: check if self-employed option was selected
-  if (!selfEmployed) {
-    errors.push({
-      text: 'Select whether they are self-employed',
-      href: '#first-person-self-employed'
-    })
-  }
-  
-  // If there are validation errors, re-render with errors
-  if (errors.length > 0) {
-    return res.render('household/first-person-money-from-working', {
-      errors: errors,
-      data: req.session.data
-    })
-  }
-  
-  // Conditional routing: if not employed or employed part-time, ask about working hours
-  if (employment === 'no' || employment === 'yes-part-time') {
-    res.redirect('/household/first-person-working-hours')
+  if (relatednonDep === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/how-related-nondep1')
   } else {
-    // If validation passes, redirect to provides care question
-    res.redirect('/household/first-person-provides-care')
+    return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
   }
 })
 
-// Route: First person working hours (GET)
-router.get('/household/first-person-working-hours', (req, res) => {
-  res.render('household/first-person-working-hours', {
-    errors: false,
-    data: req.session.data
-  })
-})
+// nondep1 employment branching
+router.post('/home-and-household/people-who-live-with-you/employment-nondep1', (req, res) => {
+  const employment = req.session.data['employmentNonDep']        // "full-time-employment" | "part-time-employment" | "no"
+  const selfEmployment = req.session.data['selfEmploymentNonDep'] // "yes" | "no"
 
-// Route: First person working hours (POST with validation)
-router.post('/household/first-person-working-hours', (req, res) => {
-  const workingHours = req.session.data['first-person-working-hours']
-  
-  // Validation: check if an option was selected
-  if (!workingHours) {
-    return res.render('household/first-person-working-hours', {
-      errors: [
-        {
-          text: 'Select yes if they normally work 16 hours a week or more',
-          href: '#first-person-working-hours'
-        }
-      ],
-      data: req.session.data
-    })
+  const noEmployment = employment === 'No'
+  const noSelfEmployment = selfEmployment === 'No'
+
+  if (noEmployment && noSelfEmployment) {
+    return res.redirect('/home-and-household/people-who-live-with-you/care-nondep1')
   }
-  
-  // If validation passes, redirect to provides care question
-  res.redirect('/household/first-person-provides-care')
+
+  return res.redirect('/home-and-household/people-who-live-with-you/hours-employment-nondep1')
 })
 
-// Route: First person provides care (GET)
-router.get('/household/first-person-provides-care', (req, res) => {
-  res.render('household/first-person-provides-care', {
-    errors: false,
-    data: req.session.data
-  })
+
+// nondep1 16 hours a week or more - direct route
+router.post('/home-and-household/people-who-live-with-you/hours-employment-nondep1', (req, res) => {
+  return res.redirect('/home-and-household/people-who-live-with-you/care-nondep1')
 })
 
-// Route: First person provides care (POST with validation)
-router.post('/household/first-person-provides-care', (req, res) => {
-  const providesCare = req.session.data['first-person-provides-care']
-  
-  // Validation: check if an option was selected
-  if (!providesCare) {
-    return res.render('household/first-person-provides-care', {
-      errors: [
-        {
-          text: 'Select yes if they provide care or support',
-          href: '#first-person-provides-care'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // Conditional branching: if "no",
-  if (providesCare === 'no') {
-    res.redirect('/household/first-person-benefits')
+
+// GET to render the care page
+router.get('/home-and-household/people-who-live-with-you/care-nondep1', (req, res) => {
+  res.render('home-and-household/people-who-live-with-you/care-nondep1')
+})
+
+
+// care submit -> benefits
+router.post('/home-and-household/people-who-live-with-you/care-nondep1', (req, res) => {
+  return res.redirect('/home-and-household/people-who-live-with-you/benefits-nondep1')
+})
+
+
+// nondep1 Do they get any of the following benefits - direct route
+router.post('/home-and-household/people-who-live-with-you/benefits-nondep1', (req, res) => {
+  return res.redirect('/home-and-household/people-who-live-with-you/rent-nondep1')
+})
+
+// Do they pay towards the rent?
+router.post('/home-and-household/people-who-live-with-you/rent-nondep1', function (req, res) {
+  const rentNonDep = req.session.data['rentNonDep']
+
+  if (rentNonDep === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/date-rent-start-nondep1')
   } else {
-    // If any other answer, then stay on page for UR purposes
-    res.redirect('/household/first-person-provides-care')
+    return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
   }
 })
 
-// Route: First person care 35 hours (GET)
-router.get('/household/first-person-care-35-hours', (req, res) => {
-  res.render('household/first-person-care-35-hours', {
-    errors: false,
-    data: req.session.data
-  })
+// start paying rent -> currently away
+router.post('/home-and-household/people-who-live-with-you/date-rent-start-nondep1', (req, res) => {
+  return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
 })
 
-// Route: First person care 35 hours (POST with validation)
-router.post('/household/first-person-care-35-hours', (req, res) => {
-  const care35Hours = req.session.data['first-person-care-35-hours']
-  
-  // Validation: check if an option was selected
-  if (!care35Hours) {
-    return res.render('household/first-person-care-35-hours', {
-      errors: [
-        {
-          text: 'Select yes if they provide care for at least 35 hours a week',
-          href: '#first-person-care-35-hours'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to 24 hours care question
-  res.redirect('/household/first-person-care-24-hours')
+// staying away -> child or young person
+router.post('/home-and-household/people-who-live-with-you/currently-away-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/child-responsible-nondep1')
 })
 
-// Route: First person care 24 hours (GET)
-router.get('/household/first-person-care-24-hours', (req, res) => {
-  res.render('household/first-person-care-24-hours', {
-    errors: false,
-    data: req.session.data
-  })
-})
+// Do they have a child or young person living at the property?
+router.post('/home-and-household/people-who-live-with-you/child-responsible-nondep1', function (req, res) {
+  const childNonDep1 = req.session.data['childNonDep1']
 
-// Route: First person care 24 hours (POST with validation)
-router.post('/household/first-person-care-24-hours', (req, res) => {
-  const care24Hours = req.session.data['first-person-care-24-hours']
-  
-  // Validation: check if an option was selected
-  if (!care24Hours) {
-    return res.render('household/first-person-care-24-hours', {
-      errors: [
-        {
-          text: 'Select yes if they provide care for at least 24 hours a week',
-          href: '#first-person-care-24-hours'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to severely mentally impaired question (temporarily removed from routing because we think its a CRT question)
-  res.redirect('/household/first-person-benefits')
-})
-
-// Route: First person severely mentally impaired (GET)
-router.get('/household/first-person-severely-mentally-impaired', (req, res) => {
-  res.render('household/first-person-severely-mentally-impaired', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person severely mentally impaired (POST with validation)
-router.post('/household/first-person-severely-mentally-impaired', (req, res) => {
-  const severelyMentallyImpaired = req.session.data['first-person-severely-mentally-impaired']
-  
-  // Validation: check if an option was selected
-  if (!severelyMentallyImpaired) {
-    return res.render('household/first-person-severely-mentally-impaired', {
-      errors: [
-        {
-          text: 'Select yes if they are severely mentally impaired',
-          href: '#first-person-severely-mentally-impaired'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to benefits question
-  res.redirect('/household/first-person-benefits')
-})
-
-// Route: First person benefits (GET)
-router.get('/household/first-person-benefits', (req, res) => {
-  res.render('household/first-person-benefits', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person benefits (POST with validation)
-router.post('/household/first-person-benefits', (req, res) => {
-  const benefits = req.session.data['first-person-benefits']
-  
-  // Validation: check if an option was selected
-  if (!benefits) {
-    return res.render('household/first-person-benefits', {
-      errors: [
-        {
-          text: 'Select which benefit they are currently getting, or select None',
-          href: '#first-person-benefits'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // Conditional branching: if "universal-credit", ask for amount
-  if (benefits === 'universal-credit') {
-    res.redirect('/household/first-person-universal-credit-amount')
+  if (childNonDep1 === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/child-name-nondep1')
   } else {
-    // Otherwise, redirect to pays rent question
-    res.redirect('/household/first-person-pays-rent')
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1')
   }
 })
 
-// Route: First person universal credit amount (GET)
-router.get('/household/first-person-universal-credit-amount', (req, res) => {
-  res.render('household/first-person-universal-credit-amount', {
-    errors: false,
-    data: req.session.data
-  })
+// child name -> child dob
+router.post('/home-and-household/people-who-live-with-you/child-name-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/child-dob-nondep1')
 })
 
-// Route: First person universal credit amount (POST with validation)
-router.post('/household/first-person-universal-credit-amount', (req, res) => {
-  const ucAmount = req.session.data['first-person-universal-credit-amount']
-  
-  // Validation: check if amount was entered
-  if (!ucAmount || ucAmount.trim() === '') {
-    return res.render('household/first-person-universal-credit-amount', {
-      errors: [
-        {
-          text: 'Enter the monthly amount of Universal Credit',
-          href: '#first-person-universal-credit-amount'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // Basic validation: check if it's a valid number
-  const amount = parseFloat(ucAmount.trim())
-  if (isNaN(amount) || amount < 0) {
-    return res.render('household/first-person-universal-credit-amount', {
-      errors: [
-        {
-          text: 'Enter a valid amount',
-          href: '#first-person-universal-credit-amount'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to pays rent question
-  res.redirect('/household/first-person-pays-rent')
+// child dob -> child gender
+router.post('/home-and-household/people-who-live-with-you/child-dob-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/child-gender-nondep1')
 })
 
-// Route: First person pays rent (GET)
-router.get('/household/first-person-pays-rent', (req, res) => {
-  res.render('household/first-person-pays-rent', {
-    errors: false,
-    data: req.session.data
-  })
+// child gender -> child disability
+router.post('/home-and-household/people-who-live-with-you/child-gender-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/child-disability-nondep1')
 })
 
-// Route: First person pays rent (POST with validation)
-router.post('/household/first-person-pays-rent', (req, res) => {
-  const paysRent = req.session.data['first-person-pays-rent']
-  
-  // Validation: check if an option was selected
-  if (!paysRent) {
-    return res.render('household/first-person-pays-rent', {
-      errors: [
-        {
-          text: 'Select yes if they pay towards the rent or mortgage',
-          href: '#first-person-pays-rent'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to national insurance question
-  res.redirect('/household/first-person-national-insurance')
+// child disability -> another child?
+router.post('/home-and-household/people-who-live-with-you/child-disability-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/another-child-nondep1')
 })
 
-// Route: First person national insurance (GET)
-router.get('/household/first-person-national-insurance', (req, res) => {
-  res.render('household/first-person-national-insurance', {
-    errors: false,
-    data: req.session.data
-  })
-})
+// Do they have another child or young person living at the property?
+router.post('/home-and-household/people-who-live-with-you/another-child-nondep1', function (req, res) {
+  const anotherChild = req.session.data['anotherChild']
 
-// Route: First person national insurance (POST with validation)
-router.post('/household/first-person-national-insurance', (req, res) => {
-  const nationalInsurance = req.session.data['first-person-national-insurance']
-  
-  // Validation: check if an option was selected
-  if (!nationalInsurance) {
-    return res.render('household/first-person-national-insurance', {
-      errors: [
-        {
-          text: 'Select whether they have a National Insurance Number',
-          href: '#first-person-national-insurance'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // Conditional branching: if "yes-know-number", ask for the NINO
-  if (nationalInsurance === 'yes-know-number') {
-    res.redirect('/household/first-person-nino-input')
+  if (anotherChild === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/child-name-nondep1')
   } else {
-    // For "yes-cannot-find" or "no", redirect to hospital question
-    res.redirect('/household/first-person-in-hospital')
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1')
   }
 })
 
-// Route: First person NINO input (GET)
-router.get('/household/first-person-nino-input', (req, res) => {
-  res.render('household/first-person-nino-input', {
-    errors: false,
-    data: req.session.data
-  })
-})
+// Is this adult in a relationship with another adult living in your household?
+router.post('/home-and-household/people-who-live-with-you/couple-nondep1', function (req, res) {
+  const coupleNondep1 = req.session.data['coupleNondep1']
 
-// Route: First person NINO input (POST with validation)
-router.post('/household/first-person-nino-input', (req, res) => {
-  const nino = req.session.data['first-person-nino']
-  
-  // Validation: check if NINO was entered
-  if (!nino || nino.trim() === '') {
-    return res.render('household/first-person-nino-input', {
-      errors: [
-        {
-          text: 'Enter their National Insurance Number',
-          href: '#first-person-nino'
-        }
-      ],
-      data: req.session.data
-    })
+  if (coupleNondep1 === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
+  } else {
+    return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
   }
-  
-  // Basic validation: check if it matches NINO pattern (optional, can be enhanced)
-  const ninoPattern = /^[A-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]$/i
-  if (!ninoPattern.test(nino.trim())) {
-    return res.render('household/first-person-nino-input', {
-      errors: [
-        {
-          text: 'Enter a National Insurance Number in the correct format',
-          href: '#first-person-nino'
-        }
-      ],
-      data: req.session.data
-    })
+})
+
+// couple name -> check nondep1 answers
+router.post('/home-and-household/people-who-live-with-you/couple-name-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
+})
+
+// check details -> add another adult
+router.post('/home-and-household/people-who-live-with-you/check-details-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/add-another-person')
+})
+
+// Add another adult in your household
+router.post('/home-and-household/people-who-live-with-you/add-another-person', function (req, res) {
+  const addAnother = req.session.data['addAnother']
+
+  if (addAnother === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/add-another-person')
+  } else {
+    return res.redirect('/task-list') 
   }
-  
-  // If validation passes, redirect to hospital question
-  res.redirect('/household/first-person-in-hospital')
 })
-
-// Route: First person in hospital (GET)
-router.get('/household/first-person-in-hospital', (req, res) => {
-  res.render('household/first-person-in-hospital', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person in hospital (POST with validation)
-router.post('/household/first-person-in-hospital', (req, res) => {
-  const inHospital = req.session.data['first-person-in-hospital']
-  
-  // Validation: check if an option was selected
-  if (!inHospital) {
-    return res.render('household/first-person-in-hospital', {
-      errors: [
-        {
-          text: 'Select yes if they are in hospital at the moment',
-          href: '#first-person-in-hospital'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to children question
-  res.redirect('/household/first-person-has-children')
-})
-
-// Route: First person has children (GET)
-router.get('/household/first-person-has-children', (req, res) => {
-  res.render('household/first-person-has-children', {
-    errors: false,
-    data: req.session.data
-  })
-})
-
-// Route: First person has children (POST with validation)
-router.post('/household/first-person-has-children', (req, res) => {
-  const hasChildren = req.session.data['first-person-has-children']
-  
-  // Validation: check if an option was selected
-  if (!hasChildren) {
-    return res.render('household/first-person-has-children', {
-      errors: [
-        {
-          text: 'Select yes if they have any children living with you who they are responsible for',
-          href: '#first-person-has-children'
-        }
-      ],
-      data: req.session.data
-    })
-  }
-  
-  // If validation passes, redirect to task list
-  res.redirect('/task-list')
-})
-
-module.exports = router
