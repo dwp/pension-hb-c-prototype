@@ -8,6 +8,26 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 // Add your routes here
 
+// --- Global backdate middleware: sets req.session.data.backdate once per session ---
+function threeMonthsAgoLabel () {
+  const now = new Date()
+  // Subtract 3 calendar months (keeps same day when possible)
+  const d = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate())
+
+  const day = d.getDate()
+  const month = d.toLocaleString('en-GB', { month: 'long' })
+  const year = d.getFullYear()
+  return `${day} ${month} ${year}`
+}
+
+router.use((req, res, next) => {
+  req.session.data = req.session.data || {}
+  if (!req.session.data.backdate) {
+    req.session.data.backdate = threeMonthsAgoLabel()
+  }
+  next()
+})
+
 // care home
 router.post('/care-home-funding', function(request, response) {
 
@@ -38,6 +58,22 @@ router.post('/home-and-household/about-the-place-you-live/shared-accommodation-r
   return res.redirect('/home-and-household/about-the-place-you-live/bedroom-amount')
 })
 
+// rent amount -> pre check move in date - direct route
+router.post('/home-and-household/about-the-place-you-live/rental-amount', (req, res) => {
+
+  return res.redirect('/home-and-household/about-the-place-you-live/precheck-move-in-date')
+})
+
+// Did the customer move in more than 3 months ago - move in date precheck?
+router.post('/home-and-household/about-the-place-you-live/precheck-move-in-date', function(request, response) {
+
+	var preCheckMoveInDate = request.session.data['preCheckMoveInDate']
+	if (preCheckMoveInDate == "no"){
+		response.redirect("/home-and-household/about-the-place-you-live/move-in-date")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/business-use")
+	}
+})
 
 // GET render: reset error on first load
 router.get('/home-and-household/about-the-place-you-live/bedroom-amount', (req, res) => {
@@ -87,6 +123,50 @@ router.post('/home-and-household/about-the-place-you-live/foster-carer', (req, r
   return res.redirect('/home-and-household/about-the-place-you-live/live-in-landlord')
 })
 
+// After landlords name - if they don't live with landlord then what's the landlord's address
+router.post('/home-and-household/about-the-place-you-live/landlord-address-lookup', function(request, response) {
+
+	var liveInLandlord = request.session.data['liveInLandlord']
+	if (liveInLandlord == "yes"){
+		response.redirect("/home-and-household/about-the-place-you-live/landlord-know-previously")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/landlord-postcode")
+	}
+})
+
+// If know the landlord = yes then ask how else continue to precheck tenancy start date
+router.post('/home-and-household/about-the-place-you-live/landlord-know-previously', function(request, response) {
+
+	var landlordKnow = request.session.data['landlordKnow']
+	if (landlordKnow == "yes"){
+		response.redirect("/home-and-household/about-the-place-you-live/landlord-know-how")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/precheck-tenancy-start-date")
+	}
+})
+
+// Did the customer's tenancy start more than 3 months ago - tenancy start date precheck?
+router.post('/home-and-household/about-the-place-you-live/precheck-tenancy-start-date', function(request, response) {
+
+	var preCheckTenancyStartDate = request.session.data['preCheckTenancyStartDate']
+	if (preCheckTenancyStartDate == "no"){
+		response.redirect("/home-and-household/about-the-place-you-live/tenancy-start-already-provided")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+	}
+})
+
+// Did the customer's tenancy start the same day they moved in? - tenancy-start-already-provided
+router.post('/home-and-household/about-the-place-you-live/tenancy-start-already-provided', function(request, response) {
+
+	var tenancyStartAlreadyProvided = request.session.data['tenancyStartAlreadyProvided']
+	if (tenancyStartAlreadyProvided == "no"){
+		response.redirect("/home-and-household/about-the-place-you-live/tenancy-start-date")
+	} else {
+		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+	}
+})
+
 // Do you know tenancy end date?
 router.post('/home-and-household/about-the-place-you-live/behind-rent', function(request, response) {
 
@@ -103,7 +183,7 @@ router.post('/home-and-household/about-the-place-you-live/tenancy-end-date', fun
 
   return response.redirect('/home-and-household/about-the-place-you-live/behind-rent')
 })
-
+715
 // behind on rent
 router.post('/home-and-household/about-the-place-you-live/previous-postcode', function(request, response) {
 
@@ -201,7 +281,7 @@ router.post('/home-and-household/people-who-live-with-you/non-dependant', functi
 // nondep1 name - direct route
 router.post('/home-and-household/people-who-live-with-you/name-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/related-nondep1')
 })
 
 // nondep1 living situation branching
@@ -212,8 +292,14 @@ router.post('/home-and-household/people-who-live-with-you/living-situation-nonde
     return res.redirect('/home-and-household/people-who-live-with-you/charity-nondep1')
   } else {
 
-    return res.redirect('/home-and-household/people-who-live-with-you/related-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
   }
+})
+
+// charity - direct route
+router.post('/home-and-household/people-who-live-with-you/charity-nondep1', (req, res) => {
+
+  return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
 })
 
 // nondep1 related branching
@@ -224,14 +310,14 @@ router.post('/home-and-household/people-who-live-with-you/related-nondep1', func
     return res.redirect('/home-and-household/people-who-live-with-you/how-related-nondep1')
   } else {
 
-    return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
   }
 })
 
 // nondep1 how related - direct route
 router.post('/home-and-household/people-who-live-with-you/how-related-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
 })
 
 // nondep1 dob - direct route
@@ -243,7 +329,19 @@ router.post('/home-and-household/people-who-live-with-you/dob-nondep1', (req, re
 // nondep1 blind - direct route
 router.post('/home-and-household/people-who-live-with-you/blind-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/date-living-together-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/precheck-date-living-together-nondep1')
+})
+
+// nondep1 have they been living in the property more than 3 months
+router.post('/home-and-household/people-who-live-with-you/precheck-date-living-together-nondep1', function (req, res) {
+  const preCheckNonDepMoveInDate = req.session.data['preCheckNonDepMoveInDate']
+
+  if (preCheckNonDepMoveInDate === 'no') {
+    return res.redirect('/home-and-household/people-who-live-with-you/date-living-together-nondep1')
+  } else {
+
+    return res.redirect('/home-and-household/people-who-live-with-you/education-nondep1')
+  }
 })
 
 // nondep1 date living together - direct route
@@ -278,7 +376,7 @@ router.post('/home-and-household/people-who-live-with-you/employment-nondep1', (
   const noSelfEmployment = selfEmployment === 'No'
 
   if (noEmployment && noSelfEmployment) {
-    return res.redirect('/home-and-household/people-who-live-with-you/care-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/benefits-nondep1')
   }
 
   return res.redirect('/home-and-household/people-who-live-with-you/hours-employment-nondep1')
@@ -287,7 +385,7 @@ router.post('/home-and-household/people-who-live-with-you/employment-nondep1', (
 
 // nondep1 16 hours a week or more - direct route
 router.post('/home-and-household/people-who-live-with-you/hours-employment-nondep1', (req, res) => {
-  return res.redirect('/home-and-household/people-who-live-with-you/care-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/benefits-nondep1')
 })
 
 
@@ -313,6 +411,17 @@ router.post('/home-and-household/people-who-live-with-you/rent-nondep1', functio
   const rentNonDep = req.session.data['rentNonDep']
 
   if (rentNonDep === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/precheck-date-rent-start-nondep1')
+  } else {
+    return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
+  }
+})
+
+// If not before 3 months ago then when did they start paying?
+router.post('/home-and-household/people-who-live-with-you/precheck-date-rent-start-nondep1', function (req, res) {
+  const preCheckNonDepMoveInDate = req.session.data['preCheckNonDepMoveInDate']
+
+  if (preCheckNonDepMoveInDate === 'No') {
     return res.redirect('/home-and-household/people-who-live-with-you/date-rent-start-nondep1')
   } else {
     return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
@@ -337,7 +446,7 @@ router.post('/home-and-household/people-who-live-with-you/child-responsible-nond
   if (childNonDep1 === 'Yes') {
     return res.redirect('/home-and-household/people-who-live-with-you/child-name-nondep1')
   } else {
-    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
   }
 })
 
@@ -372,7 +481,7 @@ router.post('/home-and-household/people-who-live-with-you/another-child-nondep1'
   if (anotherChild === 'Yes') {
     return res.redirect('/home-and-household/people-who-live-with-you/child-name-nondep1')
   } else {
-    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
   }
 })
 

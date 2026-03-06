@@ -18,15 +18,41 @@
 
       <form class="form" action="/home-and-household/other-property-or-land/purpose-other-property" method="post">
 
-{{ govukInput({
-  label: {
+{{ govukRadios({
+  name: "livingSituation",
+  id: "living-situation",
+  fieldset: {
+    legend: {
     text: "What is happening with " + data['address-other-property'] + "?",
-    classes: "govuk-label--l",
-    isPageHeading: true
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
   },
-  classes: "govuk-input--width-20",
-  id: "property-purpose",
-  name: "propertyPurpose"
+  items: [
+    {
+      value: "Someone else lives there",
+      text: "Someone else lives there"
+    },
+    {
+      value: "It is empty",
+      text: "It is empty"
+    },
+    {
+      value: "It is up for sale",
+      text: "It is up for sale"
+    },
+    {
+      value: "It is being rented out",
+      text: "It is being rented out"
+    },
+    {
+      divider: "or"
+    },
+    {
+      value: "none-of-these",
+      text: "None of these"
+    }
+  ]
 }) }}
 
         {{ govukButton({

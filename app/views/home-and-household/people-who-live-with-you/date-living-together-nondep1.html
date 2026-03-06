@@ -25,14 +25,46 @@
   namePrefix: "date-living-together",
   fieldset: {
     legend: {
-      text: "When did you start living together at this address?",
+      text: "When did they move into the property?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   hint: {
     text: "For example, 31 3 2026"
-  }
+  },
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2",
+              attributes: {
+                maxlength: "2",
+                inputmode: "numeric",
+                pattern: "[0-9]*",
+                autocomplete: "bday-day"
+              }
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2",
+              attributes: {
+                maxlength: "2",
+                inputmode: "numeric",
+                pattern: "[0-9]*",
+                autocomplete: "bday-month"
+              }
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4",
+              attributes: {
+                maxlength: "4",
+                inputmode: "numeric",
+                pattern: "[0-9]*",
+                autocomplete: "bday-year"
+              }
+            }
+          ]
 }) }}
 
         {{ govukButton({
