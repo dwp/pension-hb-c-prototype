@@ -1,0 +1,63 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/home-and-household/other-property-or-land/add-another-property" method="post">
+        
+        <h1 class="govuk-heading-l">You have added 1 other property or land</h1>
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Address"
+      },
+      value: {
+        text: data['address-other-property'] or "Example address"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "address"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+        <h2 class="govuk-heading-m">Add another property or land you own other than the home you live in?</h2>
+
+        {{ govukRadios({
+          idPrefix: "moreOtherProperty",
+          name: "moreOtherProperty",
+          items: [
+            { value: "yes", text: "Yes", checked: data['moreOtherProperty'] == 'yes' },
+            { value: "no", text: "No", checked: data['moreOtherProperty'] == 'no' }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Continue" }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

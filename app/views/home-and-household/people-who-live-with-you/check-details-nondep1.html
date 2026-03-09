@@ -162,9 +162,7 @@
             key: {
               text: "Date you started living together"
             },
-            value: {
-              text: (living_together_display or "Not provided")
-            },
+            value: { text: living_together_display or ('Before ' + data.backdate) },
             actions: {
               items: [
                 {

@@ -18,64 +18,61 @@
 
       <form class="form" action="/home-and-household/about-the-place-you-live/property-purpose" method="post">
 
-{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+      <h1 class="govuk-heading-l">
+        Select the address of the property or land
+      </h1>
 
-{% call govukFieldset({
-  legend: {
-    text: "What is the address of this property or land?",
-    classes: "govuk-fieldset__legend--l",
-    isPageHeading: true
-  }
-}) %}
+      <p class="govuk-body">
+        Postcode: <strong>{{ data['other-postcode'] }}</strong>
+        <a href="/home-and-household/about-the-place-you-live/postcode-other-property" class="govuk-link govuk-!-margin-left-2">Change</a>
+      </p>
 
-  {{ govukInput({
-    label: {
-      text: "Address line 1"
-    },
-    id: "other-property-address-line-1",
-    name: "otherPropertyAddressLine1",
-    autocomplete: "address-line1"
-  }) }}
+      <form method="post" action="/home-and-household/about-the-place-you-live/property-purpose" novalidate>
 
-  {{ govukInput({
-    label: {
-      text: "Address line 2 (optional)"
-    },
-    id: "other-property-address-line-2",
-    name: "otherPropertyAddressLine2",
-    autocomplete: "address-line2"
-  }) }}
+        {{ govukSelect({
+          id: "address-other-property",
+          name: "address-other-property",
+          label: {
+            text: "Select an address"
+          },
+          errorMessage: errorMessage,
+          items: [
+            {
+              value: "",
+              text: "Select an address",
+              selected: not data['address-other-property']
+            },
+            {
+              value: "1 High Street, Anytown, AN1 1AA",
+              text: "1 High Street, Anytown",
+              selected: data['address-other-property'] == "1 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "2 High Street, Anytown, AN1 1AA",
+              text: "2 High Street, Anytown",
+              selected: data['address-other-property'] == "2 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "3 High Street, Anytown, AN1 1AA",
+              text: "3 High Street, Anytown",
+              selected: data['address-other-property'] == "3 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 1, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 1, 4 High Street, Anytown",
+              selected: data['address-other-property'] == "Flat 1, 4 High Street, Anytown, AN1 1AA"
+            },
+            {
+              value: "Flat 2, 4 High Street, Anytown, AN1 1AA",
+              text: "Flat 2, 4 High Street, Anytown",
+              selected: data['address-other-property'] == "Flat 2, 4 High Street, Anytown, AN1 1AA"
+            }
+          ]
+        }) }}
 
-  {{ govukInput({
-    label: {
-      text: "Town or city"
-    },
-    classes: "govuk-!-width-two-thirds",
-    id: "other-property-address-town",
-    name: "otherPropertyAddressTown",
-    autocomplete: "address-level2"
-  }) }}
-
-  {{ govukInput({
-    label: {
-      text: "County (optional)"
-    },
-    classes: "govuk-!-width-two-thirds",
-    id: "other-property-address-county",
-    name: "otherPropertyAddressCounty"
-  }) }}
-
-  {{ govukInput({
-    label: {
-      text: "Postcode"
-    },
-    classes: "govuk-input--width-10",
-    id: "other-property-address-postcode",
-    name: "otherPropertyAddressPostcode",
-    autocomplete: "postal-code"
-  }) }}
-
-{% endcall %}
+        <p class="govuk-body">
+          <a href="#" class="govuk-link">I can't find my address in the list</a>
+        </p>
 
         {{ govukButton({
           text: "Continue"

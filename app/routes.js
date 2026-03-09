@@ -221,7 +221,7 @@ router.post('/home-and-household/other-property-or-land/other-property', functio
 
   if (otherproperty === 'yes') {
     // Go to the address capture page for another property
-    return res.redirect('/home-and-household/other-property-or-land/address-other-property')
+    return res.redirect('/home-and-household/other-property-or-land/postcode-other-property')
   } else {
     // No more properties – return to the task list
     return res.redirect('/task-list')
@@ -229,23 +229,19 @@ router.post('/home-and-household/other-property-or-land/other-property', functio
 })
 
 // other property or land address label
+
+// Address selection → just redirect; Auto Store has stored `address-other-property`
 router.post('/home-and-household/about-the-place-you-live/property-purpose', function (req, res) {
-  const line1 = (req.session.data['otherPropertyAddressLine1'] || '').trim()
-  const line2 = (req.session.data['otherPropertyAddressLine2'] || '').trim()
-
-  const label = [line1, line2].filter(Boolean).join(', ')
-  req.session.data['address-other-property'] = label || 'this property'
-
   return res.redirect('/home-and-household/other-property-or-land/purpose-other-property')
 })
 
 // more-other-property → branch to next step
-router.post('/home-and-household/other-property-or-land/more-other-property', function (req, res) {
+router.post('/home-and-household/other-property-or-land/add-another-property', function (req, res) {
   const moreOtherProperty = req.session.data['moreOtherProperty']
 
   if (moreOtherProperty === 'yes') {
     // Go to the address capture page for another property
-    return res.redirect('/home-and-household/other-property-or-land/address-other-property')
+    return res.redirect('/home-and-household/other-property-or-land/postcode-other-property')
   } else {
     // No more properties – return to the task list
     return res.redirect('/task-list')
@@ -255,7 +251,7 @@ router.post('/home-and-household/other-property-or-land/more-other-property', fu
 // purpose-other-property → on submit, go to the "more other property" page
 router.post('/home-and-household/other-property-or-land/purpose-other-property', function (req, res) {
 
-  return res.redirect('/home-and-household/other-property-or-land/more-other-property')
+  return res.redirect('/home-and-household/other-property-or-land/add-another-other-property')
 })
 
 // PEOPLE WHO LIVE WITH YOU SECTION
