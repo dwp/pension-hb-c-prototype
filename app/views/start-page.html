@@ -1,0 +1,167 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Start page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "#"
+      },
+      {
+        text: "Section",
+        href: "#"
+      },
+      {
+        text: "Subsection"
+      }
+    ]
+  }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        Apply for Pension Credit and Housing Benefit
+      </h1>
+
+        <p>
+          If you are of state pension age, you can use this service to apply for both Pension Credit and Housing Benefit at the same time. 
+        </p>
+
+      <h2 class="govuk-heading-m">
+        Eligibility
+      </h2>
+
+        <p>
+          You should only use this service if you believe you are eligible for both. If you are only eligible for one of the benefits, you should apply separately.
+        </p>
+
+        <p>
+          You can use this service to check if you are eligible before you apply.
+        </p>        
+
+      <h2 class="govuk-heading-m">
+        Applying for Pension Credit
+      </h2>
+
+        <p>
+          You can apply for Pension Credit if you:
+        </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>have a low income</li>
+        <li>are resident in the UK</li>
+        <li>are part of a mixed age couple, where one of you is not of pension age</li>
+        <li>have appropriate immigration status</li>
+        <li>you have deferred your pension</li>
+      </ul>
+
+      <p>You should not apply for Pension Credit if you:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>are currently away from Great Britain for more than 4 weeks, unless it is for medical treatment or recovery</li>
+        <li>are already outside Great Britain</li>
+        <li>are moving away from Great Britain permanently</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Applying for Housing Benefit
+      </h2>
+
+        <p>
+          You can apply for Housing Benefit if you:
+        </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>have a low income</li>
+        <li>are resident in the UK</li>
+        <li>have a total of less than £16,000 in savings, investments, or other assets</li>
+        <li>either rent the home that you live in, or a private room in it</li>
+      </ul>
+
+      <p>You will be automatically entitled to claim Housing Benefit if you are claiming any of the following:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Income Support</li>
+        <li>Income-based Jobseeker’s Allowance (JSA)</li>
+        <li>Income related Employment and Support Allowance (ESA)</li>
+        <li>Guarantee Pension Credit / the Guarantee Credit element of Pension Credit</li>
+      </ul>
+
+      <p>You should not apply for Housing Benefit if you:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>own your own home</li>
+        <li>live in temporary or supported accommodation</li>
+        <li>live with someone related to you, and they are responsible for the rent</li>
+        <li>are part of a mixed age couple, where one of you is not of pension age</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Information you will need
+      </h2>
+
+      <p>You will need to tell us about:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+  <li>your immigration status, and whether you have spent time outside of the UK</li>
+  <li>your rental situation, including landlord or agency details</li>
+  <li>information about any other people living with you</li>
+  <li>the dates you have lived in different addresses</li>
+  <li>your income, money and investments</li>
+  <li>any assets, including land or property you own</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Start now",
+        href: "#",
+        isStartButton: true
+      }) }}
+
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+
+      <aside class="govuk-prototype-kit-common-templates-related-items" role="complementary">
+        <h2 class="govuk-heading-m" id="subsection-title">
+          Subsection
+        </h2>
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="govuk-list govuk-!-font-size-16">
+            <li>
+              <a href="#">
+                Check benefits and financial support you can get
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                Benefits calculators
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                Applying for a Discretionary Housing Payment
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+
+{% endblock %}
