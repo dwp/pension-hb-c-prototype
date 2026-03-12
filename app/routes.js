@@ -46,7 +46,7 @@ router.post('/disabled-reduction', function(request, response) {
 	if (counciltaxresponsibility == "yes"){
 		response.redirect("/home-and-household/your-address/disabled-reduction")
 	} else {
-		response.redirect("/task-list")
+		response.redirect("/home-and-household/your-address/check-your-answers")
 	}
 })
 
@@ -210,7 +210,7 @@ router.post('/home-and-household/about-the-place-you-live/the-previous-address',
 // When did you move out of your previous address? - direct route
 router.post('/home-and-household/about-the-place-you-live/move-out-date', function (request, response) {
 
-  return response.redirect('/task-list')
+  return response.redirect('/home-and-household/about-the-place-you-live/check-your-answers')
 })
 
 // OTHER PROPERTY OR LAND SECTION
@@ -415,9 +415,9 @@ router.post('/home-and-household/people-who-live-with-you/rent-nondep1', functio
 
 // If not before 3 months ago then when did they start paying?
 router.post('/home-and-household/people-who-live-with-you/precheck-date-rent-start-nondep1', function (req, res) {
-  const preCheckNonDepMoveInDate = req.session.data['preCheckNonDepMoveInDate']
+  const preCheckNonDepRentStart = req.session.data['preCheckNonDepRentStart']
 
-  if (preCheckNonDepMoveInDate === 'No') {
+  if (preCheckNonDepRentStart === 'no') {
     return res.redirect('/home-and-household/people-who-live-with-you/date-rent-start-nondep1')
   } else {
     return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
@@ -481,23 +481,6 @@ router.post('/home-and-household/people-who-live-with-you/another-child-nondep1'
   }
 })
 
-// Is this adult in a relationship with another adult living in your household?
-router.post('/home-and-household/people-who-live-with-you/couple-nondep1', function (req, res) {
-  const coupleNondep1 = req.session.data['coupleNondep1']
-
-  if (coupleNondep1 === 'Yes') {
-    return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
-  } else {
-    return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
-  }
-})
-
-// couple name -> check nondep1 answers
-router.post('/home-and-household/people-who-live-with-you/couple-name-nondep1', (req, res) => {
-
-  return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
-})
-
 // check details -> add another adult
 router.post('/home-and-household/people-who-live-with-you/check-details-nondep1', (req, res) => {
 
@@ -508,9 +491,26 @@ router.post('/home-and-household/people-who-live-with-you/check-details-nondep1'
 router.post('/home-and-household/people-who-live-with-you/add-another-person', function (req, res) {
   const addAnother = req.session.data['addAnother']
 
-  if (addAnother === 'Yes') {
+  if (addAnother === 'yes') {
     return res.redirect('/home-and-household/people-who-live-with-you/add-another-person')
+  } else {
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1') 
+  }
+})
+
+// If nondep1 is in a couple -> couple name else -> task list
+router.post('/home-and-household/people-who-live-with-you/couple-nondep1', function (req, res) {
+  const coupleNondep1 = req.session.data['coupleNondep1']
+
+  if (coupleNondep1 === 'Yes') {
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
   } else {
     return res.redirect('/task-list') 
   }
+})
+
+// couple-name-nondep1 -> task list
+router.post('/home-and-household/people-who-live-with-you/couple-name-nondep1', (req, res) => {
+
+  return res.redirect('/task-list')
 })

@@ -54,6 +54,20 @@
   Question page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
+{# ----------------------------- #
+  BUILD DATE-RENT-START DISPLAY STRING
+  Keys from namePrefix: date-rent-start
+# ------------------------------ #}
+
+{% set rent_day   = data['date-rent-start-day']   | default('') %}
+{% set rent_month = data['date-rent-start-month'] | default('') %}
+{% set rent_year  = data['date-rent-start-year']  | default('') %}
+
+{% set rent_start_display = "" %}
+{% if rent_day and rent_month and rent_year and monthNames[rent_month] %}
+  {% set rent_start_display = rent_day ~ " " ~ monthNames[rent_month] ~ " " ~ rent_year %}
+{% endif %}
+
 {% block beforeContent %}
   {{ govukBackLink({
   text: "Back",
@@ -78,7 +92,7 @@
               text: "Name"
             },
             value: {
-              text: data['nondep1-name'] or "Not provided"
+              text: data['nondep1Name'] or "Not provided"
             },
             actions: {
               items: [
@@ -112,7 +126,7 @@
               text: "Are you related to them?"
             },
             value: {
-              text: data['relatednonDep'] or "Not provided"
+              text: data['relatednonDep'] or "No"
             },
             actions: {
               items: [
@@ -224,23 +238,6 @@
               ]
             }
           },
-            {
-            key: {
-              text: "Do they care for someone else in your home?"
-            },
-            value: {
-              text: data['careNonDep'] or "Not provided"
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "carer"
-                }
-              ]
-            }
-          },
           {
             key: {
               text: "Benefits they receive"
@@ -277,6 +274,23 @@
           },
           {
             key: {
+              text: "Date they started paying rent"
+            },
+            value: { 
+              text: rent_start_display or ('Before ' + data.backdate)
+            },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/people-who-live-with-you/date-rent-start-nondep1",
+                  text: "Change",
+                  visuallyHiddenText: "date they started paying rent"
+                }
+              ]
+            }
+          },
+          {
+            key: {
               text: "Are they currently staying away from home?"
             },
             value: {
@@ -305,23 +319,6 @@
                   href: "/home-and-household/people-who-live-with-you/child-responsible-nondep1",
                   text: "Change",
                   visuallyHiddenText: "child"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Relationship with another adult in the household?"
-            },
-            value: {
-              text: data['coupleNondep1'] or "Not provided"
-            },
-            actions: {
-              items: [
-                {
-                  href: "/home-and-household/people-who-live-with-you/couple-nondep1",
-                  text: "Change",
-                  visuallyHiddenText: "couple"
                 }
               ]
             }

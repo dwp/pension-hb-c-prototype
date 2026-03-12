@@ -1,0 +1,173 @@
+{% extends "layouts/main.html" %}
+
+{% set monthNames = {
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+} %}
+
+{% set yesNo = { 'yes': 'Yes', 'no': 'No' } %}
+
+{# Move-in date display (namePrefix: move-in-date) #}
+{% set mi_day   = data['move-in-date-day']   | default('') %}
+{% set mi_month = data['move-in-date-month'] | default('') %}
+{% set mi_year  = data['move-in-date-year']  | default('') %}
+{% set move_in_display = "" %}
+{% if mi_day and mi_month and mi_year and monthNames[mi_month] %}
+  {% set move_in_display = mi_day ~ " " ~ monthNames[mi_month] ~ " " ~ mi_year %}
+{% endif %}
+
+{# Tenancy start date display (namePrefix: tenancy-start-date) #}
+{% set ts_day   = data['tenancy-start-date-day']   | default('') %}
+{% set ts_month = data['tenancy-start-date-month'] | default('') %}
+{% set ts_year  = data['tenancy-start-date-year']  | default('') %}
+{% set tenancy_start_display = "" %}
+{% if ts_day and ts_month and ts_year and monthNames[ts_month] %}
+  {% set tenancy_start_display = ts_day ~ " " ~ monthNames[ts_month] ~ " " ~ ts_year %}
+{% endif %}
+
+{# Move-out date display (namePrefix: move-out-date) #}
+{% set mo_day   = data['move-out-date-day']   | default('') %}
+{% set mo_month = data['move-out-date-month'] | default('') %}
+{% set mo_year  = data['move-out-date-year']  | default('') %}
+{% set move_out_display = "" %}
+{% if mo_day and mo_month and mo_year and monthNames[mo_month] %}
+  {% set move_out_display = mo_day ~ " " ~ monthNames[mo_month] ~ " " ~ mo_year %}
+{% endif %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/task-list" novalidate>     
+      
+      <h1 class="govuk-heading-l">Check your answers</h1>
+
+      <h2 class="govuk-heading-m">About the place you live</h2>
+
+
+
+        {{ govukSummaryList({
+          classes: "govuk-!-margin-bottom-9",
+          rows: [
+            {
+              key: { text: "Living situation" },
+              value: { text: (data['livingsituation'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "living situation" } ] }
+            },
+            {
+              key: { text: "Rent frequency" },
+              value: { text: (data['rentfrequency'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent frequency" } ] }
+            },
+            {
+              key: { text: "Rent amount" },
+              value: { text: ('£' ~ data['cost'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent amount" } ] }
+            },
+            {
+              key: { text: "Move in date" },
+              value: { text: (move_in_display or ('Before ' ~ data.backdate)) },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move in date" } ] }
+            },
+            {
+              key: { text: "Do you use any part of your home for running a business?" },
+              value: { text: (yesNo[data['businessUse']] or data['businessUse'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "business use of home" } ] }
+            },
+            {
+              key: { text: "Are you living in shared accommodation?" },
+              value: { text: (yesNo[data['sharedAccommodation']] or data['sharedAccommodation'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
+            },
+            {
+              key: { text: "How many bedrooms?" },
+              value: { text: (data['bedroomAmount'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
+            },
+            {
+              key: { text: "Non-resident carer required?" },
+              value: { text: (yesNo[data['overnightCarer']] or data['overnightCarer'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "non-resident carer" } ] }
+            },
+            {
+              key: { text: "Are you an approved foster carer?" },
+              value: { text: (yesNo[data['fosterCarer']] or data['fosterCarer'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "approved foster carer" } ] }
+            },
+            {
+              key: { text: "Does your landlord live with you?" },
+              value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "live-in landlord" } ] }
+            },
+            {
+              key: { text: "Landlord’s name" },
+              value: { text: (data['landlordName'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "landlord name" } ] }
+            },
+            {
+              key: { text: "Landlord’s address" },
+              value: { text: (data['landlord-address'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "landlord address" } ] }
+            },
+            {
+              key: { text: "Did you know your landlord before moving in?" },
+              value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "know landlord before moving in" } ] }
+            },
+            {
+              key: { text: "When did your tenancy start?" },
+              value: { text: (tenancy_start_display or ('Before ' ~ data.backdate)) },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "tenancy start date" } ] }
+            },
+            {
+              key: { text: "Are you behind rent?" },
+              value: { text: (yesNo[data['behindRent']] or data['behindRent'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "behind on rent" } ] }
+            },
+            {
+              key: { text: "What is your previous address?" },
+              value: { text: (data['previous-address'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "previous address" } ] }
+            },
+            {
+              key: { text: "When did you move out of your previous address?" },
+              value: { text: (move_out_display or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move out date" } ] }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Continue" }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

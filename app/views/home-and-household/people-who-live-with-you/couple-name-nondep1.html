@@ -18,18 +18,25 @@
 
       <form class="form" action="/home-and-household/people-who-live-with-you/couple-name-nondep1" method="post">
 
-                <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
-
-{{ govukInput({
-  label: {
-    text: "What is the name of the adult they are in a relationship with?",
-    classes: "govuk-label--l",
-    isPageHeading: true
+{{ govukRadios({
+  name: "PartnerNameNondep1",
+  fieldset: {
+    legend: {
+      text: "Who is " ~ (data['nondep1Name'] or 'this person') ~ "'s partner?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
   },
-  classes: "govuk-input--width-20",
-  id: "nondep1-couple-name",
-  name: "nondep1CoupleName",
-  value: data['nondep1-couple-name']
+  items: [
+    {
+      value: "Simon Murrell",
+      text: "Simon Murrell"
+    },
+    {
+      value: "Sarah Veale",
+      text: "Sarah Veale"
+    }
+  ]
 }) }}
 
         {{ govukButton({

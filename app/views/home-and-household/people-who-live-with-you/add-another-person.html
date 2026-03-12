@@ -18,7 +18,7 @@
 
       <form class="form" action="/home-and-household/people-who-live-with-you/add-another-person" method="post">
         
-        <h1 class="govuk-heading-l">You have added 1 person</h1>
+        <h1 class="govuk-heading-l">You have added 3 people</h1>
 
 {{ govukSummaryList({
   rows: [
@@ -28,6 +28,40 @@
       },
       value: {
         text: data['nondep1Name'] or "Example name"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Name"
+      },
+      value: {
+        text: "Simon Murrell"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Name"
+      },
+      value: {
+        text: "Sarah Veale"
       },
       actions: {
         items: [

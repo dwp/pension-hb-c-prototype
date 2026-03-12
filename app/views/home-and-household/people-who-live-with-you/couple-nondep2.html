@@ -16,36 +16,31 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/rent-frequency" method="post">
+      <form class="form" action="/home-and-household/people-who-live-with-you/couple-nondep2" method="post">
 
       {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {{ govukRadios({
-  name: "livingsituation",
+  name: "coupleNondep2",
   fieldset: {
     legend: {
-      text: "Which of the following describes your living situation?",
+      text: "Does Simon Murrell live with a partner?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
+  hint: {
+    text: "A partner is a husband, wife, civil partner or someone they are in a relationship with."
+  },
   items: [
-  {
-    value: "I rent from a local authority",
-    text: "I rent from a local authority"
-  },
-  {
-    value: "I rent from a housing association or registered social landlord",
-    text: "I rent from a housing association or registered social landlord"
-  },
-  {
-    value: "I rent from a private landlord",
-    text: "I rent from a private landlord"
-  },
-  {
-    value: "I am a boarder with meals included in my rent",
-    text: "I am a boarder with meals included in my rent"
-  }
+    {
+      value: "Yes",
+      text: "Yes"
+    },
+    {
+      value: "No",
+      text: "No"
+    }
   ]
 }) }}
 

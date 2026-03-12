@@ -18,21 +18,19 @@
 
       <form class="form" action="/home-and-household/people-who-live-with-you/couple-nondep1" method="post">
 
-                <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
-
       {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {{ govukRadios({
   name: "coupleNondep1",
   fieldset: {
     legend: {
-      text: "Is this adult in a relationship with another adult living in your household?",
+      text: "Does " ~ (data['nondep1Name'] or 'John Jones') ~ " live with a partner?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   hint: {
-    text: "A relationship in this case means two adults who are married, in a civil partnership or living together as partners."
+    text: "A partner is a husband, wife, civil partner or someone they are in a relationship with."
   },
   items: [
     {
