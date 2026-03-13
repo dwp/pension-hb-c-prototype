@@ -8,7 +8,6 @@
     "dev": "govuk-prototype-kit dev",
     "serve": "govuk-prototype-kit serve",
     "start": "govuk-prototype-kit start"
-    //"heroku-prebuild": "rm -rf package-lock.json"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "2.0.1",
