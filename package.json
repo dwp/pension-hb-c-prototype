@@ -14,5 +14,11 @@
     "govuk-frontend": "5.14.0",
     "govuk-prototype-kit": "13.18.1",
     "qs": "^6.15.0"
+  },
+    "dependencies": {
+    "@dwp/dwp-frontend": "^3.4.0",
+    "@govuk-prototype-kit/common-templates": "2.0.1",
+    "govuk-frontend": "5.14.0",
+    "govuk-prototype-kit": "13.18.1"
   }
 }
