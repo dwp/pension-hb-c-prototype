@@ -18,7 +18,7 @@
     <!-- PC / pHB summary tags -->
     <div class="govuk-!-margin-bottom-4">
       <p class="govuk-body">
-        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "Complete", classes: "govuk-tag--green" }) }}
       </p>
       <p class="govuk-body">
         <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
@@ -32,7 +32,7 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 
             {{ govukPanel({
-        titleText: "Housing Benefit claim has been processed"
+        titleText: "Pension Credit claim has been processed"
       }) }}
 
     </div>
