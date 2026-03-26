@@ -1,0 +1,85 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Verification – Home and household
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/agent-view/home-how-verified" method="post">
+    
+    <!-- PC / pHB summary tags -->
+    <div class="govuk-!-margin-bottom-4">
+      <p class="govuk-body">
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+      </p>
+      <p class="govuk-body">
+        <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+      </p>
+    </div>
+
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+      {# --- CLAIMANT NAME + NINO --- #}
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  Freya Weston
+  <span class="govuk-caption-l">AB 12 34 56 C</span>
+</h1>
+
+      {# --- SECTION HEADING + TAG --- #}
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-2">
+        Home and household
+        {{ govukTag({
+          text: "Unverified",
+          classes: "govuk-tag--grey"
+        }) }}
+      </h2>
+
+      <p class="govuk-body">
+        As you check this information, move the correct claim data into your existing processing system to build a case.
+      </p>
+
+{# --- CHECKBOX QUESTION --- #}
+{{ govukCheckboxes({
+  name: "home-household-verification-method",
+  fieldset: {
+    legend: {
+      text: "How did you verify the information in this part of the claim?",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--m"
+    }
+  },
+  hint: {
+    text: "Select all that apply."
+  },
+  items: [
+    {
+      value: "existing-systems",
+      text: "By checking existing systems"
+    },
+    {
+      value: "claimant-evidence",
+      text: "Using evidence provided by the claimant"
+    }
+  ]
+}) }}
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,328 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Home-moreinfo
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/agent-view/home-your-address" method="post">
+
+    <!-- PC / pHB summary tags -->
+    <div class="govuk-!-margin-bottom-4">
+      <p class="govuk-body">
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+      </p>
+      <p class="govuk-body">
+        <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+      </p>
+    </div>
+
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  Freya Weston
+  <span class="govuk-caption-l">AB 12 34 56 C</span>
+</h1>
+
+<div class="govuk-!-margin-bottom-6">
+
+</div>
+
+<div class="govuk-!-margin-bottom-6"></div>
+
+<div class="govuk-heading-l govuk-!-margin-bottom-6" style="display:flex; align-items:center; gap:15px;">
+  <span>Home and household</span>
+  {{ govukTag({
+    text: "Unverified",
+    classes: "govuk-tag--blue"
+  }) }}
+</div>
+
+<p class="govuk-body-l">As you check this information, move the correct claim data into your existing processing system to build a case.</p>
+
+  </div>
+</div> 
+
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% set addressHtml %}
+<div class="govuk-!-width-full">
+  <h2 class="govuk-heading-m">Your address</h2>
+  {{ govukTable({
+    
+    rows: [
+      [
+        {
+          text: "Do you live permanently in a care home?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Your home address"
+        },
+        {
+          text: "1 Street, Town, City, W3ST H4M"
+        }
+      ],
+      [
+        {
+          text: "Are you responsible for rent?"
+        },
+        {
+          text: "Yes"
+        }
+      ],
+      [
+        {
+          text: "Are you responsible for council tax?"
+        },
+        {
+          text: "Yes"
+        }
+      ],
+      [
+        {
+          text: "What best describes where you live?"
+        },
+        {
+          text: "I rent it"
+        }
+      ]
+    ]
+  }) }}
+</div>
+{% endset -%}
+
+{% set placeYouLiveHtml %}
+<div class="govuk-!-width-full">
+  <h2 class="govuk-heading-m">About the place you live</h2>
+  {{ govukTable({
+    rows: [
+      [
+        {
+          text: "Which of the following describes your living situation?"
+        },
+        {
+          text: "I rent from a local authority"
+        }
+      ],
+      [
+        {
+          text: "How often is your rent due?"
+        },
+        {
+          text: "Every 4 weeks"
+        }
+      ],
+      [
+        {
+          text: "How much rent do you pay?"
+        },
+        {
+          text: "£500"
+        }
+      ],
+      [
+        {
+          text: "Did you move into your address before 23 December 2025?"
+        },
+        {
+          text: "Yes"
+        }
+      ],
+      [
+        {
+          text: "Do you use any part of your home for running a business?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Are you an approved foster carer?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Does your landlord live with you at your address?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "What is your landlord's full name?"
+        },
+        {
+          text: "Jane Spencer"
+        }
+      ],
+      [
+        {
+          text: "What is your landlord’s address?"
+        },
+        {
+          text: "2 High Street, anytown"
+        }
+      ],
+      [
+        {
+          text: "Did you know your landlord before you moved into the property?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Did your tenancy start before 23 December 2025?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Did your tenancy start on the same date you moved in?"
+        },
+        {
+          text: "Yes"
+        }
+      ],
+      [
+        {
+          text: "Are you behind with your rent?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "What is the postcode of your previous address?"
+        },
+        {
+          text: "Flat 2, 4 High Street, Anytown"
+        }
+      ],
+      [
+        {
+          text: "When did you move out of Flat 2, 4 High Street, Anytown, AN1 1AA?"
+        },
+        {
+          text: "20/12/25"
+        }
+      ]
+    ]
+  }) }}
+</div>
+{% endset -%}
+
+{% set otherPropertiesHtml %}
+<div class="govuk-!-width-full">
+  <h2 class="govuk-heading-m">3. Other properties or land</h2>
+  {{ govukTable({
+    rows: [
+      [
+        {
+          text: "Do you own any property or land other than the home you live in?"
+        },
+        {
+          text: "No"
+        }
+      ]
+    ]
+  }) }}
+</div>
+{% endset -%}
+
+{% set peopleWhoLiveHtml %}
+<div class="govuk-!-width-full">
+  <h2 class="govuk-heading-m">4. People who live with you</h2>
+  {{ govukTable({
+    rows: [
+      [
+        {
+          text: "Are you responisble for any children or qualifying young people who live with you?"
+        },
+        {
+          text: "No"
+        }
+      ],
+      [
+        {
+          text: "Does anyone else who is over 18 live with you?"
+        },
+        {
+          text: "No"
+        }
+      ]
+    ]
+  }) }}
+</div>
+{% endset -%}
+
+{{ govukTabs({
+  items: [
+    {
+      label: "1. Your address",
+      id: "address",
+      panel: {
+        html: addressHtml
+      }
+    },
+    {
+      label: "2. Place you live",
+      id: "place-you-live",
+      panel: {
+        html: placeYouLiveHtml
+      }
+    },
+    {
+      label: "3. Other properties or land",
+      id: "other-properties",
+      panel: {
+        html: otherPropertiesHtml
+      }
+    },
+    {
+      label: "4. People who live with you",
+      id: "people-who-live",
+      panel: {
+        html: peopleWhoLiveHtml
+      }
+    }
+  ]
+}) }}
+
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

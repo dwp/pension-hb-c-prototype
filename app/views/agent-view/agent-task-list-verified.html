@@ -1,0 +1,170 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Freya Weston – pHB & PC application
+{% endblock %}
+
+{% block content %}
+
+    <!-- PC / pHB summary tags -->
+    <div class="govuk-!-margin-bottom-4">
+      <p class="govuk-body">
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+      </p>
+      <p class="govuk-body">
+        <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+      </p>
+    </div>
+
+        <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+
+  <!-- LEFT SIDE = H1 + caption -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+  </div>
+
+  <!-- RIGHT SIDE = TIMELINE -->
+<div class="govuk-grid-column-one-third govuk-!-text-align-left header-timeline">
+  {{
+    dwpTimeline({
+      items: [
+        {
+          title: "Application received",
+          date: "12 February 2025 at 3:00pm"
+        }
+      ]
+    })
+  }}
+</div>
+
+</div>
+
+    <!-- Date of claim + Backdate -->
+    <div class="govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Date of claim:</strong> 12 February 2025
+      </p>
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Backdate requested from:</strong> 1 January 2025
+      </p>
+    </div>
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+    <!-- Application description -->
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-2">
+      Manage application
+    </h2>
+
+    <!-- FIXED broken link line -->
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      <a href="#"> View evidence uploaded </a>
+    </p>
+
+    <!-- Shared tasks -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Shared tasks</h3>
+
+          <form class="form" action="/agent-view/agent-task-list-verified" method="post">
+
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+{{ govukTaskList({
+  idPrefix: "shared-tasks",
+  items: [
+    {
+      title: { text: "Personal details" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    },
+    {
+      title: { text: "Home and household" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    },
+    {
+      title: { text: "Income savings and investments" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    },
+    {
+      title: { text: "Immigration status" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    }
+  ]
+}) }}
+
+    <!-- Housing Benefit tasks -->
+    <h3 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-2">
+      Housing Benefit tasks
+    </h3>
+
+{{ govukTaskList({
+  idPrefix: "hb-tasks",
+  items: [
+    {
+      title: { text: "Rental liability" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    },
+    {
+      title: { text: "Landlord details" },
+      href: "#",
+      status: {
+        tag: {
+          text: "Verified",
+          classes: "govuk-tag--green"
+        }
+      }
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+</form>
+
+</div>
+</div>
+
+{% endblock %}

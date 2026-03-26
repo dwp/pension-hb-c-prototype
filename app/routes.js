@@ -514,3 +514,57 @@ router.post('/home-and-household/people-who-live-with-you/couple-name-nondep1', 
 
   return res.redirect('/task-list')
 })
+
+//
+// --------- Agent View routing ---------
+//
+
+// --- Agent view prototype ---
+
+// From "View case details" on new-applications → existing-claim-status
+// router.get('/agent-view/new-applications/view', function (req, res) {
+//  res.redirect('/agent-view/existing-claim-status');
+// });
+
+// Existing Claim Status → Agent Task List (Unverified)
+router.post('/agent-view/existing-claim-status-continue', (req, res) => {
+  return res.redirect('/agent-view/agent-task-list-unverified')
+})
+
+// home-address → home-have-you-verified
+router.post('/agent-view/home-your-address', (req, res) => {
+  return res.redirect('/agent-view/home-have-you-verified')
+})
+
+// home-have-you-verified → home-how-verified if yes
+router.post('/agent-view/home-have-you-verified', function (req, res) {
+  const homehouseholdverification = req.session.data['homehouseholdverification']
+
+  if (homehouseholdverification === 'more-information') {
+    return res.redirect('/agent-view/home-more-info')
+  } else {
+    return res.redirect('/agent-view/home-how-verified')
+  }
+})
+
+// home-how-verified → agent-task-list-verified
+router.post('/agent-view/home-how-verified', (req, res) => {
+  return res.redirect('/agent-view/home-verified')
+})
+
+// agent-task-list-verified → information-needed
+router.post('/agent-view/agent-task-list-verified', (req, res) => {
+  return res.redirect('/agent-view/information-needed')
+})
+
+// information-needed → awarded-pc if yes
+router.post('/agent-view/information-needed', function (req, res) {
+  const infoNeeded = req.session.data['info-needed']
+
+  if (infoNeeded === 'yes') {
+    return res.redirect('/agent-view/awarded-pc')
+  } else {
+    return res.redirect('/agent-view/awaiting-sections')
+  }
+})
+

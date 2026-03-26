@@ -1,0 +1,56 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  New applications
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{{ govukTable({
+  caption: "Process Housing Benefit and Pension Credit applications",
+  captionClasses: "govuk-table__caption--l",
+  firstCellIsHeader: false,
+head: [
+  { text: "Case number", classes: "govuk-!-width-one-sixth" },
+  { text: "Name", classes: "govuk-!-width-one-quarter" },
+  { text: "Date received", classes: "govuk-!-width-one-sixth" },
+  { text: "Last updated", classes: "govuk-!-width-one-sixth" },
+  { text: "Pension Credit status", classes: "govuk-!-width-one-sixth" },
+  { text: "Housing Benefit status", classes: "govuk-!-width-one-sixth" },
+  { text: "Case details", classes: "govuk-!-width-one-sixth" }
+],
+  rows: [
+    [
+      { text: "010000" },
+      { text: "Freya Weston" },
+      { text: "12 February 2025" },
+      { text: "" },
+      { html: '<strong class="govuk-tag govuk-tag--grey">To do</strong>' },
+      { html: '<strong class="govuk-tag govuk-tag--grey">To do</strong>' },
+      { html: '  <a href="/agent-view/existing-claim-status"> View case details </a>' }
+    ],
+    [
+      { text: "020000" },
+      { text: "Olivia Matthews" },
+      { text: "6 February 2025" },
+      { text: "9 February 2025" },
+      { html: '<strong class="govuk-tag govuk-tag--green">Completed</strong>' },
+      { html: '<strong class="govuk-tag govuk-tag--blue">In progress</strong>' },
+      { html: '  <a href="#"> View case details </a>' }
+    ]
+  ]
+}) }}
+
+<p class="govuk-body govuk-!-margin-top-3">
+  <a href="#">
+  View completed applications
+  </a>
+</p>
+
+{% endblock %}

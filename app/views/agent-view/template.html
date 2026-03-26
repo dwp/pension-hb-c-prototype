@@ -1,0 +1,86 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Template
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/agent-view/needtoaddthenextagentpagehere" method="post">
+
+        <p>
+<a href="javascript:history.back()" class="govuk-back-link">Back</a>
+</p>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  Freya Weston
+  <span class="govuk-caption-l">AB 12 34 56 C</span>
+</h1>
+
+
+  <div class="govuk-!-margin-bottom-2">
+    <span class="govuk-body govuk-!-margin-right-2"><strong>PC:</strong></span>
+    <strong class="govuk-tag">In progress</strong>
+  </div>
+
+  <div>
+    <span class="govuk-body govuk-!-margin-right-2"><strong>HB:</strong></span>
+    <strong class="govuk-tag govuk-tag--grey">To do</strong>
+  </div>
+
+  <div class="govuk-!-margin-bottom-6"></div>
+
+
+<div class="govuk-!-margin-bottom-6">
+
+  <div class="govuk-!-margin-bottom-1">
+    <span class="govuk-body govuk-!-margin-right-2"><strong>Date of claim:</strong></span>
+    <span class="govuk-body">12/02/25</span>
+  </div>
+
+  <div class="govuk-!-margin-bottom-1">
+    <span class="govuk-body govuk-!-margin-right-2"><strong>Backdate requested from:</strong></span>
+    <span class="govuk-body">01/03/25</span>
+  </div>
+
+</div>
+
+{{ govukRadios({
+  classes: "govuk-radios--inline",
+  name: "existingClaims",
+  fieldset: {
+    legend: {
+      text: "Do any claims already exist for Freya Weston on your processing systems?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes"
+    },
+    {
+      value: "no",
+      text: "No"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

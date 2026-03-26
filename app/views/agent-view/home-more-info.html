@@ -1,0 +1,72 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% block pageTitle %}
+  Home-moreinfo
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/agent-view/agent-task-list-more-info-req" method->
+      <div class="govuk-!-margin-bottom-4">
+        <p class="govuk-body">
+          <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+        </p>
+        <p class="govuk-body">
+          <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+        </p>
+      </div>
+
+    <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+      <div class="govuk-!-margin-bottom-6"></div>
+
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+        Freya Weston
+        <span class="govuk-caption-l">AB 12 34 56 C</span>
+      </h1>
+
+      {{ govukNotificationBanner({
+        text: "The claim data in this section is incomplete and requires additional information from the customer to validate it. Please wait until the missing details have been collected before using this data in your processing system."
+      }) }}
+
+      <div class="govuk-!-margin-bottom-6"></div>
+
+      <div class="govuk-heading-l govuk-!-margin-bottom-6" style="display:flex; align-items:center; gap:15px;">
+        <span>Home and household</span>
+        {{ govukTag({
+          text: "More information required",
+          classes: "govuk-tag--yellow"
+        }) }}
+      </div>
+
+      {{ govukWarningText({
+        text: "The claim data in this section has not been verified."
+      }) }}
+
+      <p class="govuk-body-l">
+        As you check this information, move the correct claim data into your existing processing system to build a case.
+      </p>
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

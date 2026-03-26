@@ -1,0 +1,76 @@
+give me the copy paste code with the view links:
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Verification – Evidence uploaded
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/agent-view/evidence-uploaded" method="post">
+
+    <!-- PC / pHB summary tags -->
+    <div class="govuk-!-margin-bottom-4">
+      <p class="govuk-body">
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+      </p>
+      <p class="govuk-body">
+        <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+      </p>
+    </div>
+
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  Freya Weston
+  <span class="govuk-caption-l">AB 12 34 56 C</span>
+</h1>
+
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-4">
+      Evidence uploaded
+    </h2>
+
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{{ govukTable({
+  caption: "Evidence uploaded",
+  captionClasses: "govuk-table__caption--m",
+  firstCellIsHeader: true,
+  rows: [
+    [
+      {
+        text: "File 1"
+      },
+      {
+        text: "Rentagreement.jpeg, 2MB"
+      },
+      {
+        html: '<span style="color:#1d70b8; text-decoration:underline;">view</span>'
+      }
+    ],
+    [
+      {
+        text: "File 2"
+      },
+      {
+        text: "servicecharges.jpeg, 5MB"
+      },
+      {
+        html: '<span style="color:#1d70b8; text-decoration:underline;">view</span>'
+      }
+    ]
+  ]
+}) }}
+
+  </div>
+</div>
+
+{% endblock %}

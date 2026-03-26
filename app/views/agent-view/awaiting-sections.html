@@ -1,0 +1,94 @@
+{% extends "layouts/internal.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Awaiting-sections
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/agent-view/awaiting-sections" method="post">
+
+    <!-- PC / pHB summary tags -->
+    <div class="govuk-!-margin-bottom-4">
+      <p class="govuk-body">
+        <strong>Pension Credit application:</strong> {{ govukTag({ text: "In progress" }) }}
+      </p>
+      <p class="govuk-body">
+        <strong>Housing Benefit application:</strong> {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+      </p>
+    </div>
+
+    <!-- back button -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  Freya Weston
+  <span class="govuk-caption-l">AB 12 34 56 C</span>
+</h1>
+
+<div class="govuk-!-margin-bottom-6">
+
+    <!-- Date of claim + Backdate -->
+    <div class="govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Date of claim:</strong> 12 February 2025
+      </p>
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Backdate requested from:</strong> 1 January 2025
+      </p>
+    </div>
+
+</div>
+
+
+{{ govukCheckboxes({
+  name: "sections",
+  fieldset: {
+    legend: {
+      text: "What information are you waiting for?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "Select all that apply"
+  },
+  items: [
+    {
+      value: "personal",
+      text: "Personal details"
+    },
+    {
+      value: "home",
+      text: "Home and household"
+    },
+    {
+      value: "income",
+      text: "Income, savings and investments"
+    },
+    {
+      value: "Immigration",
+      text: "Immigration status"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
