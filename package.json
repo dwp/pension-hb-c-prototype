@@ -1,9 +1,13 @@
 {
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+
   "scripts": {
     "dev": "govuk-prototype-kit dev",
     "serve": "govuk-prototype-kit serve",
-    "start": "govuk-prototype-kit start",
-    "heroku-prebuild": "rm -rf package-lock.json"
+    "start": "govuk-prototype-kit start"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "2.0.1",
