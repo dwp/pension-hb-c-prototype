@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Provide your details – Service name – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-notification-banner" role="region" aria-labelledby="banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="banner-title">
+      Prototype context
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      You’re joining this journey part-way through. Earlier steps have been skipped for the purpose of this research.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+          <form class="form" action="/task-list">
+
+
+    <h1 class="govuk-heading-l">Your home and household scenario</h1>
+
+    <p class="govuk-body">
+      In this scenario, you have completed the following sections:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Check your eligibility</li>
+      <li>Backdate your application</li>
+      <li>Your personal details</li>
+      <li>Your immigration status</li>
+      <li>Time you have spent outside of the UK</li>
+      <li>Time you have spent in hospital</li>
+    </ul>
+
+    <p class="govuk-body">
+      Next, you’ll complete the <strong>Home and household</strong> section.
+    </p>
+
+    <button class="govuk-button" data-module="govuk-button">
+      Continue
+    </button>
+
+  </div>
+</div>
+
+{% endblock %}

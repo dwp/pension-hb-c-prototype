@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Submit your application – Service name – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-notification-banner" role="region" aria-labelledby="banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="banner-title">
+      Prototype context
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      You have completed the 'Your home and household' section of the prototype.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/task-list-complete">
+      
+    <h1 class="govuk-heading-l">Application submission scenario</h1>
+
+      <p class="govuk-body">
+        In this scenario you have:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>completed all sections of the application</li>
+        <li>added all the evidence needed to support your claim</li>
+        <li>checked your answers</li>
+      </ul>
+
+      <p class="govuk-body">
+        You are now about to <strong>submit your application</strong>.
+      </p>
+
+      <button class="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

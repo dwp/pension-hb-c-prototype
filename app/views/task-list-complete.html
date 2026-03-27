@@ -1,0 +1,184 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Task list template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">{{ serviceName }}</h1>
+
+      {% set completedStatus = {
+        text: "Completed"
+      } %}
+
+      {% set cannotstartStatus = {
+        text: "Cannot start yet"
+      } %}
+
+      {% set incompleteStatus = {
+        tag: {
+          text: "To do",
+          classes: "govuk-tag--blue"
+        }
+      } %}
+
+      {{ govukTaskList({
+        idPrefix: "initial-questions",
+        items: [
+          {
+            title: { text: "Check your eligibility" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Backdate your application" },
+            href: "#",
+            status: completedStatus
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">About you</h2>
+
+      {{ govukTaskList({
+        idPrefix: "about-you",
+        items: [
+          {
+            title: { text: "Your personal details" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Your immigration status" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Time you have spent outside of the UK" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Time you have spent in hospital" },
+            href: "#",
+            status: completedStatus
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">Your home and household</h2>
+
+      {{ govukTaskList({
+        idPrefix: "home-and-household",
+        items: [
+          {
+            title: { text: "Your address" },
+            href: "/home-and-household/your-address/perm-care-home",
+            status: completedStatus
+          },
+          {
+            title: { text: "About the place you live" },
+            href: "/home-and-household/about-the-place-you-live/living-situation",
+            status: completedStatus
+          },
+          {
+            title: { text: "Other property or land you own" },
+            href: "/home-and-household/other-property-or-land/other-property",
+            status: completedStatus
+          },
+          {
+            title: { text: "People who live with you" },
+            href: "/home-and-household/people-who-live-with-you/children-responsible",
+            status: completedStatus
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">Your income, money and investments</h2>
+
+      {{ govukTaskList({
+        idPrefix: "income-money-and-investments",
+        items: [
+          {
+            title: { text: "Income from working" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Income from benefits" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Income from pensions" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Other income" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Money and investments" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Other payments and payouts" },
+            href: "#",
+            status: completedStatus
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">How we contact you</h2>
+
+      {{ govukTaskList({
+        idPrefix: "how-we-contact-you",
+        items: [
+          {
+            title: { text: "Applying for yourself or someone else" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Contact details" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "How we will contact you" },
+            href: "#",
+            status: completedStatus
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">Finalise your application</h2>
+
+      {{ govukTaskList({
+        idPrefix: "finalise-application",
+        items: [
+          {
+            title: { text: "Security questions" },
+            href: "#",
+            status: completedStatus
+          },
+          {
+            title: { text: "Submit your application" },
+            href: "/submit-your-application",
+            status: incompleteStatus
+          }
+        ]
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}
