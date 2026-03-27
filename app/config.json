@@ -1,5 +1,5 @@
 {
-  "serviceName": "Pension Credit and Housing Benefit applications",
+  "serviceName": "Apply for Pension Credit and Housing Benefit",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
