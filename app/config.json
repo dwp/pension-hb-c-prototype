@@ -1,5 +1,5 @@
 {
-  "serviceName": "Get financial and housing cost support at pension age",
+  "serviceName": "Pension Credit and Housing Benefit applications",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
