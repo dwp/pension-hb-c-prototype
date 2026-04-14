@@ -127,11 +127,12 @@
   ]
 }) }}
 
-    <!-- Housing Benefit tasks -->
+    <!-- Pension Credit tasks -->
     <h3 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-2">
-      Housing Benefit tasks
+      Pension Credit tasks
     </h3>
 
+{#
 {{ govukTaskList({
   idPrefix: "hb-tasks",
   items: [
@@ -157,6 +158,7 @@
     }
   ]
 }) }}
+#}
 
         {{ govukButton({
           text: "Continue"
