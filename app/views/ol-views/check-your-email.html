@@ -1,0 +1,80 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+{% set languageToggle = 'true' %}
+{% set title =  "Check your email" %}
+
+{% set insetTextHtml %}
+    <p class="govuk-body">
+        We have sent an email to:
+        <strong class="govuk-!-font-weight-bold">
+            {% if data['registerEmailAddress'] %}
+                {{ data['registerEmailAddress'] | lower }}
+            {% else %} 
+                email@email.com
+            {% endif %}
+        </strong>
+    </p>
+{% endset %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">{{title}}</h1>
+
+        {{ govukInsetText({
+            html: insetTextHtml | safe
+        }) }}
+
+        <p class="govuk-body">
+            The email contains a 6 digit security code.
+        </p>
+
+        <p class="govuk-body">
+            Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.
+        </p>
+
+        <p class="govuk-body">
+            The code will expire after one hour.
+        </p>
+
+        <form action="create-password" method="post" novalidate>
+
+            {{ govukInput({
+            label: {
+                text: "Enter the 6 digit security code",
+                isPageHeading: false
+            },
+            id: "email-code",
+            name: "email-code",
+            classes: "govuk-input--width-10",
+            type: "text",
+            spellcheck: "false",
+            autocomplete: "one-time-code",
+            inputmode: "numeric"
+            }) }}
+
+            {{ govukButton({
+                text: "Continue"
+            }) }}
+
+        </form>
+
+        {{ govukDetails({
+            summaryText: "Problems with the code?",
+            html: "We can <a class='govuk-link' href=''>send the code again</a> or you can <a class='govuk-link' href=''>use a different email address</a>."
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

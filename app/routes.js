@@ -568,3 +568,68 @@ router.post('/agent-view/information-needed', function (req, res) {
   }
 })
 
+
+
+/////
+// 
+// ---------  one login routing ---------
+
+
+router.post('/ol-views/ol-start-or-resume', function (req, res) {
+  const choice = req.session.data['new-or-saved']
+
+  // For now, both options go to One Login
+  res.redirect('/ol-views/sign-in-or-create')
+})
+
+router.post('/ol-views/email-address', function (req, res) {
+  const email = req.session.data['sss']
+
+  // For now, both options go to One Login
+  res.redirect('/ol-views/check-your-email')
+})
+
+
+router.post('/ol-views/protect-identity', function (req, res) {
+  res.redirect('/ol-views/benefits')
+})
+
+
+router.post('/ol-views/benefits', function (req, res) {
+  let benefits = req.session.data['benefitsGetting'];
+
+  // If nothing selected, make it an empty array
+  if (!benefits) {
+    benefits = [];
+  }
+
+  // If only one checkbox selected, convert string to array
+  if (typeof benefits === 'string') {
+    benefits = [benefits];
+  }
+
+  if (benefits.includes('State Pension')) {
+    res.redirect('/ol-views/SP-bank');
+  } else {
+    res.redirect('/ol-views/benefits-applied');
+  }
+});
+
+router.post('/ol-views/SP-bank', function (req, res) {
+  res.redirect('/ol-views/benefits-applied')
+})
+
+
+const months = [
+  'January', 'February', 'March', 'April',
+  'May', 'June', 'July', 'August',
+  'September', 'October', 'November', 'December'
+];
+
+router.post('/ol-views/benefits-applied', function(req, res) { 
+  const date = new Date();
+   let pastYear = date.getFullYear()-3;
+   req.session.data['benefitDate'] = date.getDate() + ' ' + months[date.getMonth()] + ' ' + pastYear;
+   res.redirect('/ol-views/bank-details')
+});
+

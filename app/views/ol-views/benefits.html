@@ -1,0 +1,117 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form method="post">
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" role="group">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-heading-l">
+                      <span class="govuk-caption-l">Protecting your identity</span>
+                      Which of these benefits do you get?
+                    </h1>
+                          <p class="govuk-hint">Select all benefits that you are getting.</p>
+                </legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting" name="benefitsGetting" type="checkbox" value="State Pension">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting">
+                      State Pension 
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-2" name="benefitsGetting" type="checkbox" value="Attendance Allowance">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-2">
+                      Attendance Allowance
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-3" name="benefitsGetting" type="checkbox" value="Pension Age Disability Payment">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-3">
+                      Pension Age Disability Payment
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-4" name="benefitsGetting" type="checkbox" value="The middle or highest rate from the care component of Disability Living Allowance (DLA)">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-4">
+                      The middle or highest rate from the care component of Disability Living Allowance (DLA)
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-5" name="benefitsGetting" type="checkbox" value="The middle or highest rate from the care component of Scottish Adult Disability Living Allowance">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-5">
+                      The middle or highest rate from the care component of Scottish Adult Disability Living Allowance
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-6" name="benefitsGetting" type="checkbox" value="The daily living component of Personal Independence Payment (PIP)">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-6">
+                      The daily living component of Personal Independence Payment (PIP)
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-7" name="benefitsGetting" type="checkbox" value="The daily living component of Adult Disability Payment (ADP)">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-7">
+                      The daily living component of Adult Disability Payment (ADP)
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-8" name="benefitsGetting" type="checkbox" value="Armed Forces Independence Payment">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-8">
+                      Armed Forces Independence Payment
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-9" name="benefitsGetting" type="checkbox" value="Constant Attendance Allowance">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-9">
+                      Constant Attendance Allowance
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-10" name="benefitsGetting" type="checkbox" value="Carer's Allowance">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-10">
+                      Carer's Allowance
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-11" name="benefitsGetting" type="checkbox" value="Carer Support Paymente">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-11">
+                      Carer Support Payment
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__divider">or</div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="benefitsGetting-none" name="benefitsGetting" type="checkbox" value="none" data-behaviour="exclusive">
+                    <label class="govuk-label govuk-checkboxes__label" for="benefitsGetting-none">
+                    None of these
+                    </label>
+                  </div>
+                  
+                </div>
+            </fieldset>
+          </div>
+          <div class="govuk-form-group">
+              <button type="submit" class="govuk-button" data-module="govuk-button">
+                  Continue
+              </button>
+          </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

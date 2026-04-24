@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+{% set pageName = "  Which account would you like us to pay your State Pension into?" %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+
+          <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">Protecting your identity</span>
+            Which account do we pay your State Pension into?
+          </h1>    
+
+          <div class="govuk-form-group">
+              <label class="govuk-label" for="sort-code">
+                  Sort code
+              </label>
+              <div id="sort-code-hint" class="govuk-hint">
+                  Must be 6 digits long
+              </div>
+              <input class="govuk-input govuk-input--width-5 govuk-input--extra-letter-spacing" id="SP-sort-code" name="SP-sortcode" type="number" aria-describedby="sort-code-hint" inputmode="numeric">
+          </div>
+
+          <div class="govuk-form-group">
+              <label class="govuk-label" for="account-number">
+                  Account number
+              </label>
+              <div id="account-number-hint" class="govuk-hint">
+                  Must be between 6 and 8 digits long
+              </div>
+              <input class="govuk-input govuk-input--width-10 govuk-input--extra-letter-spacing" id="account-number" name="SP-account" type="number" inputmode="numeric">
+          </div>
+
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Continue
+          </button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

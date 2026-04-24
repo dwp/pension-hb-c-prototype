@@ -1,0 +1,70 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% set languageToggle = 'true' %}
+{% set title =  "Choose how to get security codes" %}
+
+{% set detailsTextHtml %}
+    <p class="govuk-body">
+        An authenticator app creates security codes that you can use to sign in to websites or online services.
+    </p>
+
+    <p class="govuk-body">
+        You can use an authenticator app on your smartphone, tablet or desktop computer. Download an authenticator app for your smartphone or tablet from your app store or search online for an authenticator app for your computer.
+    </p>
+{% endset %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form action="enter-your-mobile-phone-number" method="post" novalidate>
+
+            {{ govukRadios({
+                name: "chooseHowToGetSecurityCodes",
+                fieldset: {
+                    legend: {
+                    text: "Choose how to get security codes",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: "You'll need to enter a security code when you sign in to GOV.UK One Login."
+                },
+                items: [
+                    {
+                        value: "textMessage",
+                        text: "Text message"
+                    },
+                    {
+                        value: "authenticatorApp",
+                        text: "Authenticator app for smartphone, tablet or computer"
+                    }
+                ]
+                }) }}
+
+            {{ govukDetails({
+                summaryText: "What is an authenticator app?",
+                html: detailsTextHtml | safe
+            }) }}
+
+            {{ govukButton({
+                text: "Continue"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

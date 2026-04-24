@@ -1,0 +1,77 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+{% set pageName = "Have you applied for any of these DWP benefits in the past?" %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+           <div class="govuk-form-group">
+               
+              <h1 class="govuk-heading-l">
+                <span class="govuk-caption-l">Protecting your identity</span>
+                Tell us the name of one benefit you have applied for since {{data['benefitDate']}}
+              </h1>
+
+              {{ govukSelect({
+            id: "benefitsApplied",
+            name: "benefitsApplied",
+            allowEmpty: false,
+            label: {
+              isPageHeading: true,
+              text: ""
+            },
+            items: [
+              {text:"Attendance Allowance (AA)"},
+              {text:"Bereavement benefits (BB)"},
+              {text:"Bereavement Support Payment (BSP)"},
+              {text:"Carer’s Allowance (CA)"},
+              {text:"Carer’s Support Payment (CSP)"},
+              {text:"Disability Living Allowance (DLA)"},
+              {text:"Employment and Support Allowance (ESA)"},
+              {text:"Housing Benefit (HB)"},
+              {text:"Incapacity Benefit (IB)"},
+              {text:"Income Support (IS)"},
+              {text:"Industrial Injuries Disablement Benefit (IIDB)"},
+              {text:"Jobseeker’s Allowance (JSA)"},
+              {text:"Pension Credit (PC)"},
+              {text:"Pension Age Disability Payment (PADP)"},
+              {text:"Personal Independence Payment (PIP)"},
+              {text:"Scottish Adult Disability Living Allowance (SADLA)"},
+              {text:"Severe Disablement Allowance (SDA)"},
+              {text:"State Pension (SP)"},
+              {text:"Universal Credit (UC)"},
+              {text:"Widow’s Benefit (WB)"}
+             ]
+            }) }}
+          </div>
+          <div class="govuk-form-group">
+            <p>
+              <a href="bank-details?benefitsApplied=none">I have not applied for a benefit since {{data['benefitDate']}}</a>
+            </p>
+                   
+            </div>
+            <div class="govuk-form-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Continue
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

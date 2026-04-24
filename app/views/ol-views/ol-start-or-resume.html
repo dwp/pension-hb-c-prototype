@@ -1,0 +1,62 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/ol-views/ol-start-or-resume" method="post">
+
+      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{{ govukRadios({
+  name: "new-or-saved",
+  fieldset: {
+    legend: {
+      text: "What do you want to do?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: ""
+  },
+  items: [
+    {
+      value: "newApplication",
+      text: "Start a new application",
+      hint: {
+        text: "You can save your progress at any point. You'll need a GOV.UK One Login. If you don't have a GOV.UK One Login, you can create one."
+      }
+    },
+    {
+      value: "savedApplication",
+      text: "Resume a saved application",
+      hint: {
+        text: "You'll need to sign in to your GOV.UK One Login."
+      }
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

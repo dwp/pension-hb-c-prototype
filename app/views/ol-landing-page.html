@@ -1,0 +1,279 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Start page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "#"
+      },
+      {
+        text: "Working, pensions and jobs",
+        href: "#"
+      },
+      {
+        text: "Benefits and financial support if you're on a low income"
+      }
+    ]
+  }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        Apply for Pension Credit and Housing Benefit
+      </h1>
+
+        <p>
+          If you are of State Pension age, you can use this service to apply for both Pension Credit and Housing Benefit at the same time.
+        </p>
+
+        <p>
+          Pension Credit can top up your income to help with living costs, and Housing Benefit can help you pay your rent.
+        </p>
+
+        <p>
+          You can use this service to check if you are eligible for both benefits. You may only be eligible for one, or neither.
+        </p>
+
+      <!-- <h2 class="govuk-heading-m">
+        Eligibility
+      </h2>
+
+        <p>
+          You should only use this service if you believe you are eligible for both. If you are only eligible for one of the benefits, you should apply separately.
+        </p>
+
+        <p>
+          You can use this service to check if you are eligible before you apply.
+        </p>         -->
+
+      <h2 class="govuk-heading-m">
+        Applying for Pension Credit
+      </h2>
+
+        <p>
+          You can use this service to apply for Pension Credit if you:
+        </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>are resident in Great Britain</li>
+        <li>have appropriate immigration status</li>
+      </ul>
+
+      <p>You should not use this service to apply for Pension Credit if you are:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>below State Pension age (you should 
+        <a
+              class="govuk-link"
+              href="https://www.gov.uk/universal-credit/how-to-claim"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            check if you can apply for Universal Credit
+            </a>
+             instead)</li>
+        <li>currently away from Great Britain for more than 4 weeks, unless it is for medical treatment or recovery</li>
+        <li>already outside Great Britain</li>
+        <li>moving away from Great Britain permanently</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Applying for Housing Benefit
+      </h2>
+
+        <p>
+          You can use this service to apply for Housing Benefit if you:
+        </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>are resident in Great Britain</li>
+        <li> either rent the home that you live in, or a private room in it</li>
+      </ul>
+
+      <p>You can not use this service to apply for Housing Benefit if you:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>are part of a mixed age couple, where one of you is not of pension age (you should 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/universal-credit/how-to-claim"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            check if you can apply for Universal Credit
+            </a>
+            instead)</li>
+        <li>below State Pension age (you should 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/universal-credit/how-to-claim"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            check if you can apply for Universal Credit
+            </a>
+            instead)</li>
+        <li>have £16,000 or more in savings, investments, or other assets unless you get the Guarantee Credit part of Pension Credit</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        If you are only eligible for one of the benefits
+      </h2>
+
+      <p>You can only use this service if you are eligible for both of the benefits.</p>
+
+      <p>If you are only eligible to apply for Pension Credit, you should use the 
+        <a
+              class="govuk-link"
+              href="https://www.gov.uk/pension-credit/how-to-claim"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            Apply for Pension Credit online service.
+            </a>
+      </p>
+
+      <p>If you are only eligible to apply for Housing Benefit, you should apply through 
+        <a
+              class="govuk-link"
+              href="https://www.gov.uk/find-local-council"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            your Local Authority.
+            </a>
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Other help you may be entitled to
+      </h2>
+
+      <p>If you are eligible for Pension Credit you can also get other help, such as:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/cold-weather-payment/eligibility"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            Cold Weather Payments</a> 
+           (or 
+          <a
+              class="govuk-link"
+              href="https://www.mygov.scot/winter-heating-payment"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            Winter Heating Payments</a>
+           in Scotland)</li>
+        <li>a 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/apply-council-tax-reduction"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            Council Tax Reduction</a>
+            </li>
+        <li>a 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/free-discount-tv-licence"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            free TV licence</a>
+             if you’re aged 75 or over</li>
+        <li>help with 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/help-nhs-costs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            NHS dental treatment, glasses and transport costs</a>
+           for hospital appointments, if you get the Guarantee Credit part of Pension Credit</li>
+        <li>help with your heating costs through the 
+          <a
+              class="govuk-link"
+              href="https://www.gov.uk/the-warm-home-discount-scheme"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            Warm Home Discount Scheme</a>
+          </li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Information you will need
+      </h2>
+
+      <p>You will need to tell us about:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+  <li>your immigration status</li>
+  <li>any time spent outside Great Britain in the last 3 months</li>
+  <li>your living situation, including any landlord or agency details</li>
+  <li>information about any other people living with you</li>
+  <li>your address history for the last 3 months</li>
+  <li>your income, money and investments</li>
+  <li>any property or land you own</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Apply now",
+        href: "/ol-views/ol-start-or-resume",
+        isStartButton: true
+      }) }}
+
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+
+      <aside class="govuk-prototype-kit-common-templates-related-items" role="complementary">
+        <h2 class="govuk-heading-m" id="subsection-title">
+          Subsection
+        </h2>
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="govuk-list govuk-!-font-size-16">
+            <li>
+              <a href="#">
+                Check benefits and financial support you can get
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                Benefits calculators
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                Applying for a Discretionary Housing Payment
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+
+{% endblock %}

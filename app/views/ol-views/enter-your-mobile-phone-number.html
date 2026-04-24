@@ -1,0 +1,60 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">{{title}}</h1>
+
+        <p class="govuk-body">
+            We will send a 6 digit security code to the number you give us.
+        </p>
+
+        <form action="check-your-phone" method="post" novalidate>
+
+            {{ govukInput({
+            label: {
+                text: "UK mobile phone number",
+                isPageHeading: false
+            },
+            id: "phone-number",
+            name: "phoneNumber",
+            classes: "govuk-!-width-two-thirds",
+            type: "tel",
+            autocomplete: "tel"
+            }) }}
+
+            {{ govukCheckboxes({
+                name: "iDoNotHaveAUKMobileNumber",
+                fieldset: {
+                    legend: {
+                    text: "",
+                    isPageHeading: false
+                    }
+                },
+                items: [
+                    {
+                    value: "noUKNumber",
+                    text: "I do not have a UK mobile number"
+                    }
+                ]
+            }) }}
+
+            {{ govukButton({
+                text: "Continue"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}
