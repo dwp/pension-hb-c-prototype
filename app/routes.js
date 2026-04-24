@@ -590,6 +590,25 @@ router.post('/ol-views/email-address', function (req, res) {
 })
 
 
+router.post('/ol-views/choose-security-codes', function (req, res) {
+  const method = req.session.data['chooseHowToGetSecurityCodes'];
+
+  if (method === 'textMessage') {
+    res.redirect('/ol-views/enter-your-mobile-phone-number');
+  } else if (method === 'authenticatorApp') {
+    res.redirect('/ol-views/auth-app');
+  } else {
+    // Fallback if nothing selected
+    res.redirect('/ol-views/choose-security-codes');
+  }
+});
+
+
+router.post('/ol-views/auth-app', function (req, res) {
+  res.redirect('/ol-views/account-created');
+});
+
+
 router.post('/ol-views/protect-identity', function (req, res) {
   res.redirect('/ol-views/benefits')
 })
