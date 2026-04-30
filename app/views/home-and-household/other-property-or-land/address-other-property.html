@@ -18,65 +18,75 @@
 
       <form class="form" action="/home-and-household/about-the-place-you-live/property-purpose" method="post">
 
-      <h1 class="govuk-heading-l">
-        Select the address of the property or land
-      </h1>
+      <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
 
-      <p class="govuk-body">
-        Postcode: <strong>{{ data['other-postcode'] }}</strong>
-        <a href="/home-and-household/about-the-place-you-live/postcode-other-property" class="govuk-link govuk-!-margin-left-2">Change</a>
-      </p>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          Select the address of this property or land
+        </h1>
+      </legend>
 
-      <form method="post" action="/home-and-household/about-the-place-you-live/property-purpose" novalidate>
+      <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
 
-        {{ govukSelect({
-          id: "address-other-property",
-          name: "address-other-property",
-          label: {
-            text: "Select an address"
-          },
-          errorMessage: errorMessage,
-          items: [
-            {
-              value: "",
-              text: "Select an address",
-              selected: not data['address-other-property']
-            },
-            {
-              value: "1 High Street, Anytown, AN1 1AA",
-              text: "1 High Street, Anytown",
-              selected: data['address-other-property'] == "1 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "2 High Street, Anytown, AN1 1AA",
-              text: "2 High Street, Anytown",
-              selected: data['address-other-property'] == "2 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "3 High Street, Anytown, AN1 1AA",
-              text: "3 High Street, Anytown",
-              selected: data['address-other-property'] == "3 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "Flat 1, 4 High Street, Anytown, AN1 1AA",
-              text: "Flat 1, 4 High Street, Anytown",
-              selected: data['address-other-property'] == "Flat 1, 4 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "Flat 2, 4 High Street, Anytown, AN1 1AA",
-              text: "Flat 2, 4 High Street, Anytown",
-              selected: data['address-other-property'] == "Flat 2, 4 High Street, Anytown, AN1 1AA"
-            }
-          ]
-        }) }}
+  <p class="govuk-body">
+    6 addresses found for <b>{{ data['other-postcode'] }}</b> and <b>{{ data['other-number-or-name'] }}</b>. <a href='/home-and-household/about-the-place-you-live/other-postcode' class='govuk-link'>Search again</a>
+  </p>
 
-        <p class="govuk-body">
-          <a href="#" class="govuk-link">I can't find my address in the list</a>
-        </p>
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-1" name="other-address" type="radio" value="1 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-1">
+      1 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
 
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-2" name="other-address" type="radio" value="10 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-2">
+      10 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-3" name="other-address" type="radio" value="11 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-3">
+      11 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-4" name="other-address" type="radio" value="101 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-4">
+      101 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-5" name="other-address" type="radio" value="110 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-5">
+      110 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="other-address-6" name="other-address" type="radio" value="111 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="other-address-6">
+      111 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+</div>
+
+    </fieldset>
+  </div>
+
+  <button type="submit" class="govuk-button">
+    Use this address
+  </button>
+
+  <p class="govuk-body">
+    <a href="#" class="govuk-link">Enter address manually</a>
+  </p>
 
       </form>
 

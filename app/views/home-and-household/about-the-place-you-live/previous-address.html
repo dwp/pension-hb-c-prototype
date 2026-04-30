@@ -16,65 +16,78 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">
-        Select the address you lived at previously
-      </h1>
-
-      <p class="govuk-body">
-        Postcode: <strong>{{ data['previous-postcode'] }}</strong>
-        <a href="/task-list" class="govuk-link govuk-!-margin-left-2">Change</a>
-      </p>
-
       <form method="post" action="/home-and-household/about-the-place-you-live/the-previous-address" novalidate>
 
-        {{ govukSelect({
-          id: "previous-address",
-          name: "previous-address",
-          label: {
-            text: "Select an address"
-          },
-          errorMessage: errorMessage,
-          items: [
-            {
-              value: "",
-              text: "Select an address",
-              selected: not data['previous-address']
-            },
-            {
-              value: "1 High Street, Anytown, AN1 1AA",
-              text: "1 High Street, Anytown",
-              selected: data['previous-address'] == "1 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "2 High Street, Anytown, AN1 1AA",
-              text: "2 High Street, Anytown",
-              selected: data['previous-address'] == "2 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "3 High Street, Anytown, AN1 1AA",
-              text: "3 High Street, Anytown",
-              selected: data['previous-address'] == "3 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "Flat 1, 4 High Street, Anytown, AN1 1AA",
-              text: "Flat 1, 4 High Street, Anytown",
-              selected: data['previous-address'] == "Flat 1, 4 High Street, Anytown, AN1 1AA"
-            },
-            {
-              value: "Flat 2, 4 High Street, Anytown, AN1 1AA",
-              text: "Flat 2, 4 High Street, Anytown",
-              selected: data['previous-address'] == "Flat 2, 4 High Street, Anytown, AN1 1AA"
-            }
-          ]
-        }) }}
+        <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
 
-        <p class="govuk-body">
-          <a href="#" class="govuk-link">I can't find my address in the list</a>
-        </p>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          Select your previous home address
+        </h1>
+      </legend>
 
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+      <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+
+  <p class="govuk-body">
+    6 addresses found for <b>{{ data['previous-postcode'] }}</b> and <b>{{ data['previous-number-or-name'] }}</b>. <a href='/home-and-household/about-the-place-you-live/previous-postcode' class='govuk-link'>Search again</a>
+  </p>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-1" name="previous-address" type="radio" value="1 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-1">
+      1 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-2" name="previous-address" type="radio" value="10 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-2">
+      10 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-3" name="previous-address" type="radio" value="11 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-3">
+      11 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-4" name="previous-address" type="radio" value="101 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-4">
+      101 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-5" name="previous-address" type="radio" value="110 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-5">
+      110 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+  <div class="govuk-radios__item">
+    <input class="govuk-radios__input" id="previous-address-6" name="previous-address" type="radio" value="111 Washington Street, Worcester, WR1 1NL">
+    <label class="govuk-label govuk-radios__label" for="previous-address-6">
+      111 Washington Street, Worcester, WR1 1NL
+    </label>
+  </div>
+
+</div>
+
+    </fieldset>
+  </div>
+
+  <button type="submit" class="govuk-button">
+    Use this address
+  </button>
+
+  <p class="govuk-body">
+    <a href="#" class="govuk-link">Enter address manually</a>
+  </p>
+
 
       </form>
 

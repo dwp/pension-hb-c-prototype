@@ -18,28 +18,32 @@
 
       <form class="form" action="/home-and-household/about-the-place-you-live/landlord-address" novalidate>
 
-        {{ govukInput({
-          label: {
-            text: "What is your landlord's postcode?",
-            isPageHeading: true,
-            classes: "govuk-label--l"
-          },
-          classes: "govuk-input--width-10",
-          id: "landlord-postcode",
-          name: "landlord-postcode",
-          value: data['landlord-postcode'],
-          autocomplete: "postal-code",
-          attributes: { spellcheck: "false" }
-        }) }}
-
-        {{ govukButton({
-          text: "Find address"
-        }) }}
-
-                <p class="govuk-body">
-          <a href="#" class="govuk-link">Enter the address manually</a>
-        </p>
-
+        <h1 class="govuk-heading-l">What is your landlord's address?</h1>
+<div class="govuk-form-group">
+    <label class="govuk-label" for="postcode">
+      Postcode
+    </label>
+    <div id="postcode-hint" class="govuk-hint">
+      For example, AA3 1AB.
+    </div>
+    <input
+      class="govuk-input govuk-!-width-two-thirds" id="postcode" name="landlord-postcode" type="text" aria-describedby="postcode-hint">
+  </div>
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="searchString">
+      Building number or name
+    </label>
+    <div id="searchString-hint" class="govuk-hint">
+      For example, 15 or Prospect Cottage.
+    </div>
+    <input
+      class="govuk-input govuk-!-width-two-thirds" id="searchString" name="landlord-number-or-name" type="text" aria-describedby="searchString-hint">
+  </div>
+  <button type="submit" class="govuk-button" data-module="govuk-button">
+    Use this address
+  </button>
+  <p class="govuk-body govuk-!-margin-bottom-0"><a href="#" class="govuk-link">Enter address manually</a></p>
+</div>
 
       </form>
 
