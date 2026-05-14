@@ -13,21 +13,19 @@
 
 {% block content %}
 
-{% set personName = data.nondep1Name %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/home-and-household/people-who-live-with-you/precheck-date-living-together-nondep1" method="post">
 
-        <span class="govuk-caption-l">People who live with you</span>
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
 
 {{ govukRadios({
   name: "preCheckNonDepMoveInDate",
   fieldset: {
     legend: {
 
-    text: "Did " + personName + " move into the property before " 
+    text: "Did they move into the property before " 
     ~ (data['backdate'] | default("3 months ago")) 
     ~ "?",
     isPageHeading: true,
@@ -48,7 +46,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>

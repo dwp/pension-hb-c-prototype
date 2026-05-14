@@ -63,13 +63,12 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">About the place you live</span>
 
       <form class="form" action="/task-list" novalidate>     
       
       <h1 class="govuk-heading-l">Check your answers</h1>
 
-      <!-- <h2 class="govuk-heading-m">About the place you live</h2> -->
+      <h2 class="govuk-heading-m">About the place you live</h2>
 
 
 
@@ -77,34 +76,94 @@
           classes: "govuk-!-margin-bottom-9",
           rows: [
             {
+              key: { text: "Living situation" },
+              value: { text: (data['livingsituation'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "living situation" } ] }
+            },
+            {
+              key: { text: "Rent frequency" },
+              value: { text: (data['rentfrequency'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent frequency" } ] }
+            },
+            {
+              key: { text: "Rent amount" },
+              value: { text: ('£' ~ data['cost'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent amount" } ] }
+            },
+            {
+              key: { text: "Move in date" },
+              value: { text: (move_in_display or ('Before ' ~ data.backdate)) },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move in date" } ] }
+            },
+            {
               key: { text: "Do you use any part of your home for running a business?" },
               value: { text: (yesNo[data['businessUse']] or data['businessUse'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/business-use", text: "Change", visuallyHiddenText: "business use of home" } ] }
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "business use of home" } ] }
             },
             {
               key: { text: "Are you living in shared accommodation?" },
               value: { text: (yesNo[data['sharedAccommodation']] or data['sharedAccommodation'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/shared-accommodation", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
             },
             {
               key: { text: "How many bedrooms?" },
               value: { text: (data['bedroomAmount'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/bedroom-amount", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
             },
             {
               key: { text: "Non-resident carer required?" },
               value: { text: (yesNo[data['overnightCarer']] or data['overnightCarer'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/overnight-carer", text: "Change", visuallyHiddenText: "non-resident carer" } ] }
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "non-resident carer" } ] }
             },
             {
               key: { text: "Are you an approved foster carer?" },
               value: { text: (yesNo[data['fosterCarer']] or data['fosterCarer'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/foster-carer", text: "Change", visuallyHiddenText: "approved foster carer" } ] }
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "approved foster carer" } ] }
+            },
+            {
+              key: { text: "Does your landlord live with you?" },
+              value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "live-in landlord" } ] }
+            },
+            {
+              key: { text: "Landlord’s name" },
+              value: { text: (data['landlordName'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "landlord name" } ] }
+            },
+            {
+              key: { text: "Landlord’s address" },
+              value: { text: (data['landlord-address'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "landlord address" } ] }
+            },
+            {
+              key: { text: "Did you know your landlord before moving in?" },
+              value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "know landlord before moving in" } ] }
+            },
+            {
+              key: { text: "When did your tenancy start?" },
+              value: { text: (tenancy_start_display or ('Before ' ~ data.backdate)) },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "tenancy start date" } ] }
+            },
+            {
+              key: { text: "Are you behind rent?" },
+              value: { text: (yesNo[data['behindRent']] or data['behindRent'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "behind on rent" } ] }
+            },
+            {
+              key: { text: "What is your previous address?" },
+              value: { text: (data['previous-address'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "previous address" } ] }
+            },
+            {
+              key: { text: "When did you move out of your previous address?" },
+              value: { text: (move_out_display or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move out date" } ] }
             }
           ]
         }) }}
 
-        {{ govukButton({ text: "Save and continue" }) }}
+        {{ govukButton({ text: "Continue" }) }}
 
       </form>
 

@@ -15,7 +15,6 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">Other property or land you own</span>
 
       <form class="form" action="/home-and-household/other-property-or-land/other-property" method="post">
 
@@ -25,25 +24,25 @@
   name: "otherproperty",
   fieldset: {
     legend: {
-      text: "Do you own any property or land in the UK or abroad?",
+      text: "Do you own any property or land other than the home you live in?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   items: [
     {
-      value: "Yes",
+      value: "yes",
       text: "Yes"
     },
     {
-      value: "No",
+      value: "no",
       text: "No"
     }
   ]
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>

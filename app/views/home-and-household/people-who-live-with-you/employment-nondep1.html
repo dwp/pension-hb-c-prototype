@@ -13,20 +13,18 @@
 
 {% block content %}
 
-{% set personName = data.nondep1Name %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/home-and-household/people-who-live-with-you/employment-nondep1" method="post">
 
-        <span class="govuk-caption-l">People who live with you</span>
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
 
 {{ govukRadios({
   name: "employmentNonDep",
   fieldset: {
     legend: {
-            text: "Is " + personName + " in employment?",
+            text: "Are they in employment?",
       classes: "govuk-fieldset__legend--l"
     }
   },
@@ -40,7 +38,7 @@
       text: "Yes, part time"
     },
     {
-      value: "No",
+      value: "no",
       text: "No"
     }
   ]
@@ -50,7 +48,7 @@
   name: "selfEmploymentNonDep",
   fieldset: {
     legend: {
-            text: "Is " + personName + " self-employed?",
+            text: "Are they self-employed?",
       classes: "govuk-fieldset__legend--l"
     }
   },
@@ -67,7 +65,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>

@@ -15,7 +15,6 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">People who live with you</span>
 
       <form class="form" action="/home-and-household/people-who-live-with-you/couple-nondep1" method="post">
 
@@ -25,13 +24,13 @@
   name: "coupleNondep1",
   fieldset: {
     legend: {
-      text: "Are there any couples living together in your household?",
+      text: "Does " ~ (data['nondep1Name'] or 'John Jones') ~ " live with a partner?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   hint: {
-    text: "A couple is defined as two people who are married, civil partners, or living together as a married couple (cohabiting), regardless of their gender. Only tell us about other couples who live with you. Do not include you and your partner."
+    text: "A partner is a husband, wife, civil partner or someone they are in a relationship with."
   },
   items: [
     {
@@ -46,7 +45,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>

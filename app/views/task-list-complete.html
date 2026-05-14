@@ -23,7 +23,7 @@
 
       {% set incompleteStatus = {
         tag: {
-          text: "Not started yet",
+          text: "To do",
           classes: "govuk-tag--blue"
         }
       } %}
@@ -166,11 +166,6 @@
       {{ govukTaskList({
         idPrefix: "finalise-application",
         items: [
-          {
-            title: { text: "Security questions" },
-            href: "#",
-            status: completedStatus
-          },
           {
             title: { text: "Submit your application" },
             href: "/submit-your-application",

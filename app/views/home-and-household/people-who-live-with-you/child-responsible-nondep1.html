@@ -13,26 +13,23 @@
 
 {% block content %}
 
-{% set personName = data.nondep1Name %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">People who live with you</span>
 
       <form class="form" action="/home-and-household/people-who-live-with-you/child-responsible-nondep1" method="post">
 
-
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
 
 {{ govukRadios({
   name: "childNonDep1",
   fieldset: {
     legend: {
-            text: "Does " + personName + " have a child or qualifying young person living at the property?",
+            text: "Do they have a child or young person living at the property?",
       classes: "govuk-fieldset__legend--l"
     }
   },
             hint: {
-            text: "Children are under age 16. A qualifying young person is age 16 to 19, and in education or training after leaving school. It does not include apprenticeships or university study."
+            text: "Children are under age 16. A qualifying young person is aged 16 to 19 and in non-advanced full-time education or training."
           },
   items: [
     {
@@ -47,7 +44,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>

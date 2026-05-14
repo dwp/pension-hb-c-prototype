@@ -17,8 +17,8 @@
     <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/home-and-household/people-who-live-with-you/hospital-nondep1" method="post">
-        <span class="govuk-caption-l">People who live with you</span>
-        <!-- <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span> -->
+
+        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
 
 {{ govukRadios({
   name: "hospitalNonDep",
@@ -41,7 +41,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Continue"
         }) }}
 
       </form>
