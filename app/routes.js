@@ -58,22 +58,21 @@ router.post('/home-and-household/about-the-place-you-live/shared-accommodation-r
   return res.redirect('/home-and-household/about-the-place-you-live/bedroom-amount')
 })
 
-// rent amount -> pre check move in date - direct route
-router.post('/home-and-household/about-the-place-you-live/rental-amount', (req, res) => {
+// Rent amount → Move-in date
+router.post(
+  '/home-and-household/rental-and-housing-costs/precheck-move-in-date',
+  (req, res) => {
+    res.redirect('/home-and-household/rental-and-housing-costs/precheck-move-in-date');
+  }
+);
 
-  return res.redirect('/home-and-household/about-the-place-you-live/precheck-move-in-date')
-})
-
-// Did the customer move in more than 3 months ago - move in date precheck?
-router.post('/home-and-household/about-the-place-you-live/precheck-move-in-date', function(request, response) {
-
-	var preCheckMoveInDate = request.session.data['preCheckMoveInDate']
-	if (preCheckMoveInDate == "no"){
-		response.redirect("/home-and-household/about-the-place-you-live/move-in-date")
-	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/business-use")
-	}
-})
+// Move-in date → Check answers
+router.post(
+  '/home-and-household/rental-and-housing-costs/check-your-answers',
+  (req, res) => {
+    res.redirect('/home-and-household/rental-and-housing-costs/check-your-answers');
+  }
+);
 
 // GET render: reset error on first load
 router.get('/home-and-household/about-the-place-you-live/bedroom-amount', (req, res) => {
@@ -120,97 +119,103 @@ router.post('/home-and-household/about-the-place-you-live/overnight-carer', (req
 // Are you an approved foster carer? - direct route
 router.post('/home-and-household/about-the-place-you-live/foster-carer', (req, res) => {
 
-  return res.redirect('/home-and-household/about-the-place-you-live/live-in-landlord')
+  return res.redirect('/home-and-household/about-the-place-you-live/check-your-answers')
 })
 
-// After landlords name - if they don't live with landlord then what's the landlord's address
-router.post('/home-and-household/about-the-place-you-live/landlord-address-lookup', function(request, response) {
 
-	var liveInLandlord = request.session.data['liveInLandlord']
-	if (liveInLandlord == "yes"){
-		response.redirect("/home-and-household/about-the-place-you-live/landlord-know-previously")
-	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/landlord-postcode")
-	}
+router.post('/home-and-household/your-landlord/live-in-landlord-decision', function (req, res) {
+
+  const liveInLandlord = req.session.data['liveInLandlord']
+
+  if (liveInLandlord === "yes") {
+    res.redirect('/home-and-household/your-landlord/landlord-know-previously')
+  } else {
+    res.redirect('/home-and-household/your-landlord/landlord-postcode')
+  }
 })
+
 
 // If know the landlord = yes then ask how else continue to precheck tenancy start date
-router.post('/home-and-household/about-the-place-you-live/landlord-know-previously', function(request, response) {
+router.post('/home-and-household/your-landlord/landlord-know-previously', function(request, response) {
 
 	var landlordKnow = request.session.data['landlordKnow']
 	if (landlordKnow == "yes"){
-		response.redirect("/home-and-household/about-the-place-you-live/landlord-know-how")
+		response.redirect("/home-and-household/your-landlord/landlord-know-how")
 	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/precheck-tenancy-start-date")
+		response.redirect("/home-and-household/your-landlord/precheck-tenancy-start-date")
 	}
 })
 
 // Did the customer's tenancy start more than 3 months ago - tenancy start date precheck?
-router.post('/home-and-household/about-the-place-you-live/precheck-tenancy-start-date', function(request, response) {
+router.post('/home-and-household/your-landlord/precheck-tenancy-start-date', function(request, response) {
 
 	var preCheckTenancyStartDate = request.session.data['preCheckTenancyStartDate']
 	if (preCheckTenancyStartDate == "no"){
-		response.redirect("/home-and-household/about-the-place-you-live/tenancy-start-already-provided")
+		response.redirect("/home-and-household/your-landlord/tenancy-start-already-provided")
 	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+		response.redirect("/home-and-household/your-landlord/behind-rent")
 	}
 })
 
 // Did the customer's tenancy start the same day they moved in? - tenancy-start-already-provided
-router.post('/home-and-household/about-the-place-you-live/tenancy-start-already-provided', function(request, response) {
+router.post('/home-and-household/your-landlord/tenancy-start-already-provided', function(request, response) {
 
 	var tenancyStartAlreadyProvided = request.session.data['tenancyStartAlreadyProvided']
 	if (tenancyStartAlreadyProvided == "no"){
-		response.redirect("/home-and-household/about-the-place-you-live/tenancy-start-date")
+		response.redirect("/home-and-household/your-landlord/tenancy-start-date")
 	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+		response.redirect("/home-and-household/your-landlord/behind-rent")
 	}
 })
 
 // Do you know tenancy end date?
-router.post('/home-and-household/about-the-place-you-live/behind-rent', function(request, response) {
+router.post('/home-and-household/your-landlord/behind-rent', function(request, response) {
 
 	var doYouKnowTenancyEndDate = request.session.data['doYouKnowTenancyEndDate']
 	if (doYouKnowTenancyEndDate == "yes"){
-		response.redirect("/home-and-household/about-the-place-you-live/tenancy-end-date")
+		response.redirect("/home-and-household/your-landlord/tenancy-end-date")
 	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/behind-rent")
+		response.redirect("/home-and-household/your-landlord/behind-rent")
 	}
 })
 
 // tenancy end date -> on submit, go to behind-rent
-router.post('/home-and-household/about-the-place-you-live/tenancy-end-date', function (request, response) {
+router.post('/home-and-household/your-landlord/tenancy-end-date', function (request, response) {
 
-  return response.redirect('/home-and-household/about-the-place-you-live/behind-rent')
+  return response.redirect('/home-and-household/your-landlord/behind-rent')
 })
 715
-// behind on rent
-router.post('/home-and-household/about-the-place-you-live/previous-postcode', function(request, response) {
+
+// behind on rent -> how much behind on rent, or, check your answers
+router.post('/home-and-household/your-landlord/previous-postcode', function(request, response) {
 
 	var behindRent = request.session.data['behindRent']
 	if (behindRent == "yes"){
-		response.redirect("/home-and-household/about-the-place-you-live/behind-rent-amount")
+		response.redirect("/home-and-household/your-landlord/behind-rent-amount")
 	} else {
-		response.redirect("/home-and-household/about-the-place-you-live/previous-postcode")
+		response.redirect("/home-and-household/your-landlord/check-your-answers")
 	}
 })
 
-// how many weeks behind rent -> on submit, go to previous-postcode
-router.post('/home-and-household/about-the-place-you-live/behind-rent-amount', function (request, response) {
+// how many weeks behind rent -> on submit, go to check your answers
+router.post('/home-and-household/your-landlord/behind-rent-amount', function (request, response) {
 
-  return response.redirect('/home-and-household/about-the-place-you-live/previous-postcode')
+  return response.redirect('/home-and-household/your-landlord/check-your-answers')
 })
 
-// Select the address you lived at previously - direct route
-router.post('/home-and-household/about-the-place-you-live/the-previous-address', function (request, response) {
+//YOUR PREVIOUS ADDRESS SECTION
 
-  return response.redirect('/home-and-household/about-the-place-you-live/move-out-date')
+
+// Select the address you lived at previously - direct route
+router.post('/home-and-household/your-previous-address/the-previous-address', function (request, response) {
+
+  return response.redirect('/home-and-household/your-previous-address/move-out-date')
 })
 
 // When did you move out of your previous address? - direct route
-router.post('/home-and-household/about-the-place-you-live/move-out-date', function (request, response) {
+router.post('/home-and-household/your-previous-address/move-out-date', function (request, response) {
 
-  return response.redirect('/home-and-household/about-the-place-you-live/check-your-answers')
+  return response.redirect('/home-and-household/your-previous-address/check-your-answers')
 })
 
 // OTHER PROPERTY OR LAND SECTION

@@ -63,7 +63,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">About the place you live</span>
+      <span class="govuk-caption-l">Rental and housing costs</span>
 
       <form class="form" action="/task-list" novalidate>     
       
@@ -77,29 +77,24 @@
           classes: "govuk-!-margin-bottom-9",
           rows: [
             {
-              key: { text: "Do you use any part of your home for running a business?" },
-              value: { text: (yesNo[data['businessUse']] or data['businessUse'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "business use of home" } ] }
+              key: { text: "Living situation" },
+              value: { text: (data['livingsituation'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "living situation" } ] }
             },
             {
-              key: { text: "Are you living in shared accommodation?" },
-              value: { text: (yesNo[data['sharedAccommodation']] or data['sharedAccommodation'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
+              key: { text: "Rent frequency" },
+              value: { text: (data['rentfrequency'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent frequency" } ] }
             },
             {
-              key: { text: "How many bedrooms?" },
-              value: { text: (data['bedroomAmount'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
+              key: { text: "Rent amount" },
+              value: { text: ('£' ~ data['cost'] or "Not provided") },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent amount" } ] }
             },
             {
-              key: { text: "Non-resident carer required?" },
-              value: { text: (yesNo[data['overnightCarer']] or data['overnightCarer'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "non-resident carer" } ] }
-            },
-            {
-              key: { text: "Are you an approved foster carer?" },
-              value: { text: (yesNo[data['fosterCarer']] or data['fosterCarer'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "approved foster carer" } ] }
+              key: { text: "Move in date" },
+              value: { text: (move_in_display or ('Before ' ~ data.backdate)) },
+              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move in date" } ] }
             }
           ]
         }) }}

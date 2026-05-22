@@ -15,14 +15,15 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your landlord</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/landlord-name" method="post">
+      <form class="form" action="/home-and-household/your-landlord/previous-postcode" method="post">
 
 {{ govukRadios({
-  name: "liveInLandlord",
+  name: "behindRent",
   fieldset: {
     legend: {
-     text: "Does your landlord live with you at " + (data['home-address'] or "your address") + "?",
+      text: "Are you behind with your rent?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
@@ -40,7 +41,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

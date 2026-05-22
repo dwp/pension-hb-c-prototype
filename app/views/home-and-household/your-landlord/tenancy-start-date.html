@@ -15,17 +15,18 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your landlord</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/business-use" method="post">
+      <form class="form" action="/home-and-household/your-landlord/behind-rent" novalidate>
 
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
 {{ govukDateInput({
-  id: "move-in-date",
-  namePrefix: "move-in-date",
+  id: "tenancy-start-date",
+  namePrefix: "tenancy-start-date",
   fieldset: {
     legend: {
-      text: "When did you move into " + (data['home-address'] or "your address") + "?",
+      text: "When did your tenancy start?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
@@ -68,7 +69,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

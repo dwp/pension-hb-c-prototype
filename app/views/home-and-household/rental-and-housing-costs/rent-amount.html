@@ -15,8 +15,9 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Rental and housing costs</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/rental-amount" method="post">
+      <form class="form" action="/home-and-household/rental-and-housing-costs/precheck-move-in-date" method="post">
 
 
         {% set frequencyText = "" %}
@@ -39,9 +40,12 @@
   id: "cost",
   name: "cost",
   label: {
-    text: "How much rent do you pay " + frequencyText + "?",
+    text: "How much is the rent for the place where you live?",
     classes: "govuk-label--l",
     isPageHeading: true
+  },
+  hint: {
+    text: "Rent, in pounds."
   },
   prefix: {
     text: "£"
@@ -51,7 +55,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

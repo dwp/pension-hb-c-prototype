@@ -15,8 +15,9 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Rental and housing costs</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/rent-frequency" method="post">
+      <form class="form" action="/home-and-household/rental-and-housing-costs/rent-frequency" method="post">
 
       {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
@@ -50,7 +51,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

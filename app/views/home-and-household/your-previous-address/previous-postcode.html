@@ -15,10 +15,11 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your previous address</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/landlord-address" novalidate>
+      <form class="form" action="/home-and-household/your-previous-address/previous-address" method="post">
 
-        <h1 class="govuk-heading-l">What is your landlord's address?</h1>
+        <h1 class="govuk-heading-l">What is the address of your previous home?</h1>
 <div class="govuk-form-group">
     <label class="govuk-label" for="postcode">
       Postcode
@@ -27,7 +28,7 @@
       For example, AA3 1AB.
     </div>
     <input
-      class="govuk-input govuk-!-width-two-thirds" id="postcode" name="landlord-postcode" type="text" aria-describedby="postcode-hint">
+      class="govuk-input govuk-!-width-two-thirds" id="postcode" name="previous-postcode" type="text" aria-describedby="postcode-hint">
   </div>
   <div class="govuk-form-group">
     <label class="govuk-label" for="searchString">
@@ -37,10 +38,10 @@
       For example, 15 or Prospect Cottage.
     </div>
     <input
-      class="govuk-input govuk-!-width-two-thirds" id="searchString" name="landlord-number-or-name" type="text" aria-describedby="searchString-hint">
+      class="govuk-input govuk-!-width-two-thirds" id="searchString" name="previous-number-or-name" type="text" aria-describedby="searchString-hint">
   </div>
   <button type="submit" class="govuk-button" data-module="govuk-button">
-    Use this address
+    Find address
   </button>
   <p class="govuk-body govuk-!-margin-bottom-0"><a href="#" class="govuk-link">Enter address manually</a></p>
 </div>

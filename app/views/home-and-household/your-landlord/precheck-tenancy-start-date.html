@@ -15,18 +15,24 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your landlord</span>
 
-      <form class="form" action="/home-and-household/about-the-place-you-live/landlord-know-previously" method="post">
+      <form class="form" action="/home-and-household/your-landlord/precheck-tenancy-start-date" method="post">
 
 {{ govukRadios({
-  name: "landlordKnow",
+  name: "preCheckTenancyStartDate",
   fieldset: {
     legend: {
-      text: "Did you know your landlord before you moved into the property?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
+
+    text: "Did your tenancy start " 
+    ~ " before " 
+    ~ (data['backdate'] | default("3 months ago")) 
+    ~ "?",
+    isPageHeading: true,
+    classes: "govuk-fieldset__legend--l"
     }
-  },
+    },
+
   items: [
     {
       value: "yes",
@@ -40,7 +46,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>
