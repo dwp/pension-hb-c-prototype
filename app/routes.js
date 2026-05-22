@@ -652,3 +652,113 @@ router.post('/ol-views/benefits-applied', function(req, res) {
    res.redirect('/ol-views/bank-details')
 });
 
+
+// SAVE AND RETURN JOURNEY
+
+
+router.post('/save-and-return/landlord-name', function (request, response) {
+  // You already get the value via session automatically
+  response.redirect('/save-and-return/live-in-landlord')
+})
+
+// After landlords name - if they don't live with landlord then what's the landlord's address
+router.post('/save-and-return/live-in-landlord', function(request, response) {
+
+	var liveInLandlord = request.session.data['liveInLandlord']
+	if (liveInLandlord == "yes"){
+		response.redirect("/save-and-return/landlord-know-previously")
+	} else {
+		response.redirect("/save-and-return/landlord-postcode")
+	}
+})
+
+// If know the landlord = yes then ask how else continue to precheck tenancy start date
+router.post('/save-and-return/landlord-know-previously', function(request, response) {
+
+	var landlordKnow = request.session.data['landlordKnow']
+	if (landlordKnow == "yes"){
+		response.redirect("/save-and-return/landlord-know-how")
+	} else {
+		response.redirect("/save-and-return/precheck-tenancy-start-date")
+	}
+})
+
+// Did the customer's tenancy start more than 3 months ago - tenancy start date precheck?
+router.post('/save-and-return/precheck-tenancy-start-date', function(request, response) {
+
+	var preCheckTenancyStartDate = request.session.data['preCheckTenancyStartDate']
+	if (preCheckTenancyStartDate == "no"){
+		response.redirect("/save-and-return/tenancy-start-already-provided")
+	} else {
+		response.redirect("/save-and-return/behind-rent")
+	}
+})
+
+// Did the customer's tenancy start the same day they moved in? - tenancy-start-already-provided
+router.post('/save-and-return/tenancy-start-already-provided', function(request, response) {
+
+	var tenancyStartAlreadyProvided = request.session.data['tenancyStartAlreadyProvided']
+	if (tenancyStartAlreadyProvided == "no"){
+		response.redirect("/save-and-return/tenancy-start-date")
+	} else {
+		response.redirect("/save-and-return/behind-rent")
+	}
+})
+
+// Do you know tenancy end date?
+router.post('/save-and-return/behind-rent', function(request, response) {
+
+	var doYouKnowTenancyEndDate = request.session.data['doYouKnowTenancyEndDate']
+	if (doYouKnowTenancyEndDate == "yes"){
+		response.redirect("/save-and-return/tenancy-end-date")
+	} else {
+		response.redirect("/save-and-return/behind-rent")
+	}
+})
+
+// tenancy end date -> on submit, go to behind-rent
+router.post('/save-and-return/tenancy-end-date', function (request, response) {
+
+  return response.redirect('/save-and-return/behind-rent')
+})
+715
+
+// behind on rent -> how much behind on rent, or, check your answers
+router.post('/save-and-return/previous-postcode', function(request, response) {
+
+	var behindRent = request.session.data['behindRent']
+	if (behindRent == "yes"){
+		response.redirect("/save-and-return/behind-rent-amount")
+	} else {
+		response.redirect("/save-and-return/check-your-answers")
+	}
+})
+
+// how many weeks behind rent -> on submit, go to check your answers
+router.post('/save-and-return/behind-rent-amount', function (request, response) {
+
+  return response.redirect('/save-and-return/check-your-answers')
+})
+
+
+// sign out yes or no
+router.post('/save-and-return/sign-out-decision', function (req, res) {
+  const answer = req.session.data['signOut'];
+
+  if (answer === 'yes') {
+    res.redirect('/save-and-return/sign-out-successful');   // your confirmation page
+  } else {
+    res.redirect('back');          // sends user to previous page
+  }
+});
+
+router.post('/save-and-return/ol-sign-in', function (req, res) {
+  const email = req.session.data['sss']
+
+  // For now, both options go to One Login
+  res.redirect('/save-and-return/ol-enter-password')
+})
+
+router.post('/save-and-return/ol-enter-password', function (req, res) {
+    res.redirect('/save-and-return/ol-check-your-phone');
+});
