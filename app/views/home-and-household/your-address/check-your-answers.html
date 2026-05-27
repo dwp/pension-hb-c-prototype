@@ -36,7 +36,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/home-and-household/your-address/perm-care-home",
             text: "Change",
             visuallyHiddenText: "whether you live permanently in a care home"
           }
@@ -49,7 +49,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/home-and-household/your-address/home-postcode",
             text: "Change",
             visuallyHiddenText: "home postcode"
           }
@@ -62,7 +62,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/home-and-household/your-address/home-address",
             text: "Change",
             visuallyHiddenText: "home address"
           }
@@ -70,25 +70,12 @@
       }
     },
     {
-      key: { text: "Are you responsible for the rent for the place where you live?" },
-      value: { text: (data['rentresponsibility'] or "Not provided") },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "rent responsibility"
-          }
-        ]
-      }
-    },
-    {
-      key: { text: "Are you responsible for the council tax for the place where you live?" },
+      key: { text: "Who pays the Council Tax bill for your home?" },
       value: { text: (data['counciltaxresponsibility'] or "Not provided") },
       actions: {
         items: [
           {
-            href: "#",
+            href: "/home-and-household/your-address/council-tax-responsibility",
             text: "Change",
             visuallyHiddenText: "council tax responsibility"
           }
@@ -101,7 +88,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/home-and-household/your-address/disabled-reduction",
             text: "Change",
             visuallyHiddenText: "Council Tax Disabled Reduction"
           }

@@ -15,27 +15,26 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your previous address</span>
 
-      <form class="form" action="/home-and-household/other-property-or-land/more-other-property" method="post">
-
-      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+      <form class="form" action="/home-and-household/your-previous-address/changed-address" method="post">
 
 {{ govukRadios({
-  name: "moreOtherProperty",
+  name: "changedAddress",
   fieldset: {
     legend: {
-      text: "Do you own any other property or land?",
+     text: "Have you changed address in the last 12 months?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   items: [
     {
-      value: "yes",
+      value: "Yes",
       text: "Yes"
     },
     {
-      value: "no",
+      value: "No",
       text: "No"
     }
   ]

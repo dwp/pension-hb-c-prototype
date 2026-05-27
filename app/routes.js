@@ -39,14 +39,22 @@ router.post('/care-home-funding', function(request, response) {
 	}
 })
 
+
+router.post('/home-and-household/your-address/home-address', function (req, res) {
+  res.redirect('/home-and-household/your-address/council-tax-responsibility')
+})
+
+
 // council tax reduction
-router.post('/disabled-reduction', function(request, response) {
+router.post('/home-and-household/your-address/council-tax-responsibility', function(request, response) {
 
 	var counciltaxresponsibility = request.session.data['counciltaxresponsibility']
-	if (counciltaxresponsibility == "yes"){
-		response.redirect("/home-and-household/your-address/disabled-reduction")
+	if (counciltaxresponsibility === "Both me and my partner" ||
+    counciltaxresponsibility === "I pay the full amount myself")
+  {
+		return response.redirect("/home-and-household/your-address/disabled-reduction")
 	} else {
-		response.redirect("/home-and-household/your-address/check-your-answers")
+		return response.redirect("/home-and-household/your-address/check-your-answers2")
 	}
 })
 
@@ -205,6 +213,19 @@ router.post('/home-and-household/your-landlord/behind-rent-amount', function (re
 
 //YOUR PREVIOUS ADDRESS SECTION
 
+// Have you moved address in the last 12 months?
+router.post('/home-and-household/your-previous-address/changed-address', function (req, res) {
+  const changedAddress = req.session.data['changedAddress']
+
+  if (changedAddress === 'Yes') {
+    // changed address - go to previous address page
+    return res.redirect('/home-and-household/your-previous-address/previous-postcode')
+  } else {
+    // not changed address - go to check your answers
+    return res.redirect('/home-and-household/your-previous-address/check-your-answers2')
+  }
+})
+
 
 // Select the address you lived at previously - direct route
 router.post('/home-and-household/your-previous-address/the-previous-address', function (request, response) {
@@ -220,44 +241,13 @@ router.post('/home-and-household/your-previous-address/move-out-date', function 
 
 // OTHER PROPERTY OR LAND SECTION
 
+
 // Do you own any property or land other than the home you live in?
 router.post('/home-and-household/other-property-or-land/other-property', function (req, res) {
-  const otherproperty = req.session.data['otherproperty']
-
-  if (otherproperty === 'yes') {
-    // Go to the address capture page for another property
-    return res.redirect('/home-and-household/other-property-or-land/postcode-other-property')
-  } else {
-    // No more properties – return to the task list
-    return res.redirect('/task-list')
-  }
+  return res.redirect('/home-and-household/other-property-or-land/check-your-answers')
 })
 
-// other property or land address label
 
-// Address selection → just redirect; Auto Store has stored `address-other-property`
-router.post('/home-and-household/about-the-place-you-live/property-purpose', function (req, res) {
-  return res.redirect('/home-and-household/other-property-or-land/purpose-other-property')
-})
-
-// more-other-property → branch to next step
-router.post('/home-and-household/other-property-or-land/add-another-property', function (req, res) {
-  const moreOtherProperty = req.session.data['moreOtherProperty']
-
-  if (moreOtherProperty === 'yes') {
-    // Go to the address capture page for another property
-    return res.redirect('/home-and-household/other-property-or-land/postcode-other-property')
-  } else {
-    // No more properties – return to the task list
-    return res.redirect('/task-list')
-  }
-})
-
-// purpose-other-property → on submit, go to the "more other property" page
-router.post('/home-and-household/other-property-or-land/purpose-other-property', function (req, res) {
-
-  return res.redirect('/home-and-household/other-property-or-land/add-another-other-property')
-})
 
 // PEOPLE WHO LIVE WITH YOU SECTION
 
