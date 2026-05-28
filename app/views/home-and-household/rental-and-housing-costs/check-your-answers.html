@@ -79,22 +79,22 @@
             {
               key: { text: "Living situation" },
               value: { text: (data['livingsituation'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "living situation" } ] }
+              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/living-situation", text: "Change", visuallyHiddenText: "living situation" } ] }
             },
             {
               key: { text: "Rent frequency" },
               value: { text: (data['rentfrequency'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent frequency" } ] }
+              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-frequency", text: "Change", visuallyHiddenText: "rent frequency" } ] }
             },
             {
               key: { text: "Rent amount" },
               value: { text: ('£' ~ data['cost'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "rent amount" } ] }
+              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-amount", text: "Change", visuallyHiddenText: "rent amount" } ] }
             },
             {
               key: { text: "Move in date" },
               value: { text: (move_in_display or ('Before ' ~ data.backdate)) },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move in date" } ] }
+              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/precheck-move-in-date", text: "Change", visuallyHiddenText: "move in date" } ] }
             }
           ]
         }) }}

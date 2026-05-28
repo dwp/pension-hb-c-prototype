@@ -92,6 +92,11 @@
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/bedroom-amount", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
             },
             {
+              key: { text: "Do you live in one main room only (like a bedsit), or in accommodation where you do not have exclusive use of any other room?" },
+              value: { text: (data['onlyOneRoom'] or "Not provided") },
+              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/one-room-only", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
+            },
+            {
               key: { text: "Non-resident carer required?" },
               value: { text: (yesNo[data['overnightCarer']] or data['overnightCarer'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/overnight-carer", text: "Change", visuallyHiddenText: "non-resident carer" } ] }

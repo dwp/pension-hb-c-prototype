@@ -79,17 +79,17 @@
           {
               key: { text: "Have you changed address in the last 12 months?" },
               value: { text: (data['changedAddress'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "changed address" } ] }
+              actions: { items: [ { href: "/home-and-household/your-previous-address/changed-address", text: "Change", visuallyHiddenText: "changed address" } ] }
             },
             {
               key: { text: "What is your previous address?" },
               value: { text: (data['previous-address'] or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "previous address" } ] }
+              actions: { items: [ { href: "/home-and-household/your-previous-address/previous-postcode", text: "Change", visuallyHiddenText: "previous address" } ] }
             },
             {
               key: { text: "When did you move out of your previous address?" },
               value: { text: (move_out_display or "Not provided") },
-              actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "move out date" } ] }
+              actions: { items: [ { href: "/home-and-household/your-previous-address/move-out-date", text: "Change", visuallyHiddenText: "move out date" } ] }
             }
           ]
         }) }}
