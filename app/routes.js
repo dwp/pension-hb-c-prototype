@@ -39,6 +39,9 @@ router.post('/care-home-funding', function(request, response) {
 	}
 })
 
+router.post('/home-and-household/your-address/home-postcode', function (req, res) {
+  res.redirect('/home-and-household/your-address/home-address')
+})
 
 router.post('/home-and-household/your-address/home-address', function (req, res) {
   res.redirect('/home-and-household/your-address/council-tax-responsibility')
@@ -281,16 +284,18 @@ router.post('/home-and-household/people-who-live-with-you/living-situation-nonde
 
   if (livingSituation === 'They are from a charity or voluntary organisation') {
     return res.redirect('/home-and-household/people-who-live-with-you/charity-nondep1')
-  } else {
-
+  } else if (livingSituation === 'They live with me but are not responsible for the rent') {
     return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
+    } else {
+
+    return res.redirect('/home-and-household/people-who-live-with-you/check-details2-nondep1')
   }
 })
 
 // charity - direct route
 router.post('/home-and-household/people-who-live-with-you/charity-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/dob-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/check-details3-nondep1')
 })
 
 // nondep1 related branching
@@ -367,7 +372,7 @@ router.post('/home-and-household/people-who-live-with-you/employment-nondep1', (
   const noSelfEmployment = selfEmployment === 'No'
 
   if (noEmployment && noSelfEmployment) {
-    return res.redirect('/home-and-household/people-who-live-with-you/benefits-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
   }
 
   return res.redirect('/home-and-household/people-who-live-with-you/hours-employment-nondep1')
@@ -376,7 +381,12 @@ router.post('/home-and-household/people-who-live-with-you/employment-nondep1', (
 
 // nondep1 16 hours a week or more - direct route
 router.post('/home-and-household/people-who-live-with-you/hours-employment-nondep1', (req, res) => {
-  return res.redirect('/home-and-household/people-who-live-with-you/benefits-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/gross-income-nondep1')
+})
+
+// nondep1 gross income - direct route
+router.post('/home-and-household/people-who-live-with-you/gross-income-nondep1', (req, res) => {
+  return res.redirect('/home-and-household/people-who-live-with-you/currently-away-nondep1')
 })
 
 
@@ -453,24 +463,51 @@ router.post('/home-and-household/people-who-live-with-you/child-dob-nondep1', (r
   return res.redirect('/home-and-household/people-who-live-with-you/child-gender-nondep1')
 })
 
-// child gender -> child disability
+//child gender -> add another child
 router.post('/home-and-household/people-who-live-with-you/child-gender-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/child-disability-nondep1')
+  // Get existing children or create empty array
+  let children = req.session.data.children || []
+
+  // Add new child
+  children.push({
+    name: req.session.data['nondep1ChildName'] || '',
+    dob: req.session.data['nondep1ChildDob'],
+    gender: req.session.data['nondep1ChildGender']
+  })
+
+  // Save back to session
+  req.session.data.children = children
+
+  // OPTIONAL: clear the temp fields so next child is fresh
+  delete req.session.data['nondep1ChildName']
+  delete req.session.data['nondep1ChildDob']
+  delete req.session.data['nondep1ChildGender']
+
+  res.redirect('/home-and-household/people-who-live-with-you/add-another-child')
 })
 
-// child disability -> another child?
-router.post('/home-and-household/people-who-live-with-you/child-disability-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/another-child-nondep1')
+//remove child from list
+router.get('/home-and-household/people-who-live-with-you/remove-child', function (req, res) {
+
+  const index = Number(req.query.index)
+  let children = req.session.data.children || []
+
+  children.splice(index, 1)
+
+  req.session.data.children = children
+
+  res.redirect('/home-and-household/people-who-live-with-you/add-another-child')
 })
+
 
 // Do they have another child or young person living at the property?
 router.post('/home-and-household/people-who-live-with-you/another-child-nondep1', function (req, res) {
   const anotherChild = req.session.data['anotherChild']
 
   if (anotherChild === 'Yes') {
-    return res.redirect('/home-and-household/people-who-live-with-you/child-name-nondep1')
+    return res.redirect('/home-and-household/people-who-live-with-you/child2-name-nondep1')
   } else {
     return res.redirect('/home-and-household/people-who-live-with-you/check-details-nondep1')
   }
@@ -479,18 +516,32 @@ router.post('/home-and-household/people-who-live-with-you/another-child-nondep1'
 // check details -> add another adult
 router.post('/home-and-household/people-who-live-with-you/check-details-nondep1', (req, res) => {
 
+if (!req.session.data.nondependants) {
+    req.session.data.nondependants = []
+  }
+
+  req.session.data.nondependants.push({
+    name: req.session.data.nondep1Name
+  })
+
   return res.redirect('/home-and-household/people-who-live-with-you/add-another-person')
 })
 
 // Add another adult in your household
-router.post('/home-and-household/people-who-live-with-you/add-another-person', function (req, res) {
+router.post('/home-and-household/people-who-live-with-you/add-another-person', (req, res) => {
   const addAnother = req.session.data['addAnother']
 
-  if (addAnother === 'yes') {
-    return res.redirect('/home-and-household/people-who-live-with-you/add-another-person')
-  } else {
-    return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1') 
-  }
+  
+if (addAnother === 'yes') {
+
+  // ✅ Clear previous name so input is empty
+  delete req.session.data.nondep1Name
+
+  return res.redirect('/home-and-household/people-who-live-with-you/name-nondep2')
+}
+
+
+  return res.redirect('/home-and-household/people-who-live-with-you/couple-nondep1')
 })
 
 // If nondep1 is in a couple -> couple name else -> task list
@@ -507,7 +558,60 @@ router.post('/home-and-household/people-who-live-with-you/couple-nondep1', funct
 // couple-name-nondep1 -> task list
 router.post('/home-and-household/people-who-live-with-you/couple-name-nondep1', (req, res) => {
 
-  return res.redirect('/task-list')
+  const selected = req.session.data['PartnerNameNondep1']
+  const people = req.session.data.nondependants || []
+
+  const selectedArray = Array.isArray(selected) ? selected : [selected]
+
+
+// ✅ Prevent mixing "no more couples" with names
+if (
+  selectedArray.includes('no-more-couples') &&
+  selectedArray.length > 1
+) {
+  return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
+}
+
+// ✅ Handle "no more couples"
+if (selectedArray.includes('no-more-couples')) {
+  return res.redirect('/home-and-household/people-who-live-with-you/added-couple')
+}
+``
+
+
+  // ✅ Must select exactly 2 people
+  if (selectedArray.length !== 2) {
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
+  }
+
+  // ✅ Create couples array if needed
+  if (!req.session.data.couples) {
+    req.session.data.couples = []
+  }
+
+  // ✅ Store couple correctly (IMPORTANT FIX)
+  req.session.data.couples.push({
+    person1: selectedArray[0],
+    person2: selectedArray[1]
+  })
+
+  // ✅ Remove selected people
+  const remainingPeople = people.filter(person =>
+    !selectedArray.includes(person.name)
+  )
+
+  req.session.data.nondependants = remainingPeople
+
+  // ✅ CLEAR previous selection (prevents bugs)
+  delete req.session.data['PartnerNameNondep1']
+
+  // ✅ IF MORE COUPLES POSSIBLE → LOOP BACK
+  if (remainingPeople.length >= 2) {
+    return res.redirect('/home-and-household/people-who-live-with-you/couple-name-nondep1')
+  }
+
+  // ✅ OTHERWISE GO TO SUMMARY PAGE
+  return res.redirect('/home-and-household/people-who-live-with-you/added-couple')
 })
 
 //

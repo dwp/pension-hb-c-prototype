@@ -15,29 +15,53 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
 
       <form class="form" action="/home-and-household/people-who-live-with-you/couple-name-nondep1" method="post">
+        {% set people = data.nondependants or [] %}
+{% set items = [] %}
 
-{{ govukRadios({
+{% for person in people %}
+  {% set items = items.concat([{
+    value: person.name,
+    text: person.name
+  }]) %}
+{% endfor %}
+
+{% set people = data.nondependants or [] %}
+{% set items = [] %}
+
+{% for person in people %}
+  {% set items = items.concat([{
+    value: person.name,
+    text: person.name
+  }]) %}
+{% endfor %}
+
+{{ govukCheckboxes({
   name: "PartnerNameNondep1",
   fieldset: {
     legend: {
-      text: "Who is " ~ (data['nondep1Name'] or 'this person') ~ "'s partner?",
+      text: "Which adults living in your household form a couple?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
-  items: [
+  hint: {
+    text: "Select 2 people, or select 'There are no more couples remaining'."
+  },
+  items: items.concat([
     {
-      value: "Simon Murrell",
-      text: "Simon Murrell"
+      divider: "or"
     },
     {
-      value: "Sarah Veale",
-      text: "Sarah Veale"
+      value: "no-more-couples",
+      text: "There are no more couples remaining"
     }
-  ]
+  ])
 }) }}
+
+
 
         {{ govukButton({
           text: "Save and continue"
