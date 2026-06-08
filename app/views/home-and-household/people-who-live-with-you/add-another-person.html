@@ -15,74 +15,49 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
 
       <form class="form" action="/home-and-household/people-who-live-with-you/add-another-person" method="post">
         
-        <h1 class="govuk-heading-l">You have added 3 people</h1>
+
+{% set rows = [] %}
+{% set people = data.nondependants or [] %}
+
+{% for person in people %}
+  {% set rows = rows.concat([{
+    key: { text: "Name" },
+    value: { text: person.name },
+    actions: {
+      items: [{
+        href: "#",
+        text: "Change",
+        visuallyHiddenText: "name"
+      }]
+    }
+  }]) %}
+{% endfor %}
+
+<h1 class="govuk-heading-l">
+  You have added {{ people.length }}
+  {% if people.length == 1 %}
+    person
+  {% else %}
+    people
+  {% endif %}
+</h1>
 
 {{ govukSummaryList({
-  rows: [
-    {
-      key: {
-        text: "Name"
-      },
-      value: {
-        text: data['nondep1Name'] or "Example name"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "name"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: "Name"
-      },
-      value: {
-        text: "Simon Murrell"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "name"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: "Name"
-      },
-      value: {
-        text: "Sarah Veale"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "name"
-          }
-        ]
-      }
-    }
-  ]
+  rows: rows
 }) }}
+
 
 
         {{ govukInsetText({
           text: "You should tell these people that DWP may use their information as part of your application. This includes information you provide or that we already hold about them."
         }) }}
 
-        <h2 class="govuk-heading-m">Add another person who lives with you?</h2>
-        <p class="govuk-body">Only tell us about people over 18.</p>
+        <h2 class="govuk-heading-m">Does anyone else who is 18 or over live with you?</h2>
+        <p class="govuk-body"></p>
 
         {{ govukRadios({
           idPrefix: "addAnother",
@@ -93,7 +68,7 @@
           ]
         }) }}
 
-        {{ govukButton({ text: "Continue" }) }}
+        {{ govukButton({ text: "Save and continue" }) }}
 
       </form>
 

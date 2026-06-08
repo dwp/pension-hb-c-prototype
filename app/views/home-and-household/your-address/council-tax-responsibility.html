@@ -15,8 +15,9 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your address</span>
 
-      <form class="form" action="/disabled-reduction" method="post">
+      <form class="form" action="/home-and-household/your-address/council-tax-responsibility" method="post">
 
       {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
@@ -24,25 +25,33 @@
   name: "counciltaxresponsibility",
   fieldset: {
     legend: {
-      text: "Are you responsible for the council tax for the place where you live?",
+      text: "Who pays the Council Tax bill for your home?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
   },
   items: [
     {
-      value: "yes",
-      text: "Yes"
+      value: "I pay the full amount myself",
+      text: "I pay the full amount myself"
     },
     {
-      value: "no",
-      text: "No"
+      value: "Both me and my partner",
+      text: "Both me and my partner"
+    },
+    {
+      value: "My landlord",
+      text: "My landlord"
+    },
+    {
+      value: "Someone else pays it",
+      text: "Someone else pays it"
     }
   ]
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

@@ -1,0 +1,97 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your address</span>
+
+      <form class="form" action="/task-list" novalidate>
+
+<h1 class="govuk-heading-l">Check your answers</h1>
+
+<!-- <h2 class="govuk-heading-m">Your address</h2> -->
+
+{{ govukSummaryList({
+  classes: "govuk-!-margin-bottom-9",
+  rows: [
+    {
+      key: { text: "Do you live permanently in a care home?" },
+      value: { text: (data['permcarehome'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "whether you live permanently in a care home"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "What is your home postcode?" },
+      value: { text: (data['home-postcode'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "home postcode"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "What is your home address" },
+      value: { text: (data['home-address'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "home address"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "Who pays the Council Tax bill for your home?" },
+      value: { text: (data['counciltaxresponsibility'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "council tax responsibility"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

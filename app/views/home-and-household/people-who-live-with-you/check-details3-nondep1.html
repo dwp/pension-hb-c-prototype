@@ -1,0 +1,169 @@
+{% extends "layouts/main.html" %}
+
+{# ----------------------------- #
+  BUILD DOB DISPLAY STRING
+  Keys from namePrefix: date-of-birth
+# ------------------------------ #}
+
+{% set dob_day   = data['date-of-birth-day']   | default('') %}
+{% set dob_month = data['date-of-birth-month'] | default('') %}
+{% set dob_year  = data['date-of-birth-year']  | default('') %}
+
+{# Month lookup for written date format #}
+
+{% set monthNames = {
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+} %}
+
+{% set dob_display = "" %}
+{% if dob_day and dob_month and dob_year and monthNames[dob_month] %}
+  {% set dob_display = dob_day ~ " " ~ monthNames[dob_month] ~ " " ~ dob_year %}
+{% endif %}
+
+
+{# ----------------------------- #
+  BUILD DATE-LIVING-TOGETHER DISPLAY STRING
+  Keys from namePrefix: date-living-together
+# ------------------------------ #}
+
+{% set live_day   = data['date-living-together-day']   | default('') %}
+{% set live_month = data['date-living-together-month'] | default('') %}
+{% set live_year  = data['date-living-together-year']  | default('') %}
+
+{% set living_together_display = "" %}
+{% if live_day and live_month and live_year and monthNames[live_month] %}
+  {% set living_together_display = live_day ~ " " ~ monthNames[live_month] ~ " " ~ live_year %}
+{% endif %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{# ----------------------------- #
+  BUILD DATE-RENT-START DISPLAY STRING
+  Keys from namePrefix: date-rent-start
+# ------------------------------ #}
+
+{% set rent_day   = data['date-rent-start-day']   | default('') %}
+{% set rent_month = data['date-rent-start-month'] | default('') %}
+{% set rent_year  = data['date-rent-start-year']  | default('') %}
+
+{% set rent_start_display = "" %}
+{% if rent_day and rent_month and rent_year and monthNames[rent_month] %}
+  {% set rent_start_display = rent_day ~ " " ~ monthNames[rent_month] ~ " " ~ rent_year %}
+{% endif %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/check-details-nondep1" method="post">
+
+<h1 class="govuk-heading-l">Check this person's details</h1>
+
+ {% set rows = [] %}
+
+{% set rows = rows.concat([{
+  key: { text: "Name" },
+  value: { text: data['nondep1Name'] or "Not provided" },
+  actions: {
+    items: [{
+      href: "/home-and-household/people-who-live-with-you/name-nondep1",
+      text: "Change",
+      visuallyHiddenText: "name"
+    }]
+  }
+}]) %}
+
+{% set rows = rows.concat([{
+  key: { text: "Are you related to them?" },
+  value: { text: data['relatednonDep'] or "No" },
+  actions: {
+    items: [{
+      href: "/home-and-household/people-who-live-with-you/related-nondep1",
+      text: "Change",
+      visuallyHiddenText: "related"
+    }]
+  }
+}]) %}
+
+{# ✅ CONDITIONAL ROW #}
+{% if data['relatednonDep'] == "Yes" %}
+  {% set rows = rows.concat([{
+    key: { text: "How are you related?" },
+    value: { text: data['howrelatednonDep'] or "Not provided" },
+    actions: {
+      items: [{
+        href: "/home-and-household/people-who-live-with-you/how-related-nondep1",
+        text: "Change",
+        visuallyHiddenText: "how you are related"
+      }]
+    }
+  }]) %}
+{% endif %}
+
+{% set rows = rows.concat([{
+  key: { text: "Living situation?" },
+  value: { text: data['livingSituation'] or "Not provided" },
+  actions: {
+    items: [{
+      href: "/home-and-household/people-who-live-with-you/living-situation-nondep1",
+      text: "Change",
+      visuallyHiddenText: "living situation"
+    }]
+  }
+}]) %}
+
+{% set rows = rows.concat([{
+  key: { text: "What is the name of the charity?" },
+  value: { text: data['charityNondep1'] or "Not provided" },
+  actions: {
+    items: [{
+      href: "/home-and-household/people-who-live-with-you/charity-nondep1",
+      text: "Change",
+      visuallyHiddenText: "charity name"
+    }]
+  }
+}]) %}
+
+
+
+{{ govukSummaryList({
+  classes: "govuk-!-margin-bottom-9",
+  rows: rows
+}) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

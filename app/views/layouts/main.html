@@ -3,14 +3,24 @@ For guidance on how to use layouts see:
 https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 #}
 
+
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
-{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% block header %}
 
-    {{ govukHeader() }}
-    {{ govukServiceNavigation({
-        serviceName: serviceName
-    })}}
+{% from "di-govuk-one-login-service-header/service-header.njk" import govukOneLoginServiceHeader %}
+
+{{ govukOneLoginServiceHeader({
+    homepageLink: "/",
+    serviceUrl: "/", 
+    homepageUrl: "/", 
+  signOutLink: "/save-and-return/sign-out-decision",
+  oneLoginLink: "/one-login",
+  rebrand: true,
+  serviceNavigationParams: {
+    serviceName: serviceName,
+    navigation: []
+  }
+}) }}
 
 {% endblock %}

@@ -13,19 +13,21 @@
 
 {% block content %}
 
+{% set personName = data.nondep1Name %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/home-and-household/people-who-live-with-you/living-situation-nondep1" method="post" novalidate>
         
-        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
+        <span class="govuk-caption-l">People who live with you</span>
 
         {{ govukRadios({
           name: "livingSituation",
           id: "living-situation",
           fieldset: {
             legend: {
-              text: "What is your living situation?",
+              text: "What is your living situation with " + personName + "?" ,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
@@ -59,18 +61,25 @@
                 text: "They are paid, or volunteer to live in your home and care for you"
               }
             },
+            {
+              value: "They live with me but are not responsible for the rent",
+              text: "They live with me but are not responsible for the rent",
+              hint: {
+                text: "For example, an adult child, relative or friend living in your home"
+              }
+            },
                 {
       divider: "or"
     },
     {
-      value: "none-of-these",
-      text: "None of these"
+      value: "Other",
+      text: "Other"
     }
   ]
         }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

@@ -13,14 +13,17 @@
 
 {% block content %}
 
+{% set personName = data.nondep1Name %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
 
       <form class="form" action="/home-and-household/people-who-live-with-you/child-name-nondep1" method="post">
 
 {{ govukInput({
   label: {
-    text: "What is this child's full name?",
+    text: "What is the full name of " + personName + "'s first child?",
     classes: "govuk-label--l",
     isPageHeading: true
   },
@@ -28,13 +31,13 @@
     text: "Tell us about people one at a time."
   },
   classes: "govuk-input--width-20",
-  id: "nondep1-child-name",
+  id: "nondep1ChildName",
   name: "nondep1ChildName",
-  value: data['nondep1-child-name']
+  value: data['nondep1ChildName']
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>

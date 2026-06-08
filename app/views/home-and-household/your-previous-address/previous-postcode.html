@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your previous address</span>
+
+      <form class="form" action="/home-and-household/your-previous-address/previous-address" method="post">
+
+        <h1 class="govuk-heading-l">What is the address of your previous home?</h1>
+<div class="govuk-form-group">
+    <label class="govuk-label" for="postcode">
+      Postcode
+    </label>
+    <div id="postcode-hint" class="govuk-hint">
+      For example, AA3 1AB.
+    </div>
+    <input
+      class="govuk-input govuk-!-width-two-thirds" id="postcode" name="previous-postcode" type="text" aria-describedby="postcode-hint">
+  </div>
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="searchString">
+      Building number or name
+    </label>
+    <div id="searchString-hint" class="govuk-hint">
+      For example, 15 or Prospect Cottage.
+    </div>
+    <input
+      class="govuk-input govuk-!-width-two-thirds" id="searchString" name="previous-number-or-name" type="text" aria-describedby="searchString-hint">
+  </div>
+  <button type="submit" class="govuk-button" data-module="govuk-button">
+    Find address
+  </button>
+  <p class="govuk-body govuk-!-margin-bottom-0"><a href="#" class="govuk-link">Enter address manually</a></p>
+</div>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

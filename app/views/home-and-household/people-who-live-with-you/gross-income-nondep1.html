@@ -1,0 +1,53 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% set personName = data.nondep1Name %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/gross-income-nondep1" method="post">
+
+
+
+{{ govukInput({
+  id: "cost",
+  name: "cost",
+  label: {
+    text: "What is " + personName + "'s gross income?",
+    classes: "govuk-label--l",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Income, in pounds."
+  },
+  prefix: {
+    text: "£"
+  },
+  classes: "govuk-input--width-10",
+  spellcheck: false
+}) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

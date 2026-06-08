@@ -1,0 +1,90 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% set childName = data.nondep1ChildName %}
+{% set personName = data.nondep1Name %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">People who live with you</span>
+
+      <form class="form" action="/home-and-household/people-who-live-with-you/another-child-nondep1" method="post">
+        
+        <h1 class="govuk-heading-l">You have added 1 child or young person</h1>
+
+{% set children = (data['children'] or []) | reject("equalto", null) %}
+
+{% set rows = [] %}
+
+{% for child in children %}
+  {% if child and child.name %}
+    {% set rows = rows.concat([{
+      key: { text: "Name" },
+      value: { text: child.name },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/people-who-live-with-you/child-name-nondep1?index=" + loop.index0,
+            text: "Change"
+          },
+          {
+            href: "/home-and-household/people-who-live-with-you/remove-child?index=" + loop.index0,
+            text: "Remove"
+          }
+        ]
+      }
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{% if rows.length > 0 %}
+  {{ govukSummaryList({
+    rows: rows
+  }) }}
+{% endif %}
+
+
+
+
+
+
+        {{ govukInsetText({
+          text: "You should tell these people that DWP may use their information as part of your application. This includes information you provide or that we already hold about them."
+        }) }}
+
+        
+<h2 class="govuk-heading-m">
+  Does {{ personName or "this person" }} have any other children or qualifying young people living at the property?
+</h2>
+
+        <p class="govuk-body">Only tell us about people over 18.</p>
+
+        {{ govukRadios({
+          idPrefix: "anotherChild",
+          name: "anotherChild",
+          items: [
+            { value: "Yes", text: "Yes", checked: (data['anotherChild'] or '') == 'Yes'},
+            { value: "No", text: "No", checked: data['anotherChild'] == 'No' }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Save and continue" }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

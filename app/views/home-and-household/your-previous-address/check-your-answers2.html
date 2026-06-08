@@ -1,0 +1,94 @@
+{% extends "layouts/main.html" %}
+
+{% set monthNames = {
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+} %}
+
+{% set yesNo = { 'yes': 'Yes', 'no': 'No' } %}
+
+{# Move-in date display (namePrefix: move-in-date) #}
+{% set mi_day   = data['move-in-date-day']   | default('') %}
+{% set mi_month = data['move-in-date-month'] | default('') %}
+{% set mi_year  = data['move-in-date-year']  | default('') %}
+{% set move_in_display = "" %}
+{% if mi_day and mi_month and mi_year and monthNames[mi_month] %}
+  {% set move_in_display = mi_day ~ " " ~ monthNames[mi_month] ~ " " ~ mi_year %}
+{% endif %}
+
+{# Tenancy start date display (namePrefix: tenancy-start-date) #}
+{% set ts_day   = data['tenancy-start-date-day']   | default('') %}
+{% set ts_month = data['tenancy-start-date-month'] | default('') %}
+{% set ts_year  = data['tenancy-start-date-year']  | default('') %}
+{% set tenancy_start_display = "" %}
+{% if ts_day and ts_month and ts_year and monthNames[ts_month] %}
+  {% set tenancy_start_display = ts_day ~ " " ~ monthNames[ts_month] ~ " " ~ ts_year %}
+{% endif %}
+
+{# Move-out date display (namePrefix: move-out-date) #}
+{% set mo_day   = data['move-out-date-day']   | default('') %}
+{% set mo_month = data['move-out-date-month'] | default('') %}
+{% set mo_year  = data['move-out-date-year']  | default('') %}
+{% set move_out_display = "" %}
+{% if mo_day and mo_month and mo_year and monthNames[mo_month] %}
+  {% set move_out_display = mo_day ~ " " ~ monthNames[mo_month] ~ " " ~ mo_year %}
+{% endif %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Your previous address</span>
+
+      <form class="form" action="/task-list" novalidate>     
+      
+      <h1 class="govuk-heading-l">Check your answers</h1>
+
+      <!-- <h2 class="govuk-heading-m">About the place you live</h2> -->
+
+
+
+        {{ govukSummaryList({
+          classes: "govuk-!-margin-bottom-9",
+          rows: [
+          {
+              key: { text: "Have you changed address in the last 12 months?" },
+              value: { text: (data['changedAddress'] or "Not provided") },
+              actions: { items: [ { href: "/home-and-household/your-previous-address/changed-address", text: "Change", visuallyHiddenText: "changed address" } ] }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Save and continue" }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

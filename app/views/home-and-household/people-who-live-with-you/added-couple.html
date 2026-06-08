@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">People who live with you</span>
+
+    {% set couples = data.couples or [] %}
+
+    <h1 class="govuk-heading-l">
+      You have added {{ couples.length }}
+      {% if couples.length == 1 %}
+        couple
+      {% else %}
+        couples
+      {% endif %}
+    </h1>
+
+    {% set rows = [] %}
+
+    {% for couple in couples %}
+      {% set rows = rows.concat([{
+        key: { text: "Names" },
+        value: { text: couple.person1 + " and " + couple.person2 },
+        actions: {
+          items: [{
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: couple.person1 + " and " + couple.person2
+          }]
+        }
+      }]) %}
+    {% endfor %}
+
+    {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-9",
+      rows: rows
+    }) }}
+
+    <form method="post" action="/task-list">
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

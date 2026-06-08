@@ -13,19 +13,21 @@
 
 {% block content %}
 
+{% set personName = data.nondep1Name %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/home-and-household/people-who-live-with-you/how-related-nondep1" method="post">
 
-        <span class="govuk-caption-xl">About {{ data['nondep1Name'] }}</span>
+        <span class="govuk-caption-l">People who live with you</span>
 
 {{ govukRadios({
   name: "howrelatednonDep",
   fieldset: {
     legend: {
-            text: "How are you related?",
-      classes: "govuk-fieldset__legend--l"
+            text: "How are you related to " + personName + "?",
+            classes: "govuk-fieldset__legend--l"
     }
   },
   items: [
@@ -78,7 +80,7 @@
 }) }}
 
         {{ govukButton({
-          text: "Continue"
+          text: "Save and continue"
         }) }}
 
       </form>
