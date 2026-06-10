@@ -4,6 +4,8 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% set yesNo = { 'yes': 'Yes', 'no': 'No' } %}
+
 {% block pageTitle %}
   Question page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
@@ -20,7 +22,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <span class="govuk-caption-l">Your address</span>
-      <form class="form" action="/task-list" method="post" novalidate>
+      <form class="form" action="/home-and-household/your-address/complete" method="post" novalidate>
 
 <h1 class="govuk-heading-l">Check your answers</h1>
 
@@ -32,7 +34,7 @@
 
     {
       key: { text: "Do you live permanently in a care home?" },
-      value: { text: (data['permcarehome'] or "Not provided") },
+      value: { text: (yesNo[data['permcarehome']] or "Not provided") },
       actions: {
         items: [
           {
@@ -45,7 +47,7 @@
     },
     {
       key: { text: "Is any part of your care home funding provided by your local authority?" },
-      value: { text: (data['carehomefunding'] or "Not provided") },
+      value: { text: (yesNo[data['carehomefunding']] or "Not provided") },
       actions: {
         items: [
           {
@@ -58,7 +60,7 @@
     },
     {
       key: { text: "Do you own the property you used to live in?" },
-      value: { text: (data['ownPreviousHome'] or "Not provided") },
+      value: { text: (yesNo[data['ownPreviousHome']] or "Not provided") },
       actions: {
         items: [
           {

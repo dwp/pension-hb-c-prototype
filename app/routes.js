@@ -28,6 +28,52 @@ router.use((req, res, next) => {
   next()
 })
 
+// Home and household - Complete tag statuses
+
+// your address - completed tag trigger
+router.post('/home-and-household/your-address/complete', function (req, res) {
+  req.session.data['yourAddressComplete'] = true
+  res.redirect('/task-list')
+})
+
+// rental and housing costs - completed tag trigger
+router.post('/home-and-household/rental-and-housing-costs/complete', function (req, res) {
+  req.session.data['rentalCostsComplete'] = true
+  res.redirect('/task-list')
+})
+
+// about the place you live - completed tag trigger
+router.post('/home-and-household/about-the-place-you-live/complete', function (req, res) {
+  req.session.data['aboutPlaceComplete'] = true
+  res.redirect('/task-list')
+})
+
+// landlord - completed tag trigger
+router.post('/home-and-household/your-landlord/complete', function (req, res) {
+  req.session.data['landlordComplete'] = true
+  res.redirect('/task-list')
+})
+
+// your previous address - completed tag trigger
+router.post('/home-and-household/your-previous-address/complete', function (req, res) {
+  req.session.data['previousAddressComplete'] = true
+  res.redirect('/task-list')
+})
+
+// other property or land - completed tag trigger
+router.post('/home-and-household/other-property-or-land/complete', function (req, res) {
+  req.session.data['otherPropertyComplete'] = true
+  res.redirect('/task-list')
+})
+
+// people who live with you - completed tag trigger
+router.post('/home-and-household/people-who-live-with-you/complete', function (req, res) {
+  req.session.data['householdPeopleComplete'] = true
+  res.redirect('/task-list')
+})
+
+
+
 // care home
 router.post('/care-home-funding', function(request, response) {
 
@@ -267,6 +313,9 @@ router.post('/home-and-household/people-who-live-with-you/non-dependant', functi
   if (nonDep === 'Yes') {
     return res.redirect('/home-and-household/people-who-live-with-you/name-nondep1')
   } else {
+
+    req.session.data['householdPeopleComplete'] = true
+
 
     return res.redirect('/task-list')
   }
@@ -531,6 +580,8 @@ if (!req.session.data.nondependants) {
 router.post('/home-and-household/people-who-live-with-you/add-another-person', (req, res) => {
   const addAnother = req.session.data['addAnother']
 
+  // ✅ MARK SECTION COMPLETE HERE
+  req.session.data['householdPeopleComplete'] = true
   
 if (addAnother === 'yes') {
 
