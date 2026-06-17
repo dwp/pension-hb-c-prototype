@@ -96,15 +96,36 @@ router.post('/home-and-household/your-address/home-address', function (req, res)
 
 // council tax reduction
 router.post('/home-and-household/your-address/council-tax-responsibility', function(request, response) {
-
-	var counciltaxresponsibility = request.session.data['counciltaxresponsibility']
-	if (counciltaxresponsibility === "Both me and my partner" ||
-    counciltaxresponsibility === "I pay the full amount myself")
-  {
-		return response.redirect("/home-and-household/your-address/disabled-reduction")
-	} else {
 		return response.redirect("/home-and-household/your-address/check-your-answers2")
-	}
+})
+
+//living situation conditional routing - service charges
+router.post('/home-and-household/rental-and-housing-costs/living-situation-answer', function (req, res) {
+
+  const livingSituation = req.session.data['livingsituation']
+
+  if (livingSituation === 'I rent from a housing association or registered social landlord') {
+    res.redirect('/home-and-household/rental-and-housing-costs/service-charges')
+  } else {
+    res.redirect('/home-and-household/rental-and-housing-costs/rent-frequency')
+  }
+
+})
+
+//service charges - rent frequency
+
+router.post('/home-and-household/rental-and-housing-costs/service-charges', function (req, res) {
+  res.redirect('/home-and-household/rental-and-housing-costs/rent-frequency')
+})
+
+router.post('/home-and-household/rental-and-housing-costs/rent-frequency', function (req, res) {
+  res.redirect('/home-and-household/rental-and-housing-costs/rent-amount')
+})
+
+router.post('/home-and-household/rental-and-housing-costs/rent-amount', function (req, res) {
+
+  res.redirect('/home-and-household/rental-and-housing-costs/precheck-move-in-date')
+
 })
 
 // ABOUT THE PLACE YOU LIVE SECTION
@@ -115,21 +136,22 @@ router.post('/home-and-household/about-the-place-you-live/shared-accommodation-r
   return res.redirect('/home-and-household/about-the-place-you-live/bedroom-amount')
 })
 
-// Rent amount → Move-in date
-router.post(
-  '/home-and-household/rental-and-housing-costs/precheck-move-in-date',
-  (req, res) => {
-    res.redirect('/home-and-household/rental-and-housing-costs/precheck-move-in-date');
-  }
-);
+// Move-in date conditional routing to tenancy and arrears questions or check your answers
+router.post('/home-and-household/rental-and-housing-costs/precheck-move-in-date', function (req, res) {
 
-// Move-in date → Check answers
-router.post(
-  '/home-and-household/rental-and-housing-costs/check-your-answers',
-  (req, res) => {
-    res.redirect('/home-and-household/rental-and-housing-costs/check-your-answers');
+  const livingSituation = req.session.data['livingsituation']
+
+  if (
+    livingSituation === "I rent from a private landlord" ||
+    livingSituation === "I am a boarder with meals included in my rent" ||
+    livingSituation === "I am a subtenant or lodger"
+  ) {
+    res.redirect('/home-and-household/rental-and-housing-costs/tenancy-start-already-provided')
+  } else {
+    res.redirect('/home-and-household/rental-and-housing-costs/check-your-answers')
   }
-);
+
+})
 
 // GET render: reset error on first load
 router.get('/home-and-household/about-the-place-you-live/bedroom-amount', (req, res) => {
@@ -192,14 +214,14 @@ router.post('/home-and-household/your-landlord/live-in-landlord-decision', funct
 })
 
 
-// If know the landlord = yes then ask how else continue to precheck tenancy start date
+// If know the landlord = yes then ask how else continue to check your answers
 router.post('/home-and-household/your-landlord/landlord-know-previously', function(request, response) {
 
 	var landlordKnow = request.session.data['landlordKnow']
 	if (landlordKnow == "yes"){
 		response.redirect("/home-and-household/your-landlord/landlord-know-how")
 	} else {
-		response.redirect("/home-and-household/your-landlord/precheck-tenancy-start-date")
+		response.redirect("/home-and-household/your-landlord/check-your-answers")
 	}
 })
 
@@ -215,49 +237,49 @@ router.post('/home-and-household/your-landlord/precheck-tenancy-start-date', fun
 })
 
 // Did the customer's tenancy start the same day they moved in? - tenancy-start-already-provided
-router.post('/home-and-household/your-landlord/tenancy-start-already-provided', function(request, response) {
+router.post('/home-and-household/rental-and-housing-costs/tenancy-start-already-provided', function(request, response) {
 
 	var tenancyStartAlreadyProvided = request.session.data['tenancyStartAlreadyProvided']
 	if (tenancyStartAlreadyProvided == "no"){
-		response.redirect("/home-and-household/your-landlord/tenancy-start-date")
+		response.redirect("/home-and-household/rental-and-housing-costs/tenancy-start-date")
 	} else {
-		response.redirect("/home-and-household/your-landlord/behind-rent")
+		response.redirect("/home-and-household/rental-and-housing-costs/behind-rent")
 	}
 })
 
 // Do you know tenancy end date?
-router.post('/home-and-household/your-landlord/behind-rent', function(request, response) {
+router.post('/home-and-household/rental-and-housing-costs/behind-rent', function(request, response) {
 
 	var doYouKnowTenancyEndDate = request.session.data['doYouKnowTenancyEndDate']
 	if (doYouKnowTenancyEndDate == "yes"){
-		response.redirect("/home-and-household/your-landlord/tenancy-end-date")
+		response.redirect("/home-and-household/rental-and-housing-costs/tenancy-end-date")
 	} else {
-		response.redirect("/home-and-household/your-landlord/behind-rent")
+		response.redirect("/home-and-household/rental-and-housing-costs/behind-rent")
 	}
 })
 
-// tenancy end date -> on submit, go to behind-rent
-router.post('/home-and-household/your-landlord/tenancy-end-date', function (request, response) {
+// // tenancy end date -> on submit, go to behind-rent
+// router.post('/home-and-household/your-landlord/tenancy-end-date', function (request, response) {
 
-  return response.redirect('/home-and-household/your-landlord/behind-rent')
-})
-715
+//   return response.redirect('/home-and-household/your-landlord/behind-rent')
+// })
+// 715
 
 // behind on rent -> how much behind on rent, or, check your answers
-router.post('/home-and-household/your-landlord/previous-postcode', function(request, response) {
+router.post('/home-and-household/rental-and-housing-costs/previous-postcode', function(request, response) {
 
 	var behindRent = request.session.data['behindRent']
 	if (behindRent == "yes"){
-		response.redirect("/home-and-household/your-landlord/behind-rent-amount")
+		response.redirect("/home-and-household/rental-and-housing-costs/behind-rent-amount")
 	} else {
-		response.redirect("/home-and-household/your-landlord/check-your-answers")
+		response.redirect("/home-and-household/rental-and-housing-costs/check-your-answers")
 	}
 })
 
 // how many weeks behind rent -> on submit, go to check your answers
-router.post('/home-and-household/your-landlord/behind-rent-amount', function (request, response) {
+router.post('/home-and-household/rental-and-housing-costs/behind-rent-amount', function (request, response) {
 
-  return response.redirect('/home-and-household/your-landlord/check-your-answers')
+  return response.redirect('/home-and-household/rental-and-housing-costs/check-your-answers')
 })
 
 //YOUR PREVIOUS ADDRESS SECTION
@@ -890,6 +912,24 @@ router.post('/save-and-return/behind-rent-amount', function (request, response) 
   return response.redirect('/save-and-return/check-your-answers')
 })
 
+// sign out expiry date
+router.get('/save-and-return/sign-out-decision', function (req, res) {
+
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + 30);
+
+  const formattedDate = expiry.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  res.render('save-and-return/sign-out-decision', {
+    expiryDate: formattedDate
+  });
+});
+
+
 
 // sign out yes or no
 router.post('/save-and-return/sign-out-decision', function (req, res) {
@@ -900,6 +940,23 @@ router.post('/save-and-return/sign-out-decision', function (req, res) {
   } else {
     res.redirect('back');          // sends user to previous page
   }
+});
+
+// sign out expiry date
+router.get('/save-and-return/sign-out-successful', function (req, res) {
+
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + 30);
+
+  const formattedDate = expiry.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  res.render('save-and-return/sign-out-successful', {
+    expiryDate: formattedDate
+  });
 });
 
 router.post('/save-and-return/ol-sign-in', function (req, res) {

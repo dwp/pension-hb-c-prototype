@@ -75,7 +75,7 @@
         <li>have appropriate immigration status</li>
       </ul>
 
-      <p>You should not use this service to apply for Pension Credit if you are:</p>
+      <p>You can not use this service to apply for Pension Credit if you are:</p>
 
       <ul class="govuk-list govuk-list--bullet">
         <li>below State Pension age (you should 
@@ -239,10 +239,20 @@
       </ul>
 
       {{ govukButton({
-        text: "Apply now",
+        text: "Start now",
         href: "/ol-views/ol-start-or-resume",
         isStartButton: true
       }) }}
+
+      <div class="govuk-inset-text">
+  If you have already started an application, you can 
+  <a
+              class="govuk-link"
+              href="https://signin.account.gov.uk/sign-in-or-create"
+              target="_blank"
+              rel="noopener noreferrer"
+            > sign in to your GOV.UK One Login account.</a>
+</div>
 
     </div>
 
@@ -250,7 +260,7 @@
 
       <aside class="govuk-prototype-kit-common-templates-related-items" role="complementary">
         <h2 class="govuk-heading-m" id="subsection-title">
-          Subsection
+          Related content
         </h2>
         <nav role="navigation" aria-labelledby="subsection-title">
           <ul class="govuk-list govuk-!-font-size-16">

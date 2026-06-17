@@ -17,9 +17,9 @@
     <div class="govuk-grid-column-two-thirds">
       <span class="govuk-caption-l">Your landlord</span>
 
-      <form class="form" action="/home-and-household/your-landlord/precheck-tenancy-start-date" novalidate>
+      <form class="form" action="/home-and-household/your-landlord/check-your-answers" novalidate>
 
-{{ govukInput({
+<!-- {{ govukInput({
   label: {
     text: "How did you know your landlord before you moved into the property?",
     classes: "govuk-label--l",
@@ -28,6 +28,43 @@
   classes: "govuk-input--width-20",
   id: "landlord-know-how",
   name: "landlordKnowHow"
+}) }} -->
+
+{{ govukRadios({
+  name: "landlordKnowHow",
+  fieldset: {
+    legend: {
+      text: "How did you know your landlord before you moved into the property?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+  {
+    value: "The landlord is related to me",
+    text: "The landlord is related to me"
+  },
+  {
+    value: "The landlord is a friend of mine",
+    text: "The landlord is a friend of mine"
+  },
+  {
+    value: "The landlord previously rented to me",
+    text: "The landlord previously rented to me"
+  },
+  {
+    value: "The landlord is my employer or work contact",
+    text: "The landlord is my employer or work contact"
+  },
+  {
+    value: "The landlord is the parent of my child",
+    text: "The landlord is the parent of my child"
+  },
+  {
+    value: "Other",
+    text: "Other"
+  }
+  ]
 }) }}
 
         {{ govukButton({

@@ -17,12 +17,7 @@
     {% set couples = data.couples or [] %}
 
     <h1 class="govuk-heading-l">
-      You have added {{ couples.length }}
-      {% if couples.length == 1 %}
-        couple
-      {% else %}
-        couples
-      {% endif %}
+      Couples you have added
     </h1>
 
     {% set rows = [] %}

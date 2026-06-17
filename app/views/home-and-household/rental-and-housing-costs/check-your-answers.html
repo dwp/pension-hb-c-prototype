@@ -17,7 +17,7 @@
 
 {% set yesNo = { 'yes': 'Yes', 'no': 'No' } %}
 
-{# Move-in date display (namePrefix: move-in-date) #}
+{# ✅ Move-in date display #}
 {% set mi_day   = data['move-in-date-day']   | default('') %}
 {% set mi_month = data['move-in-date-month'] | default('') %}
 {% set mi_year  = data['move-in-date-year']  | default('') %}
@@ -26,7 +26,7 @@
   {% set move_in_display = mi_day ~ " " ~ monthNames[mi_month] ~ " " ~ mi_year %}
 {% endif %}
 
-{# Tenancy start date display (namePrefix: tenancy-start-date) #}
+{# ✅ Tenancy start display #}
 {% set ts_day   = data['tenancy-start-date-day']   | default('') %}
 {% set ts_month = data['tenancy-start-date-month'] | default('') %}
 {% set ts_year  = data['tenancy-start-date-year']  | default('') %}
@@ -35,21 +35,12 @@
   {% set tenancy_start_display = ts_day ~ " " ~ monthNames[ts_month] ~ " " ~ ts_year %}
 {% endif %}
 
-{# Move-out date display (namePrefix: move-out-date) #}
-{% set mo_day   = data['move-out-date-day']   | default('') %}
-{% set mo_month = data['move-out-date-month'] | default('') %}
-{% set mo_year  = data['move-out-date-year']  | default('') %}
-{% set move_out_display = "" %}
-{% if mo_day and mo_month and mo_year and monthNames[mo_month] %}
-  {% set move_out_display = mo_day ~ " " ~ monthNames[mo_month] ~ " " ~ mo_year %}
-{% endif %}
-
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+  Check your answers – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -61,48 +52,122 @@
 
 {% block content %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">Rental and housing costs</span>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-      <form class="form" action="/home-and-household/rental-and-housing-costs/complete" method="post" novalidate>      
+    <span class="govuk-caption-l">Rental and housing costs</span>
+
+    <form class="form" action="/home-and-household/rental-and-housing-costs/complete" method="post">
+
       <h1 class="govuk-heading-l">Check your answers</h1>
 
-      <!-- <h2 class="govuk-heading-m">About the place you live</h2> -->
+      {# ✅ Build base rows #}
+      {% set rows = [
+        {
+          key: { text: "Living situation" },
+          value: { text: (data['livingsituation'] or "Not provided") },
+          actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/living-situation", text: "Change" } ] }
+        }
+      ] %}
 
+      {# ✅ Service charges (housing association only) #}
+      {% if data['livingsituation'] == "I rent from a housing association or registered social landlord" %}
+        {% set rows = rows.concat([
+          {
+            key: { text: "Service charges" },
+            value: { text: (data['serviceCharges'] or "Not provided") },
+            actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/service-charges", text: "Change" } ] }
+          }
+        ]) %}
+      {% endif %}
 
+      {# ✅ Rent frequency + amount #}
+      {% set rows = rows.concat([
+        {
+          key: { text: "Rent frequency" },
+          value: { text: (data['rentfrequency'] or "Not provided") },
+          actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-frequency", text: "Change" } ] }
+        },
+        {
+          key: { text: "Rent amount" },
+          value: { text: (data['cost'] and ('£' ~ data['cost']) or "Not provided") },
+          actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-amount", text: "Change" } ] }
+        }
+      ]) %}
 
-        {{ govukSummaryList({
-          classes: "govuk-!-margin-bottom-9",
-          rows: [
-            {
-              key: { text: "Living situation" },
-              value: { text: (data['livingsituation'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/living-situation", text: "Change", visuallyHiddenText: "living situation" } ] }
-            },
-            {
-              key: { text: "Rent frequency" },
-              value: { text: (data['rentfrequency'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-frequency", text: "Change", visuallyHiddenText: "rent frequency" } ] }
-            },
-            {
-              key: { text: "Rent amount" },
-              value: { text: ('£' ~ data['cost'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-amount", text: "Change", visuallyHiddenText: "rent amount" } ] }
-            },
-            {
-              key: { text: "Move in date" },
-              value: { text: (move_in_display or ('Before ' ~ data.backdate)) },
-              actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/precheck-move-in-date", text: "Change", visuallyHiddenText: "move in date" } ] }
-            }
-          ]
-        }) }}
+      {# ✅ Move-in date #}
+      {% set rows = rows.concat([
+        {
+          key: { text: "Move-in date" },
+          value: { text: (move_in_display or "Not provided") },
+          actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/precheck-move-in-date", text: "Change" } ] }
+        }
+      ]) %}
 
-        {{ govukButton({ text: "Save and continue" }) }}
+      {# ✅ Tenancy same date question (private/boarder/lodger only) #}
+      {% if data['livingsituation'] == "I rent from a private landlord"
+         or data['livingsituation'] == "I am a boarder with meals included in my rent"
+         or data['livingsituation'] == "I am a subtenant or lodger" %}
 
-      </form>
+        {% set rows = rows.concat([
+          {
+            key: { text: "Did your tenancy start on the same date you moved in?" },
+            value: { text: (yesNo[data['tenancyStartAlreadyProvided']] or data['tenancyStartAlreadyProvided'] or "Not provided") },
+            actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/tenancy-start-already-provided", text: "Change" } ] }
+          }
+        ]) %}
 
-    </div>
+      {% endif %}
+
+      {# ✅ Tenancy start date (if different) #}
+      {% if data['tenancyStartAlreadyProvided'] == "no" %}
+        {% set rows = rows.concat([
+          {
+            key: { text: "Tenancy start date" },
+            value: { text: (tenancy_start_display or "Not provided") },
+            actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/tenancy-start-date", text: "Change" } ] }
+          }
+        ]) %}
+      {% endif %}
+
+      {# ✅ Behind on rent (private journeys only) #}
+      {% if data['livingsituation'] == "I rent from a private landlord"
+         or data['livingsituation'] == "I am a boarder with meals included in my rent"
+         or data['livingsituation'] == "I am a subtenant or lodger" %}
+
+        {% set rows = rows.concat([
+          {
+            key: { text: "Are you behind on rent?" },
+            value: { text: (yesNo[data['behindRent']] or data['behindRent'] or "Not provided") },
+            actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/behind-rent", text: "Change" } ] }
+          }
+        ]) %}
+
+      {% endif %}
+
+      {# ✅ Weeks behind (if yes) #}
+      {% if data['behindRent'] == "yes" %}
+        {% set rows = rows.concat([
+          {
+            key: { text: "Weeks behind on rent" },
+            value: { text: (data['weeksBehind'] or "Not provided") },
+            actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/behind-rent-amount", text: "Change" } ] }
+          }
+        ]) %}
+      {% endif %}
+
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-9",
+        rows: rows
+      }) }}
+
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+
+    </form>
+
   </div>
+</div>
 
 {% endblock %}
