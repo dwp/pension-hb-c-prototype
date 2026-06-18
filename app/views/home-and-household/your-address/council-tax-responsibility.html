@@ -45,10 +45,21 @@
     },
     {
       value: "Someone else pays it",
-      text: "Someone else pays it"
+      text: "Someone else pays it",
+      conditional: {
+        html: govukInput({
+          id: "council-tax-someone-else",
+          name: "council-tax-someone-else",
+          classes: "govuk-!-width-two-thirds",
+          label: {
+            text: "Tell us who"
+          }
+        })
+      }
     }
   ]
 }) }}
+
 
         {{ govukButton({
           text: "Save and continue"

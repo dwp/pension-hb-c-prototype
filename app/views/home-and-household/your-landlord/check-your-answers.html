@@ -40,63 +40,60 @@
 
     <form class="form" action="/home-and-household/your-landlord/complete" method="post" novalidate>
 
-      <form class="form" action="/home-and-household/your-landlord/complete" method="post" novalidate>
-      
       <h1 class="govuk-heading-l">Check your answers</h1>
 
-      {# ✅ Base rows #}
-      {% set rows = [
+{% set rows = [
+  {
+    key: { text: "Landlord’s name" },
+    value: { text: (data['landlordName'] or "Not provided") },
+    actions: {
+      items: [
         {
-          key: { text: "Does your landlord live with you?" },
-          value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
-          actions: {
-            items: [
-              {
-                href: "/home-and-household/your-landlord/live-in-landlord",
-                text: "Change"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Landlord’s name" },
-          value: { text: (data['landlordName'] or "Not provided") },
-          actions: {
-            items: [
-              {
-                href: "/home-and-household/your-landlord/landlord-name",
-                text: "Change"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Landlord’s address" },
-          value: { text: (data['landlord-address'] or "Not provided") },
-          actions: {
-            items: [
-              {
-                href: "/home-and-household/your-landlord/landlord-postcode",
-                text: "Change"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Did you know your landlord before moving in?" },
-          value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
-          actions: {
-            items: [
-              {
-                href: "/home-and-household/your-landlord/landlord-know-previously",
-                text: "Change"
-              }
-            ]
-          }
+          href: "/home-and-household/your-landlord/landlord-name",
+          text: "Change"
         }
-      ] %}
+      ]
+    }
+  },
+  {
+    key: { text: "Does your landlord live with you?" },
+    value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
+    actions: {
+      items: [
+        {
+          href: "/home-and-household/your-landlord/live-in-landlord",
+          text: "Change"
+        }
+      ]
+    }
+  },
+  {
+    key: { text: "Landlord’s address" },
+    value: { text: (data['landlord-address'] or "Not provided") },
+    actions: {
+      items: [
+        {
+          href: "/home-and-household/your-landlord/landlord-postcode",
+          text: "Change"
+        }
+      ]
+    }
+  },
+  {
+    key: { text: "Did you know your landlord before moving in?" },
+    value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
+    actions: {
+      items: [
+        {
+          href: "/home-and-household/your-landlord/landlord-know-previously",
+          text: "Change"
+        }
+      ]
+    }
+  }
+] %}
 
-      {# ✅ Conditional row (uses concat instead of push) #}
+      {# ✅ Conditional row #}
       {% if data['landlordKnow'] == "yes" %}
         {% set rows = rows.concat([
           {
@@ -109,40 +106,6 @@
                   text: "Change"
                 }
               ]
-
-
-        {{ govukSummaryList({
-          classes: "govuk-!-margin-bottom-9",
-          rows: [
-            {
-              key: { text: "Does your landlord live with you?" },
-              value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/your-landlord/live-in-landlord", text: "Change", visuallyHiddenText: "live-in landlord" } ] }
-            },
-            {
-              key: { text: "Landlord’s name" },
-              value: { text: (data['landlordName'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/your-landlord/landlord-name", text: "Change", visuallyHiddenText: "landlord name" } ] }
-            },
-            {
-              key: { text: "Landlord’s address" },
-              value: { text: (data['landlord-address'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/your-landlord/landlord-postcode", text: "Change", visuallyHiddenText: "landlord address" } ] }
-            },
-            {
-              key: { text: "Did you know your landlord before moving in?" },
-              value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/your-landlord/landlord-know-previously", text: "Change", visuallyHiddenText: "know landlord before moving in" } ] }
-            },
-            {
-              key: { text: "When did your tenancy start?" },
-              value: { text: (tenancy_start_display or ('Before ' ~ data.backdate)) },
-              actions: { items: [ { href: "/home-and-household/your-landlord/precheck-tenancy-start-date", text: "Change", visuallyHiddenText: "tenancy start date" } ] }
-            },
-            {
-              key: { text: "Are you behind rent?" },
-              value: { text: (yesNo[data['behindRent']] or data['behindRent'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/your-landlord/behind-rent", text: "Change", visuallyHiddenText: "behind on rent" } ] }
             }
           }
         ]) %}

@@ -541,18 +541,22 @@ router.post('/home-and-household/people-who-live-with-you/child-gender-nondep1',
   let children = req.session.data.children || []
 
   // Add new child
-  children.push({
-    name: req.session.data['nondep1ChildName'] || '',
-    dob: req.session.data['nondep1ChildDob'],
-    gender: req.session.data['nondep1ChildGender']
-  })
+children.push({
+  name: req.session.data['nondep1ChildName'] || '',
+  dob: {
+    day: req.session.data['child-date-of-birth-day'],
+    month: req.session.data['child-date-of-birth-month'],
+    year: req.session.data['child-date-of-birth-year']
+  },
+  gender: req.session.data['ChildNonDep1Gender']
+})
 
   // Save back to session
   req.session.data.children = children
 
   // OPTIONAL: clear the temp fields so next child is fresh
-  delete req.session.data['nondep1ChildName']
-  delete req.session.data['nondep1ChildDob']
+  // delete req.session.data['nondep1ChildName'] - removed when adding the card format in
+// delete req.session.data['nondep1ChildDob'] - removed when adding the card format in
   delete req.session.data['nondep1ChildGender']
 
   res.redirect('/home-and-household/people-who-live-with-you/add-another-child')

@@ -139,7 +139,13 @@
 }]) %}
 
 {{ govukSummaryList({
-  classes: "govuk-!-margin-bottom-9",
+  card: {
+    title: { text: "Adult 1" },
+    actions: {
+      items: [
+      ]
+    }
+  },
   rows: rows
 }) }}
 

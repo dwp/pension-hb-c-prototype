@@ -77,11 +77,6 @@
           classes: "govuk-!-margin-bottom-9",
           rows: [
             {
-              key: { text: "Do you use any part of your home for running a business?" },
-              value: { text: (yesNo[data['businessUse']] or data['businessUse'] or "Not provided") },
-              actions: { items: [ { href: "/home-and-household/about-the-place-you-live/business-use", text: "Change", visuallyHiddenText: "business use of home" } ] }
-            },
-            {
               key: { text: "Are you living in shared accommodation?" },
               value: { text: (yesNo[data['sharedAccommodation']] or data['sharedAccommodation'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/shared-accommodation", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
