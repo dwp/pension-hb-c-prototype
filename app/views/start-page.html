@@ -39,15 +39,11 @@
       </h1>
 
         <p>
-          If you are of State Pension age, you can use this service to apply for both Pension Credit and Housing Benefit at the same time.
+          If you have been invited by DWP, you can use this service to apply for both Pension Credit and Housing Benefit at the same time.
         </p>
 
         <p>
           Pension Credit can top up your income to help with living costs, and Housing Benefit can help you pay your rent.
-        </p>
-
-        <p>
-          You can use this service to check if you are eligible for both benefits. You may only be eligible for one, or neither.
         </p>
 
       <!-- <h2 class="govuk-heading-m">
@@ -71,26 +67,17 @@
         </p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>are resident in Great Britain</li>
-        <li>have appropriate immigration status</li>
+        <li>are currently in the UK</li>
+        <li>have the right to live and work in the UK</li>
       </ul>
 
-      <p>You can not use this service to apply for Pension Credit if you are:</p>
+      <p>You can not use this service to apply for Pension Credit if you:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>below State Pension age (you should 
-        <a
-              class="govuk-link"
-              href="https://www.gov.uk/universal-credit/how-to-claim"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            check if you can apply for Universal Credit
-            </a>
-             instead)</li>
-        <li>currently away from Great Britain for more than 4 weeks, unless it is for medical treatment or recovery</li>
-        <li>already outside Great Britain</li>
-        <li>moving away from Great Britain permanently</li>
+        <li>are currently outside the UK</li>
+        <li>have been outside the UK for more than 4 weeks, unless it is for medical treatment or recovery</li>
+        <li>are moving away from the UK permanently</li>
+        <li>are below State Pension age</li>
       </ul>
 
       <h2 class="govuk-heading-m">
@@ -103,61 +90,35 @@
 
       <ul class="govuk-list govuk-list--bullet">
         <li>are resident in Great Britain</li>
-        <li> either rent the home that you live in, or a private room in it</li>
+        <li>currently live at the address you are applying for</li>
+        <li>you are responsible for the rent for the home you live in, or the room you live in</li>
       </ul>
 
       <p>You can not use this service to apply for Housing Benefit if you:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>are part of a mixed age couple, where one of you is not of pension age (you should 
-          <a
-              class="govuk-link"
-              href="https://www.gov.uk/universal-credit/how-to-claim"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            check if you can apply for Universal Credit
-            </a>
-            instead)</li>
-        <li>below State Pension age (you should 
-          <a
-              class="govuk-link"
-              href="https://www.gov.uk/universal-credit/how-to-claim"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            check if you can apply for Universal Credit
-            </a>
-            instead)</li>
-        <li>have £16,000 or more in savings, investments, or other assets unless you get the Guarantee Credit part of Pension Credit</li>
+        <li>are currently staying away from home</li>
+        <li>own your home, or have a mortgage on it</li>
       </ul>
 
       <h2 class="govuk-heading-m">
-        If you are only eligible for one of the benefits
+        Before you apply
       </h2>
 
-      <p>You can only use this service if you are eligible for both of the benefits.</p>
+      <p>You can use this service to check if you are eligible for both benefits before applying. You may only be eligible for one, or neither.</p>
+      <p>You will need to create a GOV.UK One Login account as part of your application.</p>
+      <p>You must complete your application within 30 days or you will have to start again.</p>
 
-      <p>If you are only eligible to apply for Pension Credit, you should use the 
-        <a
-              class="govuk-link"
-              href="https://www.gov.uk/pension-credit/how-to-claim"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            Apply for Pension Credit online service.
-            </a>
-      </p>
+      <h2 class="govuk-heading-m">
+      Continuing an application you have saved
+      </h2>
 
-      <p>If you are only eligible to apply for Housing Benefit, you should apply through 
-        <a
-              class="govuk-link"
-              href="https://www.gov.uk/find-local-council"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            your Local Authority.
-            </a>
+      <p>You can save your answers and return to complete your application, but you must complete it within 30 days or you will have to start again.</p>
+
+      <p>
+        <a href="#">
+       Sign in to continue your application
+        </a>
       </p>
 
       <h2 class="govuk-heading-m">
@@ -229,59 +190,27 @@
       <p>You will need to tell us about:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-  <li>your immigration status</li>
-  <li>any time spent outside Great Britain in the last 3 months</li>
+  <li>your right to live and work in the UK</li>
+  <li>any time spent outside the UK in the last 3 months</li>
+  <li>any overnight stays in hospital in the last 3 months</li>
   <li>your living situation, including any landlord or agency details</li>
-  <li>information about any other people living with you</li>
+  <li>any other people living with you</li>
   <li>your address history for the last 3 months</li>
   <li>your income, money and investments</li>
   <li>any property or land you own</li>
       </ul>
+
+      <p> If you have a partner, you will also need to tell us the same information about them.</p>
 
       {{ govukButton({
         text: "Start now",
         href: "/home-and-household/prototype-break-page-1",
         isStartButton: true
       }) }}
-
-      <div class="govuk-inset-text">
-  If you have already started an application, you can 
-  <a
-              class="govuk-link"
-              href="https://signin.account.gov.uk/sign-in-or-create"
-              target="_blank"
-              rel="noopener noreferrer"
-            > sign in to your GOV.UK One Login account.</a>
-</div>
-
+    
     </div>
 
     <div class="govuk-grid-column-one-third">
-
-      <aside class="govuk-prototype-kit-common-templates-related-items" role="complementary">
-        <h2 class="govuk-heading-m" id="subsection-title">
-          Related content
-        </h2>
-        <nav role="navigation" aria-labelledby="subsection-title">
-          <ul class="govuk-list govuk-!-font-size-16">
-            <li>
-              <a href="#">
-                Check benefits and financial support you can get
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Benefits calculators
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Applying for a Discretionary Housing Payment
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
 
     </div>
   </div>
