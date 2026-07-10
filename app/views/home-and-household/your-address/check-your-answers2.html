@@ -33,7 +33,7 @@
   classes: "govuk-!-margin-bottom-9",
   rows: [
     {
-      key: { text: "Live permanently in a care home" },
+      key: { text: "Do you live permanently in a care home?" },
       value: { text: (yesNo[data['permcarehome']] or "Not provided") },
       actions: {
         items: [
@@ -46,7 +46,20 @@
       }
     },
     {
-      key: { text: "Your home address" },
+      key: { text: "What is your home postcode?" },
+      value: { text: (data['home-postcode'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/your-address/home-postcode",
+            text: "Change",
+            visuallyHiddenText: "home postcode"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "What is your home address" },
       value: { text: (data['home-address'] or "Not provided") },
       actions: {
         items: [

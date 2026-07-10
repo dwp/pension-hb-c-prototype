@@ -44,7 +44,7 @@
 
 {% set rows = [
   {
-    key: { text: "Landlord’s full name" },
+    key: { text: "Landlord’s name" },
     value: { text: (data['landlordName'] or "Not provided") },
     actions: {
       items: [
@@ -56,8 +56,8 @@
     }
   },
   {
-    key: { text: "Landlord lives at the same address" },
-    value: { text: (yesNo[data['liveInLandlord']] or "Not provided") },
+    key: { text: "Does your landlord live with you?" },
+    value: { text: (yesNo[data['liveInLandlord']] or data['liveInLandlord'] or "Not provided") },
     actions: {
       items: [
         {
@@ -66,34 +66,22 @@
         }
       ]
     }
-  }
-] %}
-
-{% if data['liveInLandlord'] != "yes" %}
-  {% set rows = rows.concat([
-    {
-      key: { text: "Landlord’s address" },
-      value: {
-        text: (data['landlord-address'] or data['landlord-manual-address'] or "Not provided")
-      },
-      actions: {
-        items: [
-          {
-            href: "/home-and-household/your-landlord/landlord-postcode",
-            text: "Change"
-          }
-        ]
-      }
-    }
-  ]) %}
-{% endif %}
-
-{% set rows = rows.concat([
+  },
   {
-    key: { text: "Landlord known before moving in" },
-    value: {
-      text: (yesNo[data['landlordKnow']] or "Not provided")
-    },
+    key: { text: "Landlord’s address" },
+    value: { text: (data['landlord-address'] or "Not provided") },
+    actions: {
+      items: [
+        {
+          href: "/home-and-household/your-landlord/landlord-postcode",
+          text: "Change"
+        }
+      ]
+    }
+  },
+  {
+    key: { text: "Did you know your landlord before moving in?" },
+    value: { text: (yesNo[data['landlordKnow']] or data['landlordKnow'] or "Not provided") },
     actions: {
       items: [
         {
@@ -103,24 +91,25 @@
       ]
     }
   }
-]) %}
+] %}
 
-{% if data['landlordKnow'] == "yes" %}
-  {% set rows = rows.concat([
-    {
-      key: { text: "Relationship to landlord" },
-      value: { text: (data['landlordKnowHow'] or "Not provided") },
-      actions: {
-        items: [
+      {# ✅ Conditional row #}
+      {% if data['landlordKnow'] == "yes" %}
+        {% set rows = rows.concat([
           {
-            href: "/home-and-household/your-landlord/landlord-know-how",
-            text: "Change"
+            key: { text: "How did you know your landlord?" },
+            value: { text: (data['landlordKnowHow'] or "Not provided") },
+            actions: {
+              items: [
+                {
+                  href: "/home-and-household/your-landlord/landlord-know-how",
+                  text: "Change"
+                }
+              ]
+            }
           }
-        ]
-      }
-    }
-  ]) %}
-{% endif %}
+        ]) %}
+      {% endif %}
 
       {{ govukSummaryList({
         classes: "govuk-!-margin-bottom-9",

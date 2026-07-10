@@ -75,7 +75,7 @@
       {% if data['livingsituation'] == "I rent from a housing association or registered social landlord" %}
         {% set rows = rows.concat([
           {
-            key: { text: "Service charges included in rent" },
+            key: { text: "Service charges" },
             value: { text: (data['serviceCharges'] or "Not provided") },
             actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/service-charges", text: "Change" } ] }
           }
@@ -85,7 +85,7 @@
       {# ✅ Rent frequency + amount #}
       {% set rows = rows.concat([
         {
-          key: { text: "Rent due" },
+          key: { text: "Rent frequency" },
           value: { text: (data['rentfrequency'] or "Not provided") },
           actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/rent-frequency", text: "Change" } ] }
         },
@@ -99,7 +99,7 @@
       {# ✅ Move-in date #}
       {% set rows = rows.concat([
         {
-          key: { text: "Date moved in" },
+          key: { text: "Move-in date" },
           value: { text: (move_in_display or "Not provided") },
           actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/precheck-move-in-date", text: "Change" } ] }
         }
@@ -112,7 +112,7 @@
 
         {% set rows = rows.concat([
           {
-            key: { text: "Tenancy start on date moved in" },
+            key: { text: "Did your tenancy start on the same date you moved in?" },
             value: { text: (yesNo[data['tenancyStartAlreadyProvided']] or data['tenancyStartAlreadyProvided'] or "Not provided") },
             actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/tenancy-start-already-provided", text: "Change" } ] }
           }
@@ -138,7 +138,7 @@
 
         {% set rows = rows.concat([
           {
-            key: { text: "Behind with rent" },
+            key: { text: "Are you behind on rent?" },
             value: { text: (yesNo[data['behindRent']] or data['behindRent'] or "Not provided") },
             actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/behind-rent", text: "Change" } ] }
           }
@@ -150,7 +150,7 @@
       {% if data['behindRent'] == "yes" %}
         {% set rows = rows.concat([
           {
-            key: { text: "Weeks behind with rent" },
+            key: { text: "Weeks behind on rent" },
             value: { text: (data['weeksBehind'] or "Not provided") },
             actions: { items: [ { href: "/home-and-household/rental-and-housing-costs/behind-rent-amount", text: "Change" } ] }
           }
