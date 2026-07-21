@@ -19,8 +19,8 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l">Other property or land you own</span>
-<form class="form" action="/home-and-household/other-property-or-land/complete" method="post" novalidate>
+      <span class="govuk-caption-l">People who live with you</span>
+<form class="form" action="/home-and-household/people-who-live-with-you/" method="post" novalidate>
 <h1 class="govuk-heading-l">Check your answers</h1>
 
 <!-- <h2 class="govuk-heading-m">Your address</h2> -->
@@ -30,14 +30,27 @@
   rows: [
 
     {
-      key: { text: "Property or land owned in the UK or abroad" },
-      value: { text: (data['otherproperty'] or "Not provided") },
+      key: { text: "Responsible for any children or qualifying young people who live with you" },
+      value: { text: (data['childrenResponsible'] or "Not provided") },
       actions: {
         items: [
           {
-            href: "/home-and-household/other-property-or-land/other-property",
+            href: "/home-and-household/people-who-live-with-you/claimant-children",
             text: "Change",
-            visuallyHiddenText: "whether you own any property or land in the uk"
+            visuallyHiddenText: "whether you own any children or qualifying young people who live with you"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "Anyone who is 18 or older who live with you" },
+      value: { text: (data['nonDep'] or "Not provided") },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/people-who-live-with-you/non-dependant",
+            text: "Change",
+            visuallyHiddenText: "whether anyone who is 18 or older lives with you"
           }
         ]
       }

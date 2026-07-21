@@ -89,6 +89,34 @@ router.post('/home-and-household/your-address/home-postcode', function (req, res
   res.redirect('/home-and-household/your-address/home-address')
 })
 
+router.post('/home-and-household/your-address/home-manual-address', function (req, res) {
+   const data = req.session.data
+   data['home-manual-address'] = [
+    data.addressLine1,
+    data.addressLine2,
+    data.addressTown,
+    data.addressCounty,
+    data.addressPostcode
+  ]
+    .filter(Boolean)
+    .join(', ')
+  res.redirect('/home-and-household/your-address/council-tax-responsibility')
+})
+
+router.post('/home-and-household/your-address/care-home-manual-address', function (req, res) {
+   const data = req.session.data
+   data['care-home-manual-address'] = [
+    data.addressLine1,
+    data.addressLine2,
+    data.addressTown,
+    data.addressCounty,
+    data.addressPostcode
+  ]
+    .filter(Boolean)
+    .join(', ')
+  res.redirect('/home-and-household/your-address/care-home-check-your-answers2')
+})
+
 router.post('/home-and-household/your-address/home-address', function (req, res) {
   res.redirect('/home-and-household/your-address/council-tax-responsibility')
 })
@@ -96,8 +124,20 @@ router.post('/home-and-household/your-address/home-address', function (req, res)
 
 // council tax reduction
 router.post('/home-and-household/your-address/council-tax-responsibility', function(request, response) {
-		return response.redirect("/home-and-household/your-address/check-your-answers2")
+  const data = request.session.data
+  if (data['home-manual-address']) {
+    response.redirect("/home-and-household/your-address/check-your-answers3")
+    } else {
+      response.redirect("/home-and-household/your-address/check-your-answers2")}
 })
+
+//   const data = request.session.data
+//   if (data['previous-address-manual']) {
+//     response.redirect('/home-and-household/your-previous-address/check-your-answers')
+//   } else {
+//   response.redirect('/home-and-household/your-previous-address/check-your-answers')
+// }
+// })
 
 //living situation conditional routing - service charges
 router.post('/home-and-household/rental-and-housing-costs/living-situation-answer', function (req, res) {
@@ -195,11 +235,18 @@ router.post('/home-and-household/about-the-place-you-live/overnight-carer', (req
   return res.redirect('/home-and-household/about-the-place-you-live/foster-carer')
 })
 
-// Are you an approved foster carer? - direct route
+//foster carer -> check your answers
+
 router.post('/home-and-household/about-the-place-you-live/foster-carer', (req, res) => {
+
+  if (req.session.data['onlyOneRoom']) {
+    return res.redirect('/home-and-household/about-the-place-you-live/check-your-answers2')
+  }
 
   return res.redirect('/home-and-household/about-the-place-you-live/check-your-answers')
 })
+
+
 
 
 router.post('/home-and-household/your-landlord/live-in-landlord-decision', function (req, res) {
@@ -217,12 +264,45 @@ router.post('/home-and-household/your-landlord/live-in-landlord-decision', funct
 // If know the landlord = yes then ask how else continue to check your answers
 router.post('/home-and-household/your-landlord/landlord-know-previously', function(request, response) {
 
-	var landlordKnow = request.session.data['landlordKnow']
-	if (landlordKnow == "yes"){
-		response.redirect("/home-and-household/your-landlord/landlord-know-how")
-	} else {
-		response.redirect("/home-and-household/your-landlord/check-your-answers")
-	}
+  const data = request.session.data
+  const landlordKnow = data['landlordKnow']
+
+  // User knows landlord
+  if (landlordKnow === 'yes') {
+    response.redirect('/home-and-household/your-landlord/landlord-know-how')
+
+  // User does not know landlord
+  } else if (data['landlord-manual-address']) {
+    response.redirect('/home-and-household/your-landlord/check-your-answers2')
+
+  } else {
+    response.redirect('/home-and-household/your-landlord/check-your-answers')
+  }
+})
+
+router.post('/home-and-household/your-landlord/landlord-know-how', function(request, response) {
+
+  const data = request.session.data
+
+  if (data['landlord-manual-address']) {
+    response.redirect('/home-and-household/your-landlord/check-your-answers2')
+  } else {
+    response.redirect('/home-and-household/your-landlord/check-your-answers')
+  }
+})
+
+router.post('/home-and-household/your-landlord/landlord-manual-address', function (req, res) {
+   const data = req.session.data
+   data['landlord-manual-address'] = [
+    data.addressLine1,
+    data.addressLine2,
+    data.addressTown,
+    data.addressCounty,
+    data.addressPostcode
+  ]
+    .filter(Boolean)
+    .join(', ')
+  res.redirect('/home-and-household/your-landlord/landlord-know-previously')
 })
 
 // Did the customer's tenancy start more than 3 months ago - tenancy start date precheck?
@@ -297,6 +377,20 @@ router.post('/home-and-household/your-previous-address/changed-address', functio
   }
 })
 
+router.post('/home-and-household/your-previous-address/previous-address-manual', function (req, res) {
+   const data = req.session.data
+   data['previous-address-manual'] = [
+    data.addressLine1,
+    data.addressLine2,
+    data.addressTown,
+    data.addressCounty,
+    data.addressPostcode
+  ]
+    .filter(Boolean)
+    .join(', ')
+  res.redirect('/home-and-household/your-previous-address/move-out-date')
+})
+
 
 // Select the address you lived at previously - direct route
 router.post('/home-and-household/your-previous-address/the-previous-address', function (request, response) {
@@ -306,8 +400,12 @@ router.post('/home-and-household/your-previous-address/the-previous-address', fu
 
 // When did you move out of your previous address? - direct route
 router.post('/home-and-household/your-previous-address/move-out-date', function (request, response) {
-
-  return response.redirect('/home-and-household/your-previous-address/check-your-answers')
+  const data = request.session.data
+  if (data['previous-address-manual']) {
+    response.redirect('/home-and-household/your-previous-address/check-your-answers')
+  } else {
+  response.redirect('/home-and-household/your-previous-address/check-your-answers')
+}
 })
 
 // OTHER PROPERTY OR LAND SECTION
@@ -339,14 +437,14 @@ router.post('/home-and-household/people-who-live-with-you/non-dependant', functi
     req.session.data['householdPeopleComplete'] = true
 
 
-    return res.redirect('/task-list')
+    return res.redirect('/home-and-household/people-who-live-with-you/check-your-answers')
   }
 })
 
 // nondep1 name - direct route
 router.post('/home-and-household/people-who-live-with-you/name-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/related-nondep1')
+  return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
 })
 
 // nondep1 living situation branching
@@ -369,23 +467,23 @@ router.post('/home-and-household/people-who-live-with-you/charity-nondep1', (req
   return res.redirect('/home-and-household/people-who-live-with-you/check-details3-nondep1')
 })
 
-// nondep1 related branching
-router.post('/home-and-household/people-who-live-with-you/related-nondep1', function (req, res) {
-  const relatednonDep = req.session.data['relatednonDep']
+// POST MVP // nondep1 related branching
+// router.post('/home-and-household/people-who-live-with-you/related-nondep1', function (req, res) {
+//   const relatednonDep = req.session.data['relatednonDep']
 
-  if (relatednonDep === 'Yes') {
-    return res.redirect('/home-and-household/people-who-live-with-you/how-related-nondep1')
-  } else {
+//   if (relatednonDep === 'Yes') {
+//     return res.redirect('/home-and-household/people-who-live-with-you/how-related-nondep1')
+//   } else {
 
-    return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
-  }
-})
+//     return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
+//   }
+// })
 
-// nondep1 how related - direct route
-router.post('/home-and-household/people-who-live-with-you/how-related-nondep1', (req, res) => {
+// // nondep1 how related - direct route
+// router.post('/home-and-household/people-who-live-with-you/how-related-nondep1', (req, res) => {
 
-  return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
-})
+//   return res.redirect('/home-and-household/people-who-live-with-you/living-situation-nondep1')
+// })
 
 // nondep1 dob - direct route
 router.post('/home-and-household/people-who-live-with-you/dob-nondep1', (req, res) => {
