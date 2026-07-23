@@ -1,0 +1,49 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Find someone
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: "Back",
+  href: "javascript:history.back()"
+}) }}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      Find someone
+    </h1>
+
+      <form class="form" action="/agent-view-v04/find-someone" method="post">
+
+      <p class="govuk-body">
+        Enter a customer's details to find their Pension Credit and Housing Benefit application.
+      </p>
+
+
+      {{ govukInput({
+      label: { text: "National Insurance number" },
+      id: "nino",
+      name: "nino",
+      classes: "govuk-input--width-10"
+      }) }}
+
+      {{ govukButton({
+        text: "Find"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

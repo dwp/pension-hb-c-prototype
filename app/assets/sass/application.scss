@@ -5,6 +5,10 @@
 
 // Add extra styles here
 
+.govuk-task-list__status .govuk-tag {
+  white-space: nowrap;
+}
+
 $govuk-new-link-styles: true;
 $govuk-rebrand: true;
 $govuk-new-typography-scale: true;

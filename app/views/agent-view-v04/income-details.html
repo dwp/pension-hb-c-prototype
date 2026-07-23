@@ -1,0 +1,220 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Income details
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Income details -->
+
+<h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+  Income, money and investments
+</h2>
+
+<p class="govuk-body">
+  Copy the claim details into your processing system.
+</p>
+
+<form class="form" action="/agent-view-v04/income-details" method="post">
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Income, money and investments
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Income from employment" },
+        value: { text: "No" }
+      },
+      {
+        key: { text: "Income from self-employment" },
+        value: { text: "No" }
+      },
+      {
+        key: { text: "Other regular income" },
+        value: { text: "No" }
+      },
+      {
+        key: { text: "Claimant's benefits or allowances" },
+        value: { text: "None" }
+      },
+      {
+        key: { text: "Partner's benefits or allowances" },
+        value: { text: "None" }
+      },
+      {
+        key: { text: "Waiting on a benefit decision" },
+        value: { text: "No" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Pensions
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Claimant's pensions" },
+        value: { text: "Occupational pension" }
+      },
+      {
+        key: { text: "Partner's pensions" },
+        value: { text: "Private UK pension" }
+      },
+      {
+        key: { text: "Non-UK pensions" },
+        value: { text: "None" }
+      },
+      {
+        key: { text: "UK personal pensions not taken" },
+        value: { text: "None" }
+      },
+      {
+        key: { text: "Put off drawing a private pension" },
+        value: { text: "No" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Caring and carer benefits
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Carer's allowance" },
+        value: { text: "No" }
+      },
+      {
+        key: { text: "Underlying entitlement to carer's allowance" },
+        value: { text: "No" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Savings and investments
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Types of money or investments" },
+        value: {
+          html: "Bank or building society account,<br>Cash at home or somewhere else"
+        }
+      },
+      {
+        key: {
+          text: "Total money held by the claimant and partner on 28 March 2026"
+        },
+        value: {
+          text: "£18,600"
+        }
+      },
+      {
+        key: {
+          text: "Total money held by the claimant and partner on 28 December 2025"
+        },
+        value: {
+          text: "£11,053"
+        }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Other financial details
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: "Plans to use money for essential home purchase or repairs"
+        },
+        value: {
+          text: "Yes"
+        }
+      },
+      {
+        key: {
+          text: "Payments or payouts received"
+        },
+        value: {
+          text: "None"
+        }
+      },
+      {
+        key: {
+          text: "Own land or property outside the UK"
+        },
+        value: {
+          text: "No"
+        }
+      }
+    ]
+  }) }}
+
+  {{ govukRadios({
+    classes: "govuk-radios--inline",
+    name: "incomeDetailsInfoNeeded",
+    fieldset: {
+      legend: {
+        text: "Do you need more information about the customer's income, money and investments to process this claim?",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes"
+      },
+      {
+        value: "no",
+        text: "No"
+      }
+    ]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+
+</form>
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="/agent-view-v04/agent-task-list">
+        Return to task list
+        </a>
+      </p>
+
+</div>
+ </div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Contact details
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Contact details -->
+
+<h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+  Contact details
+</h2>
+
+<p class="govuk-body">
+  Copy the claim details into your processing system.
+</p>
+
+<form class="form" action="/agent-view-v04/contact-details" method="post">
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Address"
+      },
+      value: {
+        html: "42 Privott House<br>Gateshead<br>AB38 6HB"
+      }
+    },
+    {
+      key: {
+        text: "Home telephone number"
+      },
+      value: {
+        text: "07717361781"
+      }
+    },
+    {
+      key: {
+        text: "Mobile telephone number"
+      },
+      value: {
+        text: "07748568543"
+      }
+    },
+    {
+      key: {
+        text: "Email address"
+      },
+      value: {
+        text: "F.Weston@email.com"
+      }
+    },
+    {
+      key: {
+        text: "Alternative formats"
+      },
+      value: {
+        text: "No"
+      }
+    }
+  ]
+}) }}
+
+{{ govukRadios({
+  classes: "govuk-radios--inline",
+  name: "contactDetailsInfoNeeded",
+  fieldset: {
+    legend: {
+      text: "Do you need more information about the customer's contact information to process this claim?",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--m"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes"
+    },
+    {
+      value: "no",
+      text: "No"
+    }
+  ]
+}) }}
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+
+</form>
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="/agent-view-v04/agent-task-list">
+        Return to task list
+        </a>
+      </p>
+
+</div>
+ </div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% block pageTitle %}
+  Claim record
+{% endblock %}
+
+{% set housingBenefitStatus = "Application received" %}
+
+{% if
+  data['claimOverviewInfoNeeded'] == "yes" or
+  data['personalDetailsInfoNeeded'] == "yes" or
+  data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+  data['homeDetailsInfoNeeded'] == "yes" or
+  data['householdDetailsInfoNeeded'] == "yes" or
+  data['incomeDetailsInfoNeeded'] == "yes" or
+  data['contactDetailsInfoNeeded'] == "yes" or
+  data['paymentDetailsInfoNeeded'] == "yes"
+%}
+  {% set housingBenefitStatus = "Information needed" %}
+
+{% elif
+  data['claimOverviewInfoNeeded'] == "no" or
+  data['personalDetailsInfoNeeded'] == "no" or
+  data['partnerPersonalDetailsInfoNeeded'] == "no" or
+  data['homeDetailsInfoNeeded'] == "no" or
+  data['householdDetailsInfoNeeded'] == "no" or
+  data['incomeDetailsInfoNeeded'] == "no" or
+  data['contactDetailsInfoNeeded'] == "no" or
+  data['paymentDetailsInfoNeeded'] == "no"
+%}
+  {% set housingBenefitStatus = "Processing application" %}
+{% endif %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+    <!-- back button -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <h2 class="govuk-heading-l">
+      Application status
+    </h2>
+
+<div class="govuk-!-margin-bottom-6">
+  <p class="govuk-body">
+    <strong style="margin-right:20px">Pension Credit</strong>
+    <strong class="govuk-tag govuk-tag--grey" style="white-space: nowrap;">
+      Application received
+    </strong>
+  </p>
+
+      <p class="govuk-body">
+        Guarantee Credit: No award decision recorded
+      </p>
+
+      <p class="govuk-body">
+        Savings Credit: No award decision recorded
+      </p>
+    </div>
+
+<p class="govuk-body">
+  <strong style="margin-right:20px">Housing benefit</strong>
+
+{% if housingBenefitStatus == "Application received" %}
+  <strong class="govuk-tag govuk-tag--grey" style="white-space: nowrap;">
+    Application received
+  </strong>
+
+{% elif housingBenefitStatus == "Information needed" %}
+  <strong class="govuk-tag govuk-tag--orange" style="white-space: nowrap;">
+    Information needed
+  </strong>
+
+{% else %}
+  <strong class="govuk-tag govuk-tag--purple" style="white-space: nowrap;">
+    Processing application
+  </strong>
+{% endif %}
+</p>
+
+      <p class="govuk-body govuk-!-margin-top-3">
+        You can 
+        <a href="agent-task-list.html">
+        View outstanding tasks
+        </a>
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

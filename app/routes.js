@@ -1071,3 +1071,6 @@ router.post('/save-and-return/ol-sign-in', function (req, res) {
 router.post('/save-and-return/ol-enter-password', function (req, res) {
     res.redirect('/save-and-return/ol-check-your-phone');
 });
+
+// Versioned routes
+require('./views/agent-view-v04/routes.js')

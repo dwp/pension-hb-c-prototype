@@ -1,0 +1,177 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Household details
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Household details -->
+
+<h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+  Household details
+</h2>
+
+<form class="form" action="/agent-view-v04/household-details" method="post">
+
+<p class="govuk-body">
+  Copy the claim details into your processing system.
+</p>
+
+
+{{ govukSummaryList({
+  card: {
+    title: {
+      text: "Adult 1"
+    }
+  },
+  rows: [
+    {
+      key: { text: "Name" },
+      value: { text: "John Jones" }
+    },
+    {
+      key: { text: "Related to claimant" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Living situation" },
+      value: { text: "Joint tenant" }
+    }
+  ]
+}) }}
+
+{{ govukSummaryList({
+  card: {
+    title: {
+      text: "Adult 2"
+    }
+  },
+  rows: [
+    {
+      key: { text: "Name" },
+      value: { text: "Sophie Aderinto" }
+    },
+    {
+      key: { text: "Related to claimant" },
+      value: { text: "Yes" }
+    },
+    {
+      key: { text: "Relationship" },
+      value: { text: "Daughter" }
+    },
+    {
+      key: { text: "Living situation" },
+      value: { text: "Non-dependant" }
+    },
+    {
+      key: { text: "Date of birth" },
+      value: { text: "21 January 2003" }
+    },
+    {
+      key: { text: "Blind or sight impaired" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Move in date" },
+      value: { text: "Before 3 February 2026" }
+    },
+    {
+      key: { text: "In education" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Employment status" },
+      value: { text: "Yes, part time" }
+    },
+    {
+      key: { text: "Self-employment status" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Works 16+ hours a week" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Gross income" },
+      value: { text: "£13,218" }
+    },
+    {
+      key: { text: "Staying away from home" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "In hospital" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Serving in the armed forces" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "In legal custody" },
+      value: { text: "No" }
+    },
+    {
+      key: { text: "Responsible for children at the property" },
+      value: { text: "No" }
+    }
+  ]
+}) }}
+
+{{ govukRadios({
+  classes: "govuk-radios--inline",
+  name: "householdDetailsInfoNeeded",
+  fieldset: {
+    legend: {
+      text: "Do you need more information about the customer's household to process this claim?",
+      classes: "govuk-fieldset__legend--m"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes"
+    },
+    {
+      value: "no",
+      text: "No"
+    }
+  ]
+}) }}
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+
+</form>
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="/agent-view-v04/agent-task-list">
+        Return to task list
+        </a>
+      </p>
+
+</div>
+ </div>
+
+{% endblock %}

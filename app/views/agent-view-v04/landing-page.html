@@ -1,0 +1,98 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}
+  Process Pension Credit and Housing Benefit applications
+{% endblock %}
+
+{% block content %}
+
+{% if data['caseClosed'] %}
+
+<div class="govuk-notification-banner govuk-notification-banner--success"
+     role="alert"
+     aria-labelledby="govuk-notification-banner-title"
+     data-module="govuk-notification-banner">
+
+  <div class="govuk-notification-banner__header">
+    <h2
+      class="govuk-notification-banner__title"
+      id="govuk-notification-banner-title">
+      Success
+    </h2>
+  </div>
+
+  <div class="govuk-notification-banner__content">
+    <h3 class="govuk-notification-banner__heading">
+      Housing Benefit decision recorded and case closed
+    </h3>
+  </div>
+
+</div>
+
+{% endif %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- Page title -->
+    <h1 class="govuk-heading-xl">
+      Process Pension Credit and Housing Benefit applications
+    </h1>
+
+  </div>
+</div>
+
+<!-- FIND -->
+<h2 class="govuk-heading-m">
+  Find someone
+  <br>
+  <span class="govuk-body-l">
+    <a href="/agent-view-v04/find-someone" class="govuk-link govuk-link--no-visited-state">
+      <strong>Search for a citizen's claim record</strong>
+    </a>
+  </span>
+</h2>
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<!-- TASK ROW -->
+<div class="govuk-grid-row">
+
+  <!-- LEFT -->
+  <div class="govuk-grid-column-one-half">
+    <h2 class="govuk-heading-m">
+      Process an application
+      <br>
+
+      <span class="govuk-body-l">
+        <a href="/agent-view-v04/agent-task-list" class="govuk-link govuk-link--no-visited-state">
+          <strong>Get next case</strong>
+        </a>
+      </span>
+    </h2>
+  </div>
+
+  <!-- CASE COUNT -->
+  <div class="govuk-grid-column-one-quarter">
+    <h3 class="govuk-heading-l govuk-!-margin-bottom-1">2</h3>
+    <p class="govuk-body-l">Total tasks</p>
+  </div>
+
+</div>
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<!-- INVITE -->
+<h2 class="govuk-heading-m">
+  Invite to claim
+  <br>
+  <span class="govuk-body-l">
+    <a href="/invite-to-claim" class="govuk-link govuk-link--no-visited-state">
+      <strong>Enter a citizen's details to invite them to the service</strong>
+    </a>
+  </span>
+</h2>
+
+{% endblock %}

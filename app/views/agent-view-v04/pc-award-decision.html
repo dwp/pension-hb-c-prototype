@@ -1,0 +1,61 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Award decision
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+<h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+  Has Freya Weston been awarded Pension Credit?
+</h2>
+
+<form class="form" action="/agent-view-v04/hb-award-decision" method="post">
+
+  {{ govukRadios({
+    name: "pensionCreditAward",
+items: [
+  {
+    value: "awarded",
+    text: "Awarded Pension Credit"
+  },
+  {
+    value: "criteria-not-met",
+    text: "Not awarded Pension Credit because eligibility criteria were not met"
+  },
+  {
+    value: "evidence-not-submitted",
+    text: "Not awarded Pension Credit because evidence was not provided in time"
+  }
+]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+
+</form>
+
+</div>
+ </div>
+
+{% endblock %}

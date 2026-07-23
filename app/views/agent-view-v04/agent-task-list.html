@@ -1,0 +1,299 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Agent task list
+{% endblock %}
+
+    <!-- Defining task list statuses -->
+
+{% set doneStatus = {
+  text: "Done"
+} %}
+
+{% set cannotStartStatus = {
+  text: "Cannot start yet"
+} %}
+
+{% set toDoStatus = {
+  tag: {
+    text: "To do",
+    classes: "govuk-tag--blue"
+  }
+} %}
+
+{% set informationNeededStatus = {
+  tag: {
+    text: "Information needed",
+    classes: "govuk-tag--orange"
+  }
+} %}
+
+    <!-- Defining task list status logic -->
+
+{% set claimOverviewStatus = toDoStatus %}
+
+{% if data['claimOverviewInfoNeeded'] == "no" %}
+  {% set claimOverviewStatus = doneStatus %}
+{% elif data['claimOverviewInfoNeeded'] == "yes" %}
+  {% set claimOverviewStatus = informationNeededStatus %}
+{% endif %}
+
+{% set personalDetailsStatus = toDoStatus %}
+
+{% if data['personalDetailsInfoNeeded'] == "no" %}
+  {% set personalDetailsStatus = doneStatus %}
+{% elif data['personalDetailsInfoNeeded'] == "yes" %}
+  {% set personalDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+
+{% set partnerPersonalDetailsStatus = toDoStatus %}
+
+{% if data['partnerPersonalDetailsInfoNeeded'] == "no" %}
+  {% set partnerPersonalDetailsStatus = doneStatus %}
+{% elif data['partnerPersonalDetailsInfoNeeded'] == "yes" %}
+  {% set partnerPersonalDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set homeDetailsStatus = toDoStatus %}
+
+{% if data['homeDetailsInfoNeeded'] == "no" %}
+  {% set homeDetailsStatus = doneStatus %}
+{% elif data['homeDetailsInfoNeeded'] == "yes" %}
+  {% set homeDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set householdDetailsStatus = toDoStatus %}
+
+{% if data['householdDetailsInfoNeeded'] == "no" %}
+  {% set householdDetailsStatus = doneStatus %}
+{% elif data['householdDetailsInfoNeeded'] == "yes" %}
+  {% set householdDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set incomeDetailsStatus = toDoStatus %}
+
+{% if data['incomeDetailsInfoNeeded'] == "no" %}
+  {% set incomeDetailsStatus = doneStatus %}
+{% elif data['incomeDetailsInfoNeeded'] == "yes" %}
+  {% set incomeDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set contactDetailsStatus = toDoStatus %}
+
+{% if data['contactDetailsInfoNeeded'] == "no" %}
+  {% set contactDetailsStatus = doneStatus %}
+{% elif data['contactDetailsInfoNeeded'] == "yes" %}
+  {% set contactDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set paymentDetailsStatus = toDoStatus %}
+
+{% if data['paymentDetailsInfoNeeded'] == "no" %}
+  {% set paymentDetailsStatus = doneStatus %}
+{% elif data['paymentDetailsInfoNeeded'] == "yes" %}
+  {% set paymentDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set housingBenefitStatus = "Application received" %}
+
+{% if
+  data['claimOverviewInfoNeeded'] == "yes" or
+  data['personalDetailsInfoNeeded'] == "yes" or
+  data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+  data['homeDetailsInfoNeeded'] == "yes" or
+  data['householdDetailsInfoNeeded'] == "yes" or
+  data['incomeDetailsInfoNeeded'] == "yes" or
+  data['contactDetailsInfoNeeded'] == "yes" or
+  data['paymentDetailsInfoNeeded'] == "yes"
+%}
+  {% set housingBenefitStatus = "Information needed" %}
+
+{% elif
+  data['claimOverviewInfoNeeded'] == "no" or
+  data['personalDetailsInfoNeeded'] == "no" or
+  data['partnerPersonalDetailsInfoNeeded'] == "no" or
+  data['homeDetailsInfoNeeded'] == "no" or
+  data['householdDetailsInfoNeeded'] == "no" or
+  data['incomeDetailsInfoNeeded'] == "no" or
+  data['contactDetailsInfoNeeded'] == "no" or
+  data['paymentDetailsInfoNeeded'] == "no"
+%}
+  {% set housingBenefitStatus = "Processing application" %}
+{% endif %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Application description -->
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+      Process Housing Benefit application
+    </h2>
+
+    <section class="dwp-quick-reference govuk-!-margin-bottom-2"
+             aria-label="Case information">
+      <dl class="dwp-quick-reference__block">
+
+        <dt class="dwp-quick-reference__label">
+          Pension Credit application:
+        </dt>
+        <dd class="dwp-quick-reference__status">
+          <strong class="govuk-tag govuk-tag--grey">
+            Application received
+          </strong>
+        </dd>
+
+        <dt class="dwp-quick-reference__label">
+          Housing Benefit application:
+        </dt>
+        <dd class="dwp-quick-reference__status">
+{% if housingBenefitStatus == "Application received" %}
+  <strong class="govuk-tag govuk-tag--grey">
+    Application received
+  </strong>
+
+{% elif housingBenefitStatus == "Information needed" %}
+  <strong class="govuk-tag govuk-tag--orange">
+    Information needed
+  </strong>
+
+{% else %}
+  <strong class="govuk-tag govuk-tag--purple">
+    Processing application
+  </strong>
+{% endif %}
+
+        </dd>
+      </dl>
+    </section>
+  </div>
+
+  <!-- RIGHT SIDE = TIMELINE -->
+<div class="govuk-grid-column-one-third govuk-!-text-align-left header-timeline">
+  {{
+    dwpTimeline({
+      items: [
+        {
+          title: "Application received",
+          date: "12 February 2025 at 3:00pm"
+        }
+      ]
+    })
+  }}
+</div>
+
+
+</div>
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+    <!-- Review case details -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Review case details</h3>
+
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+{{ govukTaskList({
+  idPrefix: "review-case-details",
+  items: [
+
+    {
+      title: { text: "Claim overview" },
+      href: "claim-overview",
+      status: claimOverviewStatus
+    },
+    {
+  title: { text: "Personal details" },
+  href: "personal-details",
+  status: personalDetailsStatus
+},
+{
+  title: { text: "Partner's personal details" },
+  href: "partner-personal-details",
+  status: partnerPersonalDetailsStatus
+},
+{
+  title: { text: "Home details" },
+  href: "home-details",
+  status: homeDetailsStatus
+},
+{
+  title: { text: "Household details" },
+  href: "household-details",
+  status: householdDetailsStatus
+},
+{
+  title: { text: "Income, money and investments" },
+  href: "income-details",
+  status: incomeDetailsStatus
+},
+{
+  title: { text: "Contact details" },
+  href: "contact-details",
+  status: contactDetailsStatus
+},
+{
+  title: { text: "Payment details" },
+  href: "payment-details",
+  status: paymentDetailsStatus
+}
+  ]
+}) }}
+
+    <!-- Review case details -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Record supporting information</h3>
+
+    {{ govukTaskList({
+  idPrefix: "record-supporting-info",
+  items: [
+    {
+      title: { text: "Record supporting information" },
+      href: "#",
+      status: {
+        tag: {
+          text: "To do",
+          classes: "govuk-tag--blue"
+        }
+      }
+    }
+    ]
+    }) }}
+
+    <!-- Review case details -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Record a decision</h3>
+
+    {{ govukTaskList({
+      idPrefix: "record-a-decision",
+      items: [
+        {
+          title: { text: "Record a Housing Benefit decision" },
+          href: "hb-award-decision",
+          status: {
+            text: "Cannot start yet"
+          }
+        }
+      ]
+    }) }}
+
+</div>
+ </div>
+
+{% endblock %}
