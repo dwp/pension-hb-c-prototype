@@ -77,22 +77,22 @@
           classes: "govuk-!-margin-bottom-9",
           rows: [
             {
-              key: { text: "Are you living in shared accommodation?" },
+              key: { text: "Shared accommodation" },
               value: { text: (yesNo[data['sharedAccommodation']] or data['sharedAccommodation'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/shared-accommodation", text: "Change", visuallyHiddenText: "shared accommodation" } ] }
             },
             {
-              key: { text: "How many bedrooms?" },
+              key: { text: "Bedrooms in home" },
               value: { text: (data['bedroomAmount'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/bedroom-amount", text: "Change", visuallyHiddenText: "number of bedrooms" } ] }
             },
             {
-              key: { text: "Non-resident carer required?" },
+              key: { text: "Non-resident carer required to stay overnight" },
               value: { text: (yesNo[data['overnightCarer']] or data['overnightCarer'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/overnight-carer", text: "Change", visuallyHiddenText: "non-resident carer" } ] }
             },
             {
-              key: { text: "Are you an approved foster carer?" },
+              key: { text: "Approved foster carer" },
               value: { text: (yesNo[data['fosterCarer']] or data['fosterCarer'] or "Not provided") },
               actions: { items: [ { href: "/home-and-household/about-the-place-you-live/foster-carer", text: "Change", visuallyHiddenText: "approved foster carer" } ] }
             }

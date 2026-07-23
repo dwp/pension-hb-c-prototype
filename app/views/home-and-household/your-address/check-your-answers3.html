@@ -47,11 +47,11 @@
     },
     {
       key: { text: "Your home address" },
-      value: { text: (data['home-address'] or "Not provided") },
+      value: { text: data['home-manual-address'] or "Not provided"},
       actions: {
         items: [
           {
-            href: "/home-and-household/your-address/home-address",
+            href: "/home-and-household/your-address/home-manual-address",
             text: "Change",
             visuallyHiddenText: "home address"
           }
