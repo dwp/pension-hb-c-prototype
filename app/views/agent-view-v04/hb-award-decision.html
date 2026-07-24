@@ -32,19 +32,19 @@
 <form class="form" action="/agent-view-v04/hb-award-decision" method="post">
 
   {{ govukRadios({
-    name: "pensionCreditAward",
+    name: "housingBenefitAward",
 items: [
   {
-    value: "awarded",
-    text: "Yes"
+    value: "hb-awarded",
+    text: "Yes, they have been awarded Housing Benefit"
   },
   {
-    value: "criteria-not-met",
-    text: "No, eligibility criteria were not met"
+    value: "hb-criteria-not-met",
+    text: "No, they did not meet the eligibility criteria"
   },
   {
-    value: "evidence-not-submitted",
-    text: "No, evidence was not provided in time"
+    value: "hb-evidence-not-submitted",
+    text: "No, they did not provide evidence in time"
   }
 ]
   }) }}
