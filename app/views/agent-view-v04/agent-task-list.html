@@ -184,20 +184,115 @@
         </dd>
       </dl>
     </section>
-  </div>
+</div>
 
-  <!-- RIGHT SIDE = TIMELINE -->
+{% set timelineItems = [
+  {
+    title: "Application received",
+    date: "12 February 2025 at 3:00pm"
+  }
+] %}
+
+{% if data['supportingEvidenceSections'] and ('claim-overview' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Claim overview supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('personal-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Personal details supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('partner-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Partner's details supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('home-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Home details supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('household-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Household details supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('income-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Income, money and investments supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('contact-information' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Contact information supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% if data['supportingEvidenceSections'] and ('payment-details' in data['supportingEvidenceSections']) %}
+  {% set timelineItems = timelineItems.concat([
+    {
+      title: "Payment details supporting information received",
+      date: "Today at 2pm"
+    }
+  ]) %}
+{% endif %}
+
+{% set showViewFullHistory = timelineItems.length > 3 %}
+
 <div class="govuk-grid-column-one-third govuk-!-text-align-left header-timeline">
-  {{
-    dwpTimeline({
-      items: [
-        {
-          title: "Application received",
-          date: "12 February 2025 at 3:00pm"
-        }
-      ]
-    })
-  }}
+
+  {% if showViewFullHistory %}
+
+    {{
+      dwpTimeline({
+        items: timelineItems.slice(0, 3)
+      })
+    }}
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="#">
+        View full history
+        </a>
+      </p>
+
+  {% else %}
+
+    {{
+      dwpTimeline({
+        items: timelineItems
+      })
+    }}
+
+  {% endif %}
+
 </div>
 
 
@@ -266,7 +361,7 @@
   items: [
     {
       title: { text: "Record supporting information" },
-      href: "#",
+      href: "/agent-view-v04/supporting-evidence",
       status: {
         tag: {
           text: "To do",

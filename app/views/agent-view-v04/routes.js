@@ -67,3 +67,24 @@ router.get('/agent-view-v04/landing-page', (req, res) => {
     caseClosed
   })
 })
+
+// Supporting evidence question
+router.post('/agent-view-v04/supporting-evidence', function (req, res) {
+
+  const supportingEvidenceReceived =
+    req.body.supportingEvidenceReceived
+
+  if (supportingEvidenceReceived === 'yes') {
+    res.redirect('/agent-view-v04/what-supporting-evidence')
+  } else {
+    res.redirect('/agent-view-v04/agent-task-list')
+  }
+
+})
+
+// What supporting evidence page
+router.post('/agent-view-v04/what-supporting-evidence', function (req, res) {
+
+  res.redirect('/agent-view-v04/agent-task-list')
+
+})
