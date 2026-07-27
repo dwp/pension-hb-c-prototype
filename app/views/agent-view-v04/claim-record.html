@@ -8,6 +8,9 @@
 {% endblock %}
 
 {% set housingBenefitStatus = "Application received" %}
+{% set pensionCreditStatus = "Application received" %}
+
+{# Housing Benefit status #}
 
 {% if data['housingBenefitAward'] == "hb-awarded" %}
 
@@ -21,30 +24,83 @@
   {% set housingBenefitStatus = "Not entitled" %}
 
 {% elif
-  data['claimOverviewInfoNeeded'] == "yes" or
-  data['personalDetailsInfoNeeded'] == "yes" or
-  data['partnerPersonalDetailsInfoNeeded'] == "yes" or
-  data['homeDetailsInfoNeeded'] == "yes" or
-  data['householdDetailsInfoNeeded'] == "yes" or
-  data['incomeDetailsInfoNeeded'] == "yes" or
-  data['contactDetailsInfoNeeded'] == "yes" or
-  data['paymentDetailsInfoNeeded'] == "yes"
+  data['agentType'] == "hb" and (
+    data['claimOverviewInfoNeeded'] == "yes" or
+    data['personalDetailsInfoNeeded'] == "yes" or
+    data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+    data['homeDetailsInfoNeeded'] == "yes" or
+    data['householdDetailsInfoNeeded'] == "yes" or
+    data['incomeDetailsInfoNeeded'] == "yes" or
+    data['contactDetailsInfoNeeded'] == "yes" or
+    data['paymentDetailsInfoNeeded'] == "yes"
+  )
 %}
 
   {% set housingBenefitStatus = "Information needed" %}
 
 {% elif
-  data['claimOverviewInfoNeeded'] == "no" or
-  data['personalDetailsInfoNeeded'] == "no" or
-  data['partnerPersonalDetailsInfoNeeded'] == "no" or
-  data['homeDetailsInfoNeeded'] == "no" or
-  data['householdDetailsInfoNeeded'] == "no" or
-  data['incomeDetailsInfoNeeded'] == "no" or
-  data['contactDetailsInfoNeeded'] == "no" or
-  data['paymentDetailsInfoNeeded'] == "no"
+  data['agentType'] == "hb" and (
+    data['claimOverviewInfoNeeded'] == "no" or
+    data['personalDetailsInfoNeeded'] == "no" or
+    data['partnerPersonalDetailsInfoNeeded'] == "no" or
+    data['homeDetailsInfoNeeded'] == "no" or
+    data['householdDetailsInfoNeeded'] == "no" or
+    data['incomeDetailsInfoNeeded'] == "no" or
+    data['contactDetailsInfoNeeded'] == "no" or
+    data['paymentDetailsInfoNeeded'] == "no"
+  )
 %}
 
   {% set housingBenefitStatus = "Processing application" %}
+
+{% endif %}
+
+{# Pension Credit status #}
+
+{% if
+  data['pensionCreditAward'] == "guarantee-credit" or
+  data['pensionCreditAward'] == "savings-credit" or
+  data['pensionCreditAward'] == "both-credits"
+%}
+
+  {% set pensionCreditStatus = "In payment" %}
+
+{% elif
+  data['pensionCreditAward'] == "pc-criteria-not-met" or
+  data['pensionCreditAward'] == "pc-evidence-not-submitted"
+%}
+
+  {% set pensionCreditStatus = "Not entitled" %}
+
+{% elif
+  data['agentType'] == "pc" and (
+    data['claimOverviewInfoNeeded'] == "yes" or
+    data['personalDetailsInfoNeeded'] == "yes" or
+    data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+    data['homeDetailsInfoNeeded'] == "yes" or
+    data['householdDetailsInfoNeeded'] == "yes" or
+    data['incomeDetailsInfoNeeded'] == "yes" or
+    data['contactDetailsInfoNeeded'] == "yes" or
+    data['paymentDetailsInfoNeeded'] == "yes"
+  )
+%}
+
+  {% set pensionCreditStatus = "Information needed" %}
+
+{% elif
+  data['agentType'] == "pc" and (
+    data['claimOverviewInfoNeeded'] == "no" or
+    data['personalDetailsInfoNeeded'] == "no" or
+    data['partnerPersonalDetailsInfoNeeded'] == "no" or
+    data['homeDetailsInfoNeeded'] == "no" or
+    data['householdDetailsInfoNeeded'] == "no" or
+    data['incomeDetailsInfoNeeded'] == "no" or
+    data['contactDetailsInfoNeeded'] == "no" or
+    data['paymentDetailsInfoNeeded'] == "no"
+  )
+%}
+
+  {% set pensionCreditStatus = "Processing application" %}
 
 {% endif %}
 
@@ -68,21 +124,80 @@
     </h2>
 
 <div class="govuk-!-margin-bottom-6">
+
   <p class="govuk-body">
-    <strong style="margin-right:20px">Pension Credit</strong>
-    <strong class="govuk-tag govuk-tag--grey" style="white-space: nowrap;">
-      Application received
-    </strong>
-  </p>
+  <strong style="margin-right:20px">Pension Credit</strong>
 
-      <p class="govuk-body">
-        Guarantee Credit: No award decision recorded
-      </p>
+{% if pensionCreditStatus == "Application received" %}
+  <strong class="govuk-tag govuk-tag--grey" style="white-space: nowrap;">
+    Application received
+  </strong>
 
-      <p class="govuk-body">
-        Savings Credit: No award decision recorded
-      </p>
-    </div>
+{% elif pensionCreditStatus == "Information needed" %}
+  <strong class="govuk-tag govuk-tag--orange" style="white-space: nowrap;">
+    Information needed
+  </strong>
+
+{% elif pensionCreditStatus == "Processing application" %}
+  <strong class="govuk-tag govuk-tag--purple" style="white-space: nowrap;">
+    Processing application
+  </strong>
+
+{% elif pensionCreditStatus == "In payment" %}
+  <strong class="govuk-tag govuk-tag--green" style="white-space: nowrap;">
+    In payment
+  </strong>
+
+{% elif pensionCreditStatus == "Not entitled" %}
+  <strong class="govuk-tag govuk-tag--red" style="white-space: nowrap;">
+    Not entitled
+  </strong>
+
+{% endif %}
+
+<p class="govuk-body">
+  Guarantee Credit:
+
+  {% if data['pensionCreditAward'] == 'guarantee-credit' or data['pensionCreditAward'] == 'both-credits' %}
+
+    Awarded
+
+  {% elif
+    data['pensionCreditAward'] == 'pc-criteria-not-met' or
+    data['pensionCreditAward'] == 'pc-evidence-not-submitted' or
+    data['pensionCreditAward'] == 'savings-credit'
+  %}
+
+    Not awarded
+
+  {% else %}
+
+    No award decision recorded
+
+  {% endif %}
+</p>
+
+<p class="govuk-body">
+  Savings Credit:
+
+  {% if data['pensionCreditAward'] == 'savings-credit' or data['pensionCreditAward'] == 'both-credits' %}
+
+    Awarded
+
+  {% elif
+    data['pensionCreditAward'] == 'pc-criteria-not-met' or
+    data['pensionCreditAward'] == 'pc-evidence-not-submitted' or
+    data['pensionCreditAward'] == 'guarantee-credit'
+  %}
+
+    Not awarded
+
+  {% else %}
+
+    No award decision recorded
+
+  {% endif %}
+</p>
 
 <p class="govuk-body">
   <strong style="margin-right:20px">Housing benefit</strong>

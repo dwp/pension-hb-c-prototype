@@ -1,0 +1,50 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}
+  Select agent type
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      Select agent type
+    </h1>
+
+<form class="form" action="/agent-view-v04/agent-type" method="post">
+  
+{{ govukRadios({
+        name: "agentType",
+        fieldset: {
+          legend: {
+            text: "Which type of agent are you?",
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "hb",
+            text: "Housing Benefit agent"
+          },
+          {
+            value: "pc",
+            text: "Pension Credit agent"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

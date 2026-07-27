@@ -114,6 +114,9 @@
 {% endif %}
 
 {% set housingBenefitStatus = "Application received" %}
+{% set pensionCreditStatus = "Application received" %}
+
+{# Housing Benefit status #}
 
 {% if data['housingBenefitAward'] == "hb-awarded" %}
 
@@ -127,30 +130,83 @@
   {% set housingBenefitStatus = "Not entitled" %}
 
 {% elif
-  data['claimOverviewInfoNeeded'] == "yes" or
-  data['personalDetailsInfoNeeded'] == "yes" or
-  data['partnerPersonalDetailsInfoNeeded'] == "yes" or
-  data['homeDetailsInfoNeeded'] == "yes" or
-  data['householdDetailsInfoNeeded'] == "yes" or
-  data['incomeDetailsInfoNeeded'] == "yes" or
-  data['contactDetailsInfoNeeded'] == "yes" or
-  data['paymentDetailsInfoNeeded'] == "yes"
+  data['agentType'] == "hb" and (
+    data['claimOverviewInfoNeeded'] == "yes" or
+    data['personalDetailsInfoNeeded'] == "yes" or
+    data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+    data['homeDetailsInfoNeeded'] == "yes" or
+    data['householdDetailsInfoNeeded'] == "yes" or
+    data['incomeDetailsInfoNeeded'] == "yes" or
+    data['contactDetailsInfoNeeded'] == "yes" or
+    data['paymentDetailsInfoNeeded'] == "yes"
+  )
 %}
 
   {% set housingBenefitStatus = "Information needed" %}
 
 {% elif
-  data['claimOverviewInfoNeeded'] == "no" or
-  data['personalDetailsInfoNeeded'] == "no" or
-  data['partnerPersonalDetailsInfoNeeded'] == "no" or
-  data['homeDetailsInfoNeeded'] == "no" or
-  data['householdDetailsInfoNeeded'] == "no" or
-  data['incomeDetailsInfoNeeded'] == "no" or
-  data['contactDetailsInfoNeeded'] == "no" or
-  data['paymentDetailsInfoNeeded'] == "no"
+  data['agentType'] == "hb" and (
+    data['claimOverviewInfoNeeded'] == "no" or
+    data['personalDetailsInfoNeeded'] == "no" or
+    data['partnerPersonalDetailsInfoNeeded'] == "no" or
+    data['homeDetailsInfoNeeded'] == "no" or
+    data['householdDetailsInfoNeeded'] == "no" or
+    data['incomeDetailsInfoNeeded'] == "no" or
+    data['contactDetailsInfoNeeded'] == "no" or
+    data['paymentDetailsInfoNeeded'] == "no"
+  )
 %}
 
   {% set housingBenefitStatus = "Processing application" %}
+
+{% endif %}
+
+{# Pension Credit status #}
+
+{% if
+  data['pensionCreditAward'] == "guarantee-credit" or
+  data['pensionCreditAward'] == "savings-credit" or
+  data['pensionCreditAward'] == "both-credits"
+%}
+
+  {% set pensionCreditStatus = "In payment" %}
+
+{% elif
+  data['pensionCreditAward'] == "pc-criteria-not-met" or
+  data['pensionCreditAward'] == "pc-evidence-not-submitted"
+%}
+
+  {% set pensionCreditStatus = "Not entitled" %}
+
+{% elif
+  data['agentType'] == "pc" and (
+    data['claimOverviewInfoNeeded'] == "yes" or
+    data['personalDetailsInfoNeeded'] == "yes" or
+    data['partnerPersonalDetailsInfoNeeded'] == "yes" or
+    data['homeDetailsInfoNeeded'] == "yes" or
+    data['householdDetailsInfoNeeded'] == "yes" or
+    data['incomeDetailsInfoNeeded'] == "yes" or
+    data['contactDetailsInfoNeeded'] == "yes" or
+    data['paymentDetailsInfoNeeded'] == "yes"
+  )
+%}
+
+  {% set pensionCreditStatus = "Information needed" %}
+
+{% elif
+  data['agentType'] == "pc" and (
+    data['claimOverviewInfoNeeded'] == "no" or
+    data['personalDetailsInfoNeeded'] == "no" or
+    data['partnerPersonalDetailsInfoNeeded'] == "no" or
+    data['homeDetailsInfoNeeded'] == "no" or
+    data['householdDetailsInfoNeeded'] == "no" or
+    data['incomeDetailsInfoNeeded'] == "no" or
+    data['contactDetailsInfoNeeded'] == "no" or
+    data['paymentDetailsInfoNeeded'] == "no"
+  )
+%}
+
+  {% set pensionCreditStatus = "Processing application" %}
 
 {% endif %}
 
@@ -170,8 +226,25 @@
   {% set awardDecisionStatus = toDoStatus %}
 {% endif %}
 
-{% if data['housingBenefitDecisionRecorded'] == 'yes' %}
+{% if
+  data['housingBenefitDecisionRecorded'] == 'yes' or
+  data['pensionCreditDecisionRecorded'] == 'yes'
+%}
   {% set awardDecisionStatus = doneStatus %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionTaskName = 'Record a Pension Credit decision' %}
+  {% set decisionTaskLink = 'pc-award-decision' %}
+{% else %}
+  {% set decisionTaskName = 'Record a Housing Benefit decision' %}
+  {% set decisionTaskLink = 'hb-award-decision' %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionPage = 'pc-award-decision' %}
+{% else %}
+  {% set decisionPage = 'hb-award-decision' %}
 {% endif %}
 
 {% block content %}
@@ -192,21 +265,55 @@
 
     <!-- Application description -->
     <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
-      Process Housing Benefit application
+      {% if data['agentType'] == 'pc' %}
+  Process Pension Credit application
+{% else %}
+  Process Housing Benefit application
+{% endif %}
     </h2>
 
     <section class="dwp-quick-reference govuk-!-margin-bottom-2"
              aria-label="Case information">
       <dl class="dwp-quick-reference__block">
 
-        <dt class="dwp-quick-reference__label">
-          Pension Credit application:
-        </dt>
-        <dd class="dwp-quick-reference__status">
-          <strong class="govuk-tag govuk-tag--grey">
-            Application received
-          </strong>
-        </dd>
+<dt class="dwp-quick-reference__label">
+  Pension Credit application:
+</dt>
+<dd class="dwp-quick-reference__status">
+
+{% if pensionCreditStatus == "Application received" %}
+
+  <strong class="govuk-tag govuk-tag--grey">
+    Application received
+  </strong>
+
+{% elif pensionCreditStatus == "Information needed" %}
+
+  <strong class="govuk-tag govuk-tag--orange">
+    Information needed
+  </strong>
+
+{% elif pensionCreditStatus == "Processing application" %}
+
+  <strong class="govuk-tag govuk-tag--purple">
+    Processing application
+  </strong>
+
+{% elif pensionCreditStatus == "In payment" %}
+
+  <strong class="govuk-tag govuk-tag--green">
+    In payment
+  </strong>
+
+{% elif pensionCreditStatus == "Not entitled" %}
+
+  <strong class="govuk-tag govuk-tag--red">
+    Not entitled
+  </strong>
+
+{% endif %}
+
+</dd>
 
         <dt class="dwp-quick-reference__label">
           Housing Benefit application:
@@ -431,19 +538,21 @@
     ]
     }) }}
 
-    <!-- Review case details -->
+    <!-- Record a decision -->
     <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Record a decision</h3>
 
-    {{ govukTaskList({
-      idPrefix: "record-a-decision",
-      items: [
-        {
-          title: { text: "Record a Housing Benefit decision" },
-          href: "hb-award-decision",
-          status: awardDecisionStatus
-        }
-      ]
-    }) }}
+{{ govukTaskList({
+  idPrefix: "record-a-decision",
+  items: [
+    {
+      title: {
+        text: decisionTaskName
+      },
+      href: decisionPage,
+      status: awardDecisionStatus
+    }
+  ]
+}) }}
 
 </div>
  </div>

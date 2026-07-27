@@ -8,6 +8,16 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 const version = 'agent-view-v04'
 
+router.post('/agent-view-v04/agent-type', function (req, res) {
+
+  if (req.body.agentType === 'pc') {
+    res.redirect('/agent-view-v04/landing-page')
+  } else {
+    res.redirect('/agent-view-v04/landing-page')
+  }
+
+})
+
 // Find someone -> claim record
 router.post(`/${version}/find-someone`, (req, res) => {
   return res.redirect(`/${version}/claim-record`)
@@ -70,6 +80,14 @@ router.get('/agent-view-v04/landing-page', (req, res) => {
   })
 })
 
+// Pension Credit award -> landing page
+router.post('/agent-view-v04/pc-awarded', (req, res) => {
+  req.session.data.caseClosed = true
+  req.session.data.pensionCreditDecisionRecorded = 'yes'
+
+  res.redirect('/agent-view-v04/landing-page')
+})
+
 // Supporting evidence question
 router.post('/agent-view-v04/supporting-evidence', function (req, res) {
 
@@ -95,5 +113,20 @@ router.post('/agent-view-v04/what-supporting-evidence', function (req, res) {
   req.session.data['supportingInformationRecorded'] = 'yes'
 
   res.redirect('/agent-view-v04/agent-task-list')
+
+})
+
+router.post('/agent-view-v04/pc-award-decision', function (req, res) {
+
+  const pensionCreditAward = req.body.pensionCreditAward
+
+  // if pc award decision is yes -> check for gc and sc
+  req.session.data.pensionCreditDecisionRecorded = 'yes'
+
+  if (pensionCreditAward === 'pc-awarded') {
+    res.redirect('/agent-view-v04/pc-awarded')
+  } else {
+    res.redirect('/agent-view-v04/agent-task-list')
+  }
 
 })
