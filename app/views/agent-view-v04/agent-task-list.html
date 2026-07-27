@@ -92,6 +92,19 @@
   {% set contactDetailsStatus = informationNeededStatus %}
 {% endif %}
 
+{% set supportingInformationStatus = {
+  tag: {
+    text: "To do",
+    classes: "govuk-tag--blue"
+  }
+} %}
+
+{% if data['supportingInformationRecorded'] == "yes" %}
+  {% set supportingInformationStatus = {
+    text: "Done"
+  } %}
+{% endif %}
+
 {% set paymentDetailsStatus = toDoStatus %}
 
 {% if data['paymentDetailsInfoNeeded'] == "no" %}
@@ -102,7 +115,18 @@
 
 {% set housingBenefitStatus = "Application received" %}
 
-{% if
+{% if data['housingBenefitAward'] == "hb-awarded" %}
+
+  {% set housingBenefitStatus = "In payment" %}
+
+{% elif
+  data['housingBenefitAward'] == "hb-criteria-not-met" or
+  data['housingBenefitAward'] == "hb-evidence-not-submitted"
+%}
+
+  {% set housingBenefitStatus = "Not entitled" %}
+
+{% elif
   data['claimOverviewInfoNeeded'] == "yes" or
   data['personalDetailsInfoNeeded'] == "yes" or
   data['partnerPersonalDetailsInfoNeeded'] == "yes" or
@@ -112,6 +136,7 @@
   data['contactDetailsInfoNeeded'] == "yes" or
   data['paymentDetailsInfoNeeded'] == "yes"
 %}
+
   {% set housingBenefitStatus = "Information needed" %}
 
 {% elif
@@ -124,7 +149,29 @@
   data['contactDetailsInfoNeeded'] == "no" or
   data['paymentDetailsInfoNeeded'] == "no"
 %}
+
   {% set housingBenefitStatus = "Processing application" %}
+
+{% endif %}
+
+{% set awardDecisionStatus = cannotStartStatus %}
+
+{% if
+  data['claimOverviewInfoNeeded'] and
+  data['personalDetailsInfoNeeded'] and
+  data['partnerPersonalDetailsInfoNeeded'] and
+  data['homeDetailsInfoNeeded'] and
+  data['householdDetailsInfoNeeded'] and
+  data['incomeDetailsInfoNeeded'] and
+  data['contactDetailsInfoNeeded'] and
+  data['paymentDetailsInfoNeeded'] and
+  data['supportingInformationRecorded']
+%}
+  {% set awardDecisionStatus = toDoStatus %}
+{% endif %}
+
+{% if data['housingBenefitDecisionRecorded'] == 'yes' %}
+  {% set awardDecisionStatus = doneStatus %}
 {% endif %}
 
 {% block content %}
@@ -165,20 +212,37 @@
           Housing Benefit application:
         </dt>
         <dd class="dwp-quick-reference__status">
+
 {% if housingBenefitStatus == "Application received" %}
+
   <strong class="govuk-tag govuk-tag--grey">
     Application received
   </strong>
 
 {% elif housingBenefitStatus == "Information needed" %}
+
   <strong class="govuk-tag govuk-tag--orange">
     Information needed
   </strong>
 
-{% else %}
+{% elif housingBenefitStatus == "Processing application" %}
+
   <strong class="govuk-tag govuk-tag--purple">
     Processing application
   </strong>
+
+{% elif housingBenefitStatus == "In payment" %}
+
+  <strong class="govuk-tag govuk-tag--green">
+    In payment
+  </strong>
+
+{% elif housingBenefitStatus == "Not entitled" %}
+
+  <strong class="govuk-tag govuk-tag--red">
+    Not entitled
+  </strong>
+
 {% endif %}
 
         </dd>
@@ -362,12 +426,7 @@
     {
       title: { text: "Record supporting information" },
       href: "/agent-view-v04/supporting-evidence",
-      status: {
-        tag: {
-          text: "To do",
-          classes: "govuk-tag--blue"
-        }
-      }
+      status: supportingInformationStatus
     }
     ]
     }) }}
@@ -381,9 +440,7 @@
         {
           title: { text: "Record a Housing Benefit decision" },
           href: "hb-award-decision",
-          status: {
-            text: "Cannot start yet"
-          }
+          status: awardDecisionStatus
         }
       ]
     }) }}

@@ -9,7 +9,18 @@
 
 {% set housingBenefitStatus = "Application received" %}
 
-{% if
+{% if data['housingBenefitAward'] == "hb-awarded" %}
+
+  {% set housingBenefitStatus = "In payment" %}
+
+{% elif
+  data['housingBenefitAward'] == "hb-criteria-not-met" or
+  data['housingBenefitAward'] == "hb-evidence-not-submitted"
+%}
+
+  {% set housingBenefitStatus = "Not entitled" %}
+
+{% elif
   data['claimOverviewInfoNeeded'] == "yes" or
   data['personalDetailsInfoNeeded'] == "yes" or
   data['partnerPersonalDetailsInfoNeeded'] == "yes" or
@@ -19,6 +30,7 @@
   data['contactDetailsInfoNeeded'] == "yes" or
   data['paymentDetailsInfoNeeded'] == "yes"
 %}
+
   {% set housingBenefitStatus = "Information needed" %}
 
 {% elif
@@ -31,7 +43,9 @@
   data['contactDetailsInfoNeeded'] == "no" or
   data['paymentDetailsInfoNeeded'] == "no"
 %}
+
   {% set housingBenefitStatus = "Processing application" %}
+
 {% endif %}
 
 {% block content %}
@@ -83,11 +97,23 @@
     Information needed
   </strong>
 
-{% else %}
+{% elif housingBenefitStatus == "Processing application" %}
   <strong class="govuk-tag govuk-tag--purple" style="white-space: nowrap;">
     Processing application
   </strong>
+
+{% elif housingBenefitStatus == "In payment" %}
+  <strong class="govuk-tag govuk-tag--green" style="white-space: nowrap;">
+    In payment
+  </strong>
+
+{% elif housingBenefitStatus == "Not entitled" %}
+  <strong class="govuk-tag govuk-tag--red" style="white-space: nowrap;">
+    Not entitled
+  </strong>
+
 {% endif %}
+
 </p>
 
       <p class="govuk-body govuk-!-margin-top-3">

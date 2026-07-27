@@ -57,6 +57,8 @@ router.post(`/${version}/payment-details`, (req, res) => {
 // Award decision -> landing page
 router.post('/agent-view-v04/hb-award-decision', (req, res) => {
   req.session.data.caseClosed = true
+  req.session.data.housingBenefitDecisionRecorded = 'yes'
+
   res.redirect('/agent-view-v04/landing-page')
 })
 
@@ -77,6 +79,10 @@ router.post('/agent-view-v04/supporting-evidence', function (req, res) {
   if (supportingEvidenceReceived === 'yes') {
     res.redirect('/agent-view-v04/what-supporting-evidence')
   } else {
+
+    // Mark task as completed
+    req.session.data['supportingInformationRecorded'] = 'yes'
+
     res.redirect('/agent-view-v04/agent-task-list')
   }
 
@@ -84,6 +90,9 @@ router.post('/agent-view-v04/supporting-evidence', function (req, res) {
 
 // What supporting evidence page
 router.post('/agent-view-v04/what-supporting-evidence', function (req, res) {
+
+  // Mark task as completed
+  req.session.data['supportingInformationRecorded'] = 'yes'
 
   res.redirect('/agent-view-v04/agent-task-list')
 
