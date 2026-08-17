@@ -1,0 +1,117 @@
+{% set housingBenefitStatus = "Application received" %}
+{% set pensionCreditStatus = "Application received" %}
+
+{# Housing Benefit status #}
+
+{% if data['housingBenefitAward'] == "hb-awarded" %}
+
+  {% set housingBenefitStatus = "In payment" %}
+
+{% elif
+  data['housingBenefitAward'] == "hb-criteria-not-met" or
+  data['housingBenefitAward'] == "hb-evidence-not-submitted"
+%}
+
+  {% set housingBenefitStatus = "Not entitled" %}
+
+{% elif data['agentType'] == "hb" and hasInformationNeeded %}
+
+  {% set housingBenefitStatus = "Information needed" %}
+
+{% elif data['agentType'] == "hb" and hasInformationReceived %}
+
+  {% set housingBenefitStatus = "Information received" %}
+
+{% elif data['agentType'] == "hb" and hasDoneSection %}
+
+  {% set housingBenefitStatus = "Processing application" %}
+
+{% endif %}
+
+{# Pension Credit status #}
+
+{% if
+  data['pensionCreditAward'] == "guarantee-credit" or
+  data['pensionCreditAward'] == "savings-credit" or
+  data['pensionCreditAward'] == "both-credits"
+%}
+
+  {% set pensionCreditStatus = "In payment" %}
+
+{% elif
+  data['pensionCreditAward'] == "pc-criteria-not-met" or
+  data['pensionCreditAward'] == "pc-evidence-not-submitted"
+%}
+
+  {% set pensionCreditStatus = "Not entitled" %}
+
+{% elif data['agentType'] == "pc" and hasInformationNeeded %}
+
+  {% set pensionCreditStatus = "Information needed" %}
+
+{% elif data['agentType'] == "pc" and hasInformationReceived %}
+
+  {% set pensionCreditStatus = "Information received" %}
+
+{% elif data['agentType'] == "pc" and hasDoneSection %}
+
+  {% set pensionCreditStatus = "Processing application" %}
+
+{% endif %}
+
+{% set awardDecisionStatus = cannotStartStatus %}
+
+{% set readyForDecision = true %}
+
+{% if
+  claimOverviewStatus == toDoStatus or
+  claimOverviewStatus == informationNeededStatus or
+
+  personalDetailsStatus == toDoStatus or
+  personalDetailsStatus == informationNeededStatus or
+
+  partnerPersonalDetailsStatus == toDoStatus or
+  partnerPersonalDetailsStatus == informationNeededStatus or
+
+  homeDetailsStatus == toDoStatus or
+  homeDetailsStatus == informationNeededStatus or
+
+  householdDetailsStatus == toDoStatus or
+  householdDetailsStatus == informationNeededStatus or
+
+  incomeDetailsStatus == toDoStatus or
+  incomeDetailsStatus == informationNeededStatus or
+
+  contactDetailsStatus == toDoStatus or
+  contactDetailsStatus == informationNeededStatus or
+
+  paymentDetailsStatus == toDoStatus or
+  paymentDetailsStatus == informationNeededStatus
+%}
+  {% set readyForDecision = false %}
+{% endif %}
+
+{% if readyForDecision %}
+  {% set awardDecisionStatus = toDoStatus %}
+{% endif %}
+
+{% if
+  data['housingBenefitDecisionRecorded'] == 'yes' or
+  data['pensionCreditDecisionRecorded'] == 'yes'
+%}
+  {% set awardDecisionStatus = doneStatus %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionTaskName = 'Record a Pension Credit decision' %}
+  {% set decisionTaskLink = 'pc-award-decision' %}
+{% else %}
+  {% set decisionTaskName = 'Record a Housing Benefit decision' %}
+  {% set decisionTaskLink = 'hb-award-decision' %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionPage = 'pc-award-decision' %}
+{% else %}
+  {% set decisionPage = 'hb-award-decision' %}
+{% endif %}

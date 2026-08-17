@@ -9,7 +9,7 @@
   Agent task list
 {% endblock %}
 
-    <!-- Defining task list statuses -->
+<!-- Status definitions -->
 
 {% set doneStatus = {
   text: "Done"
@@ -131,6 +131,8 @@
   {% set paymentDetailsStatus = informationNeededStatus %}
 {% endif %}
 
+    <!-- Application status helper flags -->
+
 {% set hasInformationNeeded = false %}
 
 {% if data['claimOverviewInfoNeeded'] == "yes"
@@ -196,6 +198,8 @@
   data['contactDetailsInfoNeeded'] == "no" or
   data['paymentDetailsInfoNeeded'] == "no"
 %}
+
+<!-- Application status helper flags -->
 
 {% set housingBenefitStatus = "Application received" %}
 {% set pensionCreditStatus = "Application received" %}
@@ -287,6 +291,9 @@
   paymentDetailsStatus == toDoStatus or
   paymentDetailsStatus == informationNeededStatus
 %}
+
+<!-- Decision task logic -->
+
   {% set readyForDecision = false %}
 {% endif %}
 
@@ -339,9 +346,7 @@
   Process Housing Benefit application
 {% endif %}
     </h2>
-
-    <p>caseInProgressRecorded = {{ data['caseInProgressRecorded'] }}</p>
-
+    
     <section class="dwp-quick-reference govuk-!-margin-bottom-2"
              aria-label="Case information">
       <dl class="dwp-quick-reference__block">

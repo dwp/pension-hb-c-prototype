@@ -72,49 +72,97 @@ router.post(`/${version}/find-someone`, (req, res) => {
 
 // Claim overview -> personal details
 router.post(`/${version}/claim-overview`, (req, res) => {
-  ensureCaseInProgress(req)
+  if (req.body.claimOverviewInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'claim-overview',
+      'Claim overview'
+    )
+  }
   return res.redirect(`/${version}/personal-details`)
 })
 
 // Personal details -> partner's personal details
 router.post(`/${version}/personal-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.personalDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'personal-details',
+      'Personal details'
+    )
+  }
   return res.redirect(`/${version}/partner-personal-details`)
 })
 
 // partner's personal details -> home details
 router.post(`/${version}/partner-personal-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.partnerPersonalDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'partner-details',
+      "Partner's personal details"
+    )
+  }
   return res.redirect(`/${version}/home-details`)
 })
 
 // home details -> household details
 router.post(`/${version}/home-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.homeDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'home-details',
+      'Home details'
+    )
+  }
   return res.redirect(`/${version}/household-details`)
 })
 
 // household details -> income
 router.post(`/${version}/household-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.householdDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'household-details',
+      'Household details'
+    )
+  }
   return res.redirect(`/${version}/income-details`)
 })
 
 // income -> contact details
 router.post(`/${version}/income-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.incomeDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'income-details',
+      'Income, money and investments'
+    )
+  }
   return res.redirect(`/${version}/contact-details`)
 })
 
 // contact details -> payment details
 router.post(`/${version}/contact-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.contactDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'contact-information',
+      'Contact details'
+    )
+  }
   return res.redirect(`/${version}/payment-details`)
 })
 
 // payment details -> task list
 router.post(`/${version}/payment-details`, (req, res) => {
-    ensureCaseInProgress(req)
+  if (req.body.paymentDetailsInfoNeeded === 'yes') {
+    recordInformationNeeded(
+      req,
+      'payment-details',
+      'Payment details'
+    )
+  }
   return res.redirect(`/${version}/agent-task-list`)
 })
 
@@ -238,3 +286,30 @@ router.post('/agent-view-v05/pc-award-decision', function (req, res) {
   }
 
 })
+
+// information needed helper function
+function recordInformationNeeded(req, sectionKey, sectionLabel) {
+
+  ensureCaseInProgress(req)
+
+  req.session.data.informationNeededSections =
+    req.session.data.informationNeededSections || []
+
+  if (
+    !req.session.data.informationNeededSections.includes(sectionKey)
+  ) {
+
+    req.session.data.informationNeededSections.push(sectionKey)
+
+    const actor =
+      req.session.data.agentType === 'pc'
+        ? 'DWP Pension Credit agent'
+        : 'Gateshead Housing Benefit agent'
+
+    addTimelineEvent(req, {
+      title: `Information needed for ${sectionLabel}`,
+      date: getTimestamp(),
+      byline: actor
+    })
+  }
+}

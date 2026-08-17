@@ -1,10 +1,11 @@
 {% extends "layouts/internal-2.html" %}
 
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-  Claim record
+  New applications
 {% endblock %}
 
 <!-- Application status helper flags -->
@@ -134,115 +135,70 @@
 
 {% endif %}
 
+<!-- Case list tags -->
+
+{% set pensionCreditStatusTag %}
+  {% if pensionCreditStatus == "Application received" %}
+    <strong class="govuk-tag govuk-tag--grey">Application received</strong>
+  {% elif pensionCreditStatus == "Information needed" %}
+    <strong class="govuk-tag govuk-tag--orange">Information needed</strong>
+  {% elif pensionCreditStatus == "Information received" %}
+    <strong class="govuk-tag govuk-tag--teal">Information received</strong>
+  {% elif pensionCreditStatus == "Processing application" %}
+    <strong class="govuk-tag govuk-tag--purple">Processing application</strong>
+  {% elif pensionCreditStatus == "In payment" %}
+    <strong class="govuk-tag govuk-tag--green">In payment</strong>
+  {% elif pensionCreditStatus == "Not entitled" %}
+    <strong class="govuk-tag govuk-tag--red">Not entitled</strong>
+  {% endif %}
+{% endset %}
+
+{% set housingBenefitStatusTag %}
+  {% if housingBenefitStatus == "Application received" %}
+    <strong class="govuk-tag govuk-tag--grey">Application received</strong>
+  {% elif housingBenefitStatus == "Information needed" %}
+    <strong class="govuk-tag govuk-tag--orange">Information needed</strong>
+  {% elif housingBenefitStatus == "Information received" %}
+    <strong class="govuk-tag govuk-tag--teal">Information received</strong>
+  {% elif housingBenefitStatus == "Processing application" %}
+    <strong class="govuk-tag govuk-tag--purple">Processing application</strong>
+  {% elif housingBenefitStatus == "In payment" %}
+    <strong class="govuk-tag govuk-tag--green">In payment</strong>
+  {% elif housingBenefitStatus == "Not entitled" %}
+    <strong class="govuk-tag govuk-tag--red">Not entitled</strong>
+  {% endif %}
+{% endset %}
+
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+{% from "govuk/components/table/macro.njk" import govukTable %}
 
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-      Freya Weston
-      <span class="govuk-caption-l">AB 12 34 56 C</span>
-    </h1>
-
-    <!-- back link -->
-    <p>
-    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
-    </p>
-
-    <h2 class="govuk-heading-l">
-      Application status
-    </h2>
-
-    <div class="govuk-!-margin-bottom-6">
-
-      <p class="govuk-body">
-        <strong style="margin-right:20px">Pension Credit</strong>
-
-        {% if pensionCreditStatus == "Application received" %}
-          <strong class="govuk-tag govuk-tag--grey">Application received</strong>
-
-        {% elif pensionCreditStatus == "Information needed" %}
-          <strong class="govuk-tag govuk-tag--orange">Information needed</strong>
-
-        {% elif pensionCreditStatus == "Information received" %}
-          <strong class="govuk-tag govuk-tag--teal">Information received</strong>
-
-        {% elif pensionCreditStatus == "Processing application" %}
-          <strong class="govuk-tag govuk-tag--purple">Processing application</strong>
-
-        {% elif pensionCreditStatus == "In payment" %}
-          <strong class="govuk-tag govuk-tag--green">In payment</strong>
-
-        {% elif pensionCreditStatus == "Not entitled" %}
-          <strong class="govuk-tag govuk-tag--red">Not entitled</strong>
-        {% endif %}
-      </p>
-
-      <p class="govuk-body">
-        Guarantee Credit:
-
-        {% if data['pensionCreditAward'] == 'guarantee-credit' or data['pensionCreditAward'] == 'both-credits' %}
-          Awarded
-        {% elif
-          data['pensionCreditAward'] == 'pc-criteria-not-met' or
-          data['pensionCreditAward'] == 'pc-evidence-not-submitted' or
-          data['pensionCreditAward'] == 'savings-credit'
-        %}
-          Not awarded
-        {% else %}
-          No award decision recorded
-        {% endif %}
-      </p>
-
-      <p class="govuk-body">
-        Savings Credit:
-
-        {% if data['pensionCreditAward'] == 'savings-credit' or data['pensionCreditAward'] == 'both-credits' %}
-          Awarded
-        {% elif
-          data['pensionCreditAward'] == 'pc-criteria-not-met' or
-          data['pensionCreditAward'] == 'pc-evidence-not-submitted' or
-          data['pensionCreditAward'] == 'guarantee-credit'
-        %}
-          Not awarded
-        {% else %}
-          No award decision recorded
-        {% endif %}
-      </p>
-
-      <p class="govuk-body">
-        <strong style="margin-right:20px">Housing Benefit</strong>
-
-        {% if housingBenefitStatus == "Application received" %}
-          <strong class="govuk-tag govuk-tag--grey">Application received</strong>
-
-        {% elif housingBenefitStatus == "Information needed" %}
-          <strong class="govuk-tag govuk-tag--orange">Information needed</strong>
-
-        {% elif housingBenefitStatus == "Information received" %}
-          <strong class="govuk-tag govuk-tag--teal">Information received</strong>
-
-        {% elif housingBenefitStatus == "Processing application" %}
-          <strong class="govuk-tag govuk-tag--purple">Processing application</strong>
-
-        {% elif housingBenefitStatus == "In payment" %}
-          <strong class="govuk-tag govuk-tag--green">In payment</strong>
-
-        {% elif housingBenefitStatus == "Not entitled" %}
-          <strong class="govuk-tag govuk-tag--red">Not entitled</strong>
-        {% endif %}
-      </p>
-
-      <p class="govuk-body govuk-!-margin-top-3">
-        You can
-        <a href="agent-task-list.html">
-          View outstanding tasks
-        </a>
-      </p>
-
-    </div>
-
-  </div>
-</div>
+{{ govukTable({
+  caption: "Cases",
+  captionClasses: "govuk-table__caption--l",
+  firstCellIsHeader: false,
+  head: [
+    { text: "Claim submitted" },
+    { text: "Date updated" },
+    { text: "Pension Credit status" },
+    { text: "Housing Benefit status" },
+    { text: "Process claim" }
+  ],
+  rows: [
+    [
+      { text: "6 February 2025" },
+      { text: "12 February 2025" },
+      { html: '<strong class="govuk-tag govuk-tag--green">In payment</strong>' },
+      { html: '<strong class="govuk-tag govuk-tag--purple">Processing application</strong>' },
+      { html: '  <a href="#"> Process claim </a>' } 
+      ],
+    [
+      { text: "12 February 2025" },
+      { text: "" },
+      { html: pensionCreditStatusTag },
+      { html: housingBenefitStatusTag },
+      { html: '  <a href="/agent-view-v05/agent-task-list"> Process claim </a>' }    ]
+  ]
+}) }}
 
 {% endblock %}
