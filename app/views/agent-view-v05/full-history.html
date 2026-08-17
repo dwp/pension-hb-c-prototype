@@ -1,0 +1,21 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Full history
+{% endblock %}
+
+{% block content %}
+
+<h1 class="govuk-heading-l">
+  Full history
+</h1>
+
+{% set timelineItems = data['timeline'] or [] %}
+
+{{ dwpTimeline({
+  items: timelineItems
+}) }}
+
+{% endblock %}

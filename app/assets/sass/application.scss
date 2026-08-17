@@ -6,7 +6,15 @@
 // Add extra styles here
 
 .govuk-task-list__status .govuk-tag {
+  width: auto;
+  max-width: none;
+  display: inline-block;
   white-space: nowrap;
+}
+
+.govuk-tag--teal {
+  color: #10403c;
+  background: #b8e3df;
 }
 
 $govuk-new-link-styles: true;

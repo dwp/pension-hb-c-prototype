@@ -1,0 +1,558 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Agent task list
+{% endblock %}
+
+    <!-- Defining task list statuses -->
+
+{% set doneStatus = {
+  text: "Done"
+} %}
+
+{% set cannotStartStatus = {
+  text: "Cannot start yet"
+} %}
+
+{% set toDoStatus = {
+  tag: {
+    text: "To do",
+    classes: "govuk-tag--blue"
+  }
+} %}
+
+{% set informationNeededStatus = {
+  tag: {
+    text: "Information needed",
+    classes: "govuk-tag--orange"
+  }
+} %}
+
+{% set informationReceivedStatus = {
+  tag: {
+    text: "Information received",
+    classes: "govuk-tag--teal"
+  }
+} %}
+
+    <!-- Defining task list status logic -->
+
+{% set claimOverviewStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('claim-overview' in data['informationReceivedSections']) %}
+  {% set claimOverviewStatus = informationReceivedStatus %}
+{% elif data['claimOverviewInfoNeeded'] == "no" %}
+  {% set claimOverviewStatus = doneStatus %}
+{% elif data['claimOverviewInfoNeeded'] == "yes" %}
+  {% set claimOverviewStatus = informationNeededStatus %}
+{% endif %}
+
+{% set personalDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('personal-details' in data['informationReceivedSections']) %}
+  {% set personalDetailsStatus = informationReceivedStatus %}
+{% elif data['personalDetailsInfoNeeded'] == "no" %}
+  {% set personalDetailsStatus = doneStatus %}
+{% elif data['personalDetailsInfoNeeded'] == "yes" %}
+  {% set personalDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+
+{% set partnerPersonalDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('partner-details' in data['informationReceivedSections']) %}
+  {% set partnerPersonalDetailsStatus = informationReceivedStatus %}
+{% elif data['partnerPersonalDetailsInfoNeeded'] == "no" %}
+  {% set partnerPersonalDetailsStatus = doneStatus %}
+{% elif data['partnerPersonalDetailsInfoNeeded'] == "yes" %}
+  {% set partnerPersonalDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set homeDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('home-details' in data['informationReceivedSections']) %}
+  {% set homeDetailsStatus = informationReceivedStatus %}
+{% elif data['homeDetailsInfoNeeded'] == "no" %}
+  {% set homeDetailsStatus = doneStatus %}
+{% elif data['homeDetailsInfoNeeded'] == "yes" %}
+  {% set homeDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set householdDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('household-details' in data['informationReceivedSections']) %}
+  {% set householdDetailsStatus = informationReceivedStatus %}
+{% elif data['householdDetailsInfoNeeded'] == "no" %}
+  {% set householdDetailsStatus = doneStatus %}
+{% elif data['householdDetailsInfoNeeded'] == "yes" %}
+  {% set householdDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set incomeDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('income-details' in data['informationReceivedSections']) %}
+  {% set incomeDetailsStatus = informationReceivedStatus %}
+{% elif data['incomeDetailsInfoNeeded'] == "no" %}
+  {% set incomeDetailsStatus = doneStatus %}
+{% elif data['incomeDetailsInfoNeeded'] == "yes" %}
+  {% set incomeDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set contactDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('contact-information' in data['informationReceivedSections']) %}
+  {% set contactDetailsStatus = informationReceivedStatus %}
+{% elif data['contactDetailsInfoNeeded'] == "no" %}
+  {% set contactDetailsStatus = doneStatus %}
+{% elif data['contactDetailsInfoNeeded'] == "yes" %}
+  {% set contactDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set paymentDetailsStatus = toDoStatus %}
+
+{% if data['informationReceivedSections']
+  and ('payment-details' in data['informationReceivedSections']) %}
+  {% set paymentDetailsStatus = informationReceivedStatus %}
+{% elif data['paymentDetailsInfoNeeded'] == "no" %}
+  {% set paymentDetailsStatus = doneStatus %}
+{% elif data['paymentDetailsInfoNeeded'] == "yes" %}
+  {% set paymentDetailsStatus = informationNeededStatus %}
+{% endif %}
+
+{% set hasInformationNeeded = false %}
+
+{% if data['claimOverviewInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('claim-overview' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['personalDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('personal-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['partnerPersonalDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('partner-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['homeDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('home-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['householdDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('household-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['incomeDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('income-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['contactDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('contact-information' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% if data['paymentDetailsInfoNeeded'] == "yes"
+  and not (data['informationReceivedSections']
+    and ('payment-details' in data['informationReceivedSections'])) %}
+  {% set hasInformationNeeded = true %}
+{% endif %}
+
+{% set hasInformationReceived =
+  data['informationReceivedSections']
+  and data['informationReceivedSections'].length > 0
+%}
+
+{% set hasDoneSection =
+  data['claimOverviewInfoNeeded'] == "no" or
+  data['personalDetailsInfoNeeded'] == "no" or
+  data['partnerPersonalDetailsInfoNeeded'] == "no" or
+  data['homeDetailsInfoNeeded'] == "no" or
+  data['householdDetailsInfoNeeded'] == "no" or
+  data['incomeDetailsInfoNeeded'] == "no" or
+  data['contactDetailsInfoNeeded'] == "no" or
+  data['paymentDetailsInfoNeeded'] == "no"
+%}
+
+{% set housingBenefitStatus = "Application received" %}
+{% set pensionCreditStatus = "Application received" %}
+
+{# Housing Benefit status #}
+
+{% if data['housingBenefitAward'] == "hb-awarded" %}
+
+  {% set housingBenefitStatus = "In payment" %}
+
+{% elif
+  data['housingBenefitAward'] == "hb-criteria-not-met" or
+  data['housingBenefitAward'] == "hb-evidence-not-submitted"
+%}
+
+  {% set housingBenefitStatus = "Not entitled" %}
+
+{% elif data['agentType'] == "hb" and hasInformationNeeded %}
+
+  {% set housingBenefitStatus = "Information needed" %}
+
+{% elif data['agentType'] == "hb" and hasInformationReceived %}
+
+  {% set housingBenefitStatus = "Information received" %}
+
+{% elif data['agentType'] == "hb" and hasDoneSection %}
+
+  {% set housingBenefitStatus = "Processing application" %}
+
+{% endif %}
+
+{# Pension Credit status #}
+
+{% if
+  data['pensionCreditAward'] == "guarantee-credit" or
+  data['pensionCreditAward'] == "savings-credit" or
+  data['pensionCreditAward'] == "both-credits"
+%}
+
+  {% set pensionCreditStatus = "In payment" %}
+
+{% elif
+  data['pensionCreditAward'] == "pc-criteria-not-met" or
+  data['pensionCreditAward'] == "pc-evidence-not-submitted"
+%}
+
+  {% set pensionCreditStatus = "Not entitled" %}
+
+{% elif data['agentType'] == "pc" and hasInformationNeeded %}
+
+  {% set pensionCreditStatus = "Information needed" %}
+
+{% elif data['agentType'] == "pc" and hasInformationReceived %}
+
+  {% set pensionCreditStatus = "Information received" %}
+
+{% elif data['agentType'] == "pc" and hasDoneSection %}
+
+  {% set pensionCreditStatus = "Processing application" %}
+
+{% endif %}
+
+{% set awardDecisionStatus = cannotStartStatus %}
+
+{% set readyForDecision = true %}
+
+{% if
+  claimOverviewStatus == toDoStatus or
+  claimOverviewStatus == informationNeededStatus or
+
+  personalDetailsStatus == toDoStatus or
+  personalDetailsStatus == informationNeededStatus or
+
+  partnerPersonalDetailsStatus == toDoStatus or
+  partnerPersonalDetailsStatus == informationNeededStatus or
+
+  homeDetailsStatus == toDoStatus or
+  homeDetailsStatus == informationNeededStatus or
+
+  householdDetailsStatus == toDoStatus or
+  householdDetailsStatus == informationNeededStatus or
+
+  incomeDetailsStatus == toDoStatus or
+  incomeDetailsStatus == informationNeededStatus or
+
+  contactDetailsStatus == toDoStatus or
+  contactDetailsStatus == informationNeededStatus or
+
+  paymentDetailsStatus == toDoStatus or
+  paymentDetailsStatus == informationNeededStatus
+%}
+  {% set readyForDecision = false %}
+{% endif %}
+
+{% if readyForDecision %}
+  {% set awardDecisionStatus = toDoStatus %}
+{% endif %}
+
+{% if
+  data['housingBenefitDecisionRecorded'] == 'yes' or
+  data['pensionCreditDecisionRecorded'] == 'yes'
+%}
+  {% set awardDecisionStatus = doneStatus %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionTaskName = 'Record a Pension Credit decision' %}
+  {% set decisionTaskLink = 'pc-award-decision' %}
+{% else %}
+  {% set decisionTaskName = 'Record a Housing Benefit decision' %}
+  {% set decisionTaskLink = 'hb-award-decision' %}
+{% endif %}
+
+{% if data['agentType'] == 'pc' %}
+  {% set decisionPage = 'pc-award-decision' %}
+{% else %}
+  {% set decisionPage = 'hb-award-decision' %}
+{% endif %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Application description -->
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+      {% if data['agentType'] == 'pc' %}
+  Process Pension Credit application
+{% else %}
+  Process Housing Benefit application
+{% endif %}
+    </h2>
+
+    <p>caseInProgressRecorded = {{ data['caseInProgressRecorded'] }}</p>
+
+    <section class="dwp-quick-reference govuk-!-margin-bottom-2"
+             aria-label="Case information">
+      <dl class="dwp-quick-reference__block">
+
+<dt class="dwp-quick-reference__label">
+  Pension Credit application:
+</dt>
+<dd class="dwp-quick-reference__status">
+
+{% if pensionCreditStatus == "Application received" %}
+
+  <strong class="govuk-tag govuk-tag--grey">
+    Application received
+  </strong>
+
+{% elif pensionCreditStatus == "Information needed" %}
+
+  <strong class="govuk-tag govuk-tag--orange">
+    Information needed
+  </strong>
+
+{% elif pensionCreditStatus == "Information received" %}
+
+  <strong class="govuk-tag govuk-tag--teal">
+    Information received
+  </strong>
+
+{% elif pensionCreditStatus == "Processing application" %}
+
+  <strong class="govuk-tag govuk-tag--purple">
+    Processing application
+  </strong>
+
+{% elif pensionCreditStatus == "In payment" %}
+
+  <strong class="govuk-tag govuk-tag--green">
+    In payment
+  </strong>
+
+{% elif pensionCreditStatus == "Not entitled" %}
+
+  <strong class="govuk-tag govuk-tag--red">
+    Not entitled
+  </strong>
+
+
+{% endif %}
+
+</dd>
+
+        <dt class="dwp-quick-reference__label">
+          Housing Benefit application:
+        </dt>
+        <dd class="dwp-quick-reference__status">
+
+{% if housingBenefitStatus == "Application received" %}
+
+  <strong class="govuk-tag govuk-tag--grey">
+    Application received
+  </strong>
+
+{% elif housingBenefitStatus == "Information needed" %}
+
+  <strong class="govuk-tag govuk-tag--orange">
+    Information needed
+  </strong>
+
+{% elif housingBenefitStatus == "Information received" %}
+
+  <strong class="govuk-tag govuk-tag--teal">
+    Information received
+  </strong>
+
+{% elif housingBenefitStatus == "Processing application" %}
+
+  <strong class="govuk-tag govuk-tag--purple">
+    Processing application
+  </strong>
+
+{% elif housingBenefitStatus == "In payment" %}
+
+  <strong class="govuk-tag govuk-tag--green">
+    In payment
+  </strong>
+
+{% elif housingBenefitStatus == "Not entitled" %}
+
+  <strong class="govuk-tag govuk-tag--red">
+    Not entitled
+  </strong>
+
+{% endif %}
+
+        </dd>
+      </dl>
+    </section>
+
+    <!-- Review case details -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Review case details</h3>
+
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+{{ govukTaskList({
+  idPrefix: "review-case-details",
+  items: [
+
+    {
+      title: { text: "Claim overview" },
+      href: "claim-overview",
+      status: claimOverviewStatus
+    },
+    {
+  title: { text: "Personal details" },
+  href: "personal-details",
+  status: personalDetailsStatus
+},
+{
+  title: { text: "Partner's personal details" },
+  href: "partner-personal-details",
+  status: partnerPersonalDetailsStatus
+},
+{
+  title: { text: "Home details" },
+  href: "home-details",
+  status: homeDetailsStatus
+},
+{
+  title: { text: "Household details" },
+  href: "household-details",
+  status: householdDetailsStatus
+},
+{
+  title: { text: "Income, money and investments" },
+  href: "income-details",
+  status: incomeDetailsStatus
+},
+{
+  title: { text: "Contact details" },
+  href: "contact-details",
+  status: contactDetailsStatus
+},
+{
+  title: { text: "Payment details" },
+  href: "payment-details",
+  status: paymentDetailsStatus
+}
+  ]
+}) }}
+
+    <!-- Review case details -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Record supporting information</h3>
+
+    {{ govukTaskList({
+  idPrefix: "record-supporting-info",
+  items: [
+    {
+      title: { text: "Record supporting information" },
+      href: "/agent-view-v05/supporting-evidence"
+    }
+    ]
+    }) }}
+
+    <!-- Record a decision -->
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Record a decision</h3>
+
+{{ govukTaskList({
+  idPrefix: "record-a-decision",
+  items: [
+    {
+      title: {
+        text: decisionTaskName
+      },
+      href: decisionPage,
+      status: awardDecisionStatus
+    }
+  ]
+}) }}
+
+  </div>
+
+  {% set timelineItems = data['timeline'] or [] %}
+  {% set showViewFullHistory = timelineItems.length > 3 %}
+
+  <div class="govuk-grid-column-one-third govuk-!-text-align-left header-timeline">
+
+    {% if showViewFullHistory %}
+
+      {{
+        dwpTimeline({
+          items: timelineItems.slice(0, 3)
+        })
+      }}
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="/agent-view-v05/full-history">
+        View full history
+        </a>
+      </p>
+
+    {% else %}
+
+      {{
+        dwpTimeline({
+          items: timelineItems
+        })
+      }}
+
+    {% endif %}
+
+  </div>
+
+</div>
+
+{% endblock %}

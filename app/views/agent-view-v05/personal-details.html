@@ -1,0 +1,153 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "timeline/macro.njk" import dwpTimeline %}
+
+{% block pageTitle %}
+  Personal details
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <!-- Personal details -->
+
+<h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+  Personal details
+</h2>
+
+<p class="govuk-body">
+  Copy the claim details into your processing system.
+</p>
+
+<form class="form" action="/agent-view-v05/personal-details" method="post">
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Personal information
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Applicant name" },
+        value: { text: "Freya Weston" }
+      },
+      {
+        key: { text: "National Insurance number" },
+        value: { text: "AB 12 34 56 C" }
+      },
+      {
+        key: { text: "Living in" },
+        value: { text: "England" }
+      },
+      {
+        key: { text: "Date of birth" },
+        value: { text: "16 January 1948" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Health and disability
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Blind / sight impaired" },
+        value: { text: "No" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Residency and travel
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Nationality" },
+        value: { text: "British" }
+      },
+      {
+        key: { text: "Extended UK absence since 28 December 2025" },
+        value: { text: "No" }
+      }
+    ]
+  }) }}
+
+  <h3 class="govuk-heading-m govuk-!-margin-top-7">
+    Hospital stay
+  </h3>
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Currently inpatient" },
+        value: { text: "No" }
+      },
+      {
+        key: {
+          html: "Overnight hospital stay between 28 March 2026 and 28 December 2025"
+        },
+        value: {
+          text: "No"
+        }
+      }
+    ]
+  }) }}
+
+  {{ govukRadios({
+    classes: "govuk-radios--inline",
+    name: "personalDetailsInfoNeeded",
+    fieldset: {
+      legend: {
+        text: "Do you need more information about the customer's personal details to process this claim?",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes"
+      },
+      {
+        value: "no",
+        text: "No"
+      }
+    ]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+
+</form>
+
+      <p class="govuk-body govuk-!-margin-top-1">
+        <a href="/agent-view-v05/agent-task-list">
+        Return to task list
+        </a>
+      </p>
+
+</div>
+ </div>
+
+{% endblock %}

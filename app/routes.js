@@ -1074,3 +1074,4 @@ router.post('/save-and-return/ol-enter-password', function (req, res) {
 
 // Versioned routes
 require('./views/agent-view-v04/routes.js')
+require('./views/agent-view-v05/routes.js')

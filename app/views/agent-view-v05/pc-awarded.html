@@ -1,0 +1,60 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}
+  Pension Credit award
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6" style="position: relative;">
+
+  <!-- LEFT SIDE = Name + quick reference -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Freya Weston
+      <span class="govuk-caption-l">AB 12 34 56 C</span>
+    </h1>
+
+        <!-- back link -->
+    <p>
+    <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+    </p>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-4">
+      What type of Pension Credit has Freya Weston been awarded?
+    </h2>
+
+    <form class="form" action="/agent-view-v05/pc-awarded" method="post">
+
+      {{ govukRadios({
+        name: "pensionCreditAward",
+        items: [
+          {
+            value: "guarantee-credit",
+            text: "Guarantee Credit"
+          },
+          {
+            value: "savings-credit",
+            text: "Savings Credit"
+          },
+          {
+            value: "both-credits",
+            text: "Both Guarantee Credit and Savings Credit"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue and close case"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

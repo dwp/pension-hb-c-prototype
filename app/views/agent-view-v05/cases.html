@@ -1,0 +1,47 @@
+{% extends "layouts/internal-2.html" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}
+  Process Pension Credit and Housing Benefit applications
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- Page title -->
+    <h1 class="govuk-heading-xl">
+      Process Pension Credit and Housing Benefit applications
+    </h1>
+
+  </div>
+</div>
+
+<!-- TASK ROW -->
+<div class="govuk-grid-row">
+
+  <!-- LEFT -->
+  <div class="govuk-grid-column-one-half">
+    <h2 class="govuk-heading-m">
+      Process an application
+      <br>
+
+      <span class="govuk-body-l">
+        <a href="/agent-view-v05/agent-task-list" class="govuk-link govuk-link--no-visited-state">
+          <strong>Get next case</strong>
+        </a>
+      </span>
+    </h2>
+  </div>
+
+  <!-- CASE COUNT -->
+  <div class="govuk-grid-column-one-quarter">
+    <h3 class="govuk-heading-l govuk-!-margin-bottom-1">2</h3>
+    <p class="govuk-body-l">Total tasks</p>
+  </div>
+
+</div>
+
+{% endblock %}
