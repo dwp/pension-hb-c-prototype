@@ -57,7 +57,7 @@ router.post('/agent-view-v05/agent-type', function (req, res) {
   req.session.data.timeline = [
     {
       title: 'Application received',
-      date: '12 February 2026 at 3:00pm',
+      date: '21 July 2026 at 3:00pm',
       byline: 'System'
     }
   ]
