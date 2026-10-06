@@ -1,0 +1,59 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Submit your application</span>
+
+      <form class="form" action="/submit/consent" method="post">
+
+        <h1 class="govuk-heading-l">
+Confirm your application
+</h1>
+<p class="govuk-body">
+To continue with this application for Pension Credit and Housing Benefit, you must confirm that you wish to apply for both benefits at the same time.
+</p>
+
+        {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{{ govukCheckboxes({
+  name: "consent",
+  fieldset: {
+  },
+  hint: {
+    text: "Select all that apply"
+  },
+  items: [
+    {
+      value: "pensionCredit",
+      text: "I wish to apply for Pension Credit"
+    },
+    {
+      value: "housingBenefit",
+      text: "I wish to apply for Housing Benefit"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

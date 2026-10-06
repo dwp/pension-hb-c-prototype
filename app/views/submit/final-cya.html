@@ -1,0 +1,77 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Submit your application</span>
+
+      <form class="form" action="/submit/final-cya" method="post" novalidate>
+
+<h1 class="govuk-heading-l">Check your answers</h1>
+
+<h2 class="govuk-heading-m">About you</h2>
+
+<h3 class="govuk-heading-s">Personal details</h3>
+
+{{ govukSummaryList({
+  classes: "govuk-!-margin-bottom-9",
+  rows: [
+    {
+      key: { text: "Live permanently in a care home" },
+      value: { text: ("No") },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/your-address/perm-care-home",
+            text: "Change",
+            visuallyHiddenText: "whether you live permanently in a care home"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "Your home address" },
+      value: { text: ("11 Washington Street, Worcester, WR1 1NL") },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/your-address/home-address",
+            text: "Change",
+            visuallyHiddenText: "home address"
+          }
+        ]
+      }
+    },
+    {
+      key: { text: "Who pays the Council Tax bill for your home?" },
+      value: { text: ("I pay the full amount myself") },
+      actions: {
+        items: [
+          {
+            href: "/home-and-household/your-address/council-tax-responsibility",
+            text: "Change",
+            visuallyHiddenText: "council tax responsibility"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+
+
+
+
+{% endblock %}

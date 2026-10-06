@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Submit your application</span>
+
+      <form class="form" action="/submit/consent" method="post">
+
+        <h1 class="govuk-heading-l">
+Do you want to apply for Council Tax Reduction?
+</h1>
+<p class="govuk-body">
+If you apply for Pension Credit and Housing Benefit, we will pass the information you give us in your application to your local authority who will start your Council Tax Reduction application.
+</p>
+
+        {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{{ govukRadios({
+  name: "council-tax-application",
+  fieldset: {
+  },
+  items: [
+    {
+      value: "Yes",
+      text: "Yes"
+    },
+    {
+      value: "No",
+      text: "No"
+    }
+  ]
+}) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

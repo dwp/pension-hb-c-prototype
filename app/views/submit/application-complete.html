@@ -1,0 +1,104 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/submit/application-complete" method="post" novalidate>
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% call govukPanel({
+  titleText: "Application complete"
+}) %}
+  Your reference is your<br>
+  <strong>National Insurance number</strong>
+{% endcall %}
+
+<h2 class="govuk-heading-m">
+        About your Pension Credit application
+</h2>
+
+<p> We will contact you by letter with our decision about your Pension Credit application.</p>
+
+<p>If we need more information, we may contact you by letter, phone or SMS.</p>
+
+<p>If your application is successful, your Pension Credit will be paid into the account you gave us during your application.</p>
+
+<p>You will be able to change this to a different account once your Pension Credit is in payment.
+</p>
+
+<h2 class="govuk-heading-m">
+        About your Housing Benefit application
+</h2>
+
+<p>Your local authority will contact you by letter with their decision about your Housing Benefit application.</p>
+
+<p>If they need more information, they may contact you by letter, telephone or email.</p>
+
+<p>If your application is successful, your Housing Benefit will be paid into the account you told us about during your application.</p>
+
+<p>You may be able to change this to a different account once your Housing Benefit is in payment.</p>
+
+<h2 class="govuk-heading-m">
+        Contacting you about your application
+</h2>
+
+<p>If you need help with your application, contact the Pension Credit and Housing Benefit helpline on 0800 720 148.</p>
+
+<p>You will need to tell us your National Insurance number when you call.</p>
+
+<h2 class="govuk-heading-m">
+  Other benefits and financial support you may be able to get
+</h2>
+
+<h3 class="govuk-heading-s">
+  Council Tax Reduction
+</h3>
+
+<p>You told us that you want to claim Council Tax Reduction as part of your application. Your local authority will contact you about this separately.</p>
+
+<h3 class="govuk-heading-s">
+  Carer's Allowance
+</h3>
+
+<p>You might be able to claim 
+  <a
+    class="govuk-link"
+    href="https://www.gov.uk/carers-allowance"
+    target="_blank"
+    rel="noopener noreferrer"
+    > Carer's Allowance 
+  </a>
+  if you care for someone for 35 hours a week or more.
+</p>
+
+<h3 class="govuk-heading-s">
+  Other benefits and financial support
+</h3>
+
+<p>You may be eligible to claim other benefits or financial support.</p>
+
+<p>
+  <a
+    class="govuk-link"
+    href="https://www.gov.uk/check-benefits-financial-support"
+    target="_blank"
+    rel="noopener noreferrer"
+    > Check other benefits and financial support you can get
+  </a>
+</p>
+
+{% endblock %}
